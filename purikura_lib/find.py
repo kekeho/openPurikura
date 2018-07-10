@@ -13,29 +13,49 @@ face_cascade = cv2.CascadeClassifier(
     CASCADE_PATH + 'haarcascade_frontalface_default.xml')
 
 
-def facemark(img):
-    detector = dlib.get_frontal_face_detector()
-    rects = detector(img, 1)
+def face_position(gray_img):
+    """Detect faces position
+    Return:
+        faces: faces position list (x, y, w, h)
+    """
+    faces = face_cascade.detectMultiScale(gray_img, minSize=(100, 100))
+    return faces
 
+
+def facemark(gray_img):
+    """Recoginize face landmark position by i-bug 300-w dataset
+    Return:
+        randmarks = [
+        [x, y],
+        [x, y],
+        ...
+        ]
+        [0~17]: chin
+        [18~22]: left eyebrow
+        [23~27]: right eyebrow
+        [28-31]: center of nose
+        [32-36]: under-outline of nose
+        [37-42]: left eye
+        [43-46]: right-eye
+        [49-65]: mouth
+    """
+    faces_roi = face_position(gray_img)
     landmarks = []
-    for rect in rects:
-        landmarks = numpy.array(
-            [[p.x, p.y] for p in predictor(img, rect).parts()]
-        )
+
+    for face in faces_roi:
+        x, y, w, h = face
+        face_img = gray_img[y: y + h, x: x + w];
+
+        detector = dlib.get_frontal_face_detector()
+        rects = detector(gray_img, 1)
+
+        landmarks = []
+        for rect in rects:
+            landmarks.append(
+                numpy.array(
+                    [[p.x, p.y] for p in predictor(gray_img, rect).parts()])
+            )
     return landmarks
-    # randmarks = [
-    #   [x, y],
-    #   [x, y],
-    #   ...
-    # ]
-    # [0~17]: chin
-    # [18~22]: left eyebrow
-    # [23~27]: right eyebrow
-    # [28-31]: center of nose
-    # [32-36]: under-outline of nose
-    # [37-42]: left eye
-    # [43-46]: right-eye
-    # [49-65]: mouth
 
 
 if __name__ == '__main__':
@@ -46,8 +66,9 @@ if __name__ == '__main__':
 
         landmarks = facemark(gray)
 
-        for point in landmarks:
-            cv2.drawMarker(frame, (point[0], point[1]), (21, 255, 12))
+        for landmark in landmarks:
+            for points in landmark:
+                cv2.drawMarker(frame, (points[0], points[1]), (21, 255, 12))
         cv2.imshow("video frame", frame)
         if cv2.waitKey(25) & 0xFF == ord('q'):
             break
