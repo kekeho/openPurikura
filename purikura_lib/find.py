@@ -8,7 +8,7 @@ CASCADE_PATH = os.path.dirname(os.path.abspath(__file__)) + "/haarcascades/"
 LEARNED_MODEL_PATH = os.path.dirname(
     os.path.abspath(__file__)) + "/learned-models/"
 predictor = dlib.shape_predictor(
-    LEARNED_MODEL_PATH + 'shape_predictor_68_face_landmarks.dat')
+    LEARNED_MODEL_PATH + 'helen-dataset.dat')
 face_cascade = cv2.CascadeClassifier(
     CASCADE_PATH + 'haarcascade_frontalface_default.xml')
 
@@ -30,14 +30,14 @@ def facemark(gray_img):
         [x, y],
         ...
         ]
-        [0~17]: chin
-        [18~22]: left eyebrow
-        [23~27]: right eyebrow
-        [28-31]: center of nose
-        [32-36]: under-outline of nose
-        [37-42]: left eye
-        [43-46]: right-eye
-        [49-65]: mouth
+        [0~40]: chin
+        [41~57]: nose
+        [58~85]: outside of lips
+        [86-113]: inside of lips
+        [114-133]: right eye
+        [134-153]: left eye
+        [154-173]: right eyebrows
+        [174-193]: left eyebrows
     """
     faces_roi = face_position(gray_img)
     landmarks = []

@@ -1,13 +1,14 @@
 import dlib, os, sys
+import multiprocessing
 
-options = dlib.simple_object_detector_training_options()
-options.add_left_right_image_flips = False
-options.C = 5 #c param
-options.num_threads = 4 #cpu threads
+#set options
+options = dlib.shape_predictor_training_options()
+options.num_threads = multiprocessing.cpu_count() #cpu threads
 options.be_verbose = True
 
-train_xml_filename = './helen-dataset-formatted.xml'
+train_xml_filename = './helen-dataset.xml'
+test_xml_filename = './helen-dataset-test.xml'
 
 print("Start training")
-dlib.train_simple_object_detector(train_xml_filename, "helen-dataset.svm", options)
-
+dlib.train_shape_predictor(train_xml_filename, "helen-dataset.dat", options)
+print("Finish")
