@@ -16,7 +16,7 @@ face_cascade = cv2.CascadeClassifier(
 def face_position(gray_img):
     """Detect faces position
     Return:
-        faces: faces position list (x, y, w, h)
+        faces: faces position list [x, y, w, h]
     """
     faces = face_cascade.detectMultiScale(gray_img, minSize=(100, 100))
     return faces
