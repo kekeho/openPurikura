@@ -13,7 +13,7 @@ class TestFaceRecognition(unittest.TestCase):
     """test class for face recognition
     """
 
-    def test_facemark_with_monalisa(self):
+    def test_single_face(self):
         """test method for recognition facemark (194 points) with mona-lisa
         """
         expected_num_of_people = 1
@@ -28,6 +28,25 @@ class TestFaceRecognition(unittest.TestCase):
         # in the mona-lisa, there is one person, 194 points.
         self.assertEqual(expected_num_of_people, len(landmarks))
         self.assertEqual(expected_points_len, len(landmarks[0]))
+
+    
+    def test_three_faces(self):
+        """test method for three faces recognition (194 points) with three-man.jpg (cc0)
+        """
+        expected_num_of_people = 3
+        expected_points_len = 194
+
+        # test with mona-lisa face :D
+        three_man_img = cv2.imread(CURRENT_DIRNAME + '/sources/three-man.jpg')
+        gray_three_man_img = cv2.cvtColor(three_man_img, cv2.COLOR_BGR2GRAY)
+
+        landmarks = purikura_lib.find.facemark(gray_three_man_img)
+
+        # in the mona-lisa, there is one person, 194 points.
+        self.assertEqual(expected_num_of_people, len(landmarks))
+        self.assertEqual(expected_points_len, len(landmarks[0]))
+        self.assertEqual(expected_points_len, len(landmarks[1]))
+        self.assertEqual(expected_points_len, len(landmarks[2]))
 
 
 if __name__ == '__main__':
