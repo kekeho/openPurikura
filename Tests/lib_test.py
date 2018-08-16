@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 # set include path to openPurikura directory
 sys.path.append(CURRENT_DIRNAME + '/../')
@@ -8,6 +9,7 @@ import purikura_lib
 import cv2
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+
 
 class TestFaceRecognition(unittest.TestCase):
     """test class for face recognition
@@ -29,7 +31,6 @@ class TestFaceRecognition(unittest.TestCase):
         self.assertEqual(expected_num_of_people, len(landmarks))
         self.assertEqual(expected_points_len, len(landmarks[0]))
 
-    
     def test_three_faces(self):
         """test method for three faces recognition (194 points) with three-man.jpg (cc0)
         """
@@ -47,6 +48,22 @@ class TestFaceRecognition(unittest.TestCase):
         self.assertEqual(expected_points_len, len(landmarks[0]))
         self.assertEqual(expected_points_len, len(landmarks[1]))
         self.assertEqual(expected_points_len, len(landmarks[2]))
+
+
+class TestEffects(unittest.TestCase):
+    """Test cases for synthesis (like greenback etc)
+    """
+
+    def test_chromakey(self):
+        """Transpare green pixel test (for chroma key)
+        """
+        green_img = cv2.imread(CURRENT_DIRNAME + '/sources/greenback.jpg')
+        transmitted_img = cv2.imread(
+            CURRENT_DIRNAME + '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
+
+        green_img = purikura_lib.effects.chromakey(green_img)
+
+        self.assertEqual(green_img.tolist(), transmitted_img.tolist())
 
 
 if __name__ == '__main__':
