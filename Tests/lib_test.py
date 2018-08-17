@@ -65,15 +65,33 @@ class TestEffects(unittest.TestCase):
 
         self.assertEqual(green_img.tolist(), transmitted_img.tolist())
 
+    def test_marge(self):
+        """Marge images test
+        """
+        paris = cv2.imread(CURRENT_DIRNAME + '/sources/paris.jpg')
+        girl = cv2.imread(CURRENT_DIRNAME +
+                          '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
+        marged_img = purikura_lib.effects.merge(paris, girl)
+        cv2.imwrite(CURRENT_DIRNAME + '/sources/test-marged.png', marged_img)
+
+        expected_img = cv2.imread(
+            CURRENT_DIRNAME + '/sources/girl_in_paris.jpg', cv2.IMREAD_UNCHANGED)
+        expected_img = cv2.imread(
+            CURRENT_DIRNAME + '/sources/test-marged.png', cv2.IMREAD_UNCHANGED)
+
+        self.assertEqual(expected_img.tolist(), marged_img.tolist())
+
 
 class TestUtils(unittest.TestCase):
     """Test cases for util lib
     """
+
     def test_add_alpha_channel(self):
         non_alpha_img = cv2.imread(CURRENT_DIRNAME + '/sources/paris.jpg')
         added_alpha_img = purikura_lib.utils.add_alpha_channel(non_alpha_img)
 
-        self.assertEqual(non_alpha_img.shape[-1] + 1, added_alpha_img.shape[-1])
+        self.assertEqual(
+            non_alpha_img.shape[-1] + 1, added_alpha_img.shape[-1])
 
 
 if __name__ == '__main__':

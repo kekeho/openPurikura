@@ -1,8 +1,12 @@
 import cv2
 import numpy as np
 import os
+import sys
+from PIL import Image
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(CURRENT_DIRNAME + '/')
+import utils
 
 
 class MaskShapeError(Exception):
@@ -57,3 +61,42 @@ def chromakey(image: np.ndarray):
     return_img = delete_pixel(image, mask)
 
     return return_img
+
+
+def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
+    """Put image2 on image 1
+    Args:
+        image1: base image
+        image2: put image2 on image1
+        x: upper left (default: 0)
+        y: upper left (default: 0)
+        per: resize image2 (default: 100%)
+    Return:
+        Merged image
+    """
+    # resize image2
+    image2 = cv2.resize(
+        image2, (int(image2.shape[1] * (per / 100)), int(image2.shape[0] * (per / 100))))
+
+    # Convert opencv array to PIL data
+    image1 = Image.fromarray(image1)
+    image2 = Image.fromarray(image2)
+
+    image1.paste(image2, box=(x, y), mask=image2)
+
+    return np.asarray(image1)
+
+
+def main():
+    girl = cv2.imread(
+        CURRENT_DIRNAME + '/../Tests/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
+    base = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/paris.jpg')
+    merged_img = merge(base, girl)
+    cv2.imshow('marged', merged_img)
+    cv2.waitKey()
+    cv2.imwrite(CURRENT_DIRNAME +
+                '/../Tests/sources/girl_in_paris.jpg', merged_img)
+
+
+if __name__ == '__main__':
+    main()
