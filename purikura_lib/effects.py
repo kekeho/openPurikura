@@ -11,7 +11,7 @@ class MaskShapeError(Exception):
         self.shape2 = ndarray2.shape
 
     def __str__(self):
-        return f'The shapes of image and mask does not match! {self.shape1[:2]} != {self.shape2}'
+        return 'The shapes of image and mask does not match! {} != {}'.format(self.shape1[:2], self.shape2)
 
 
 def delete_pixel(image: np.ndarray, mask: np.ndarray):
