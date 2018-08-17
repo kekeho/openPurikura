@@ -66,5 +66,15 @@ class TestEffects(unittest.TestCase):
         self.assertEqual(green_img.tolist(), transmitted_img.tolist())
 
 
+class TestUtils(unittest.TestCase):
+    """Test cases for util lib
+    """
+    def test_add_alpha_channel(self):
+        non_alpha_img = cv2.imread(CURRENT_DIRNAME + '/sources/paris.jpg')
+        added_alpha_img = purikura_lib.utils.add_alpha_channel(non_alpha_img)
+
+        self.assertEqual(non_alpha_img.shape[-1] + 1, added_alpha_img.shape[-1])
+
+
 if __name__ == '__main__':
     unittest.main()
