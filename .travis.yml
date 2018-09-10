@@ -4,14 +4,7 @@ python:
 - '3.6'
 install:
 - pip install -r requirements.txt
-# download firefox webdriver for selenium
-- wget "https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz"
-- mkdir Tests/driver
-- tar -xvf geckodriver-v0.21.0-linux64.tar.gz -C Tests/driver
-- rm geckodriver-v0.21.0-linux64.tar.gz
-- export PATH="$PATH:Tests/driver"
 script:
-- python openPrikura.py & python Tests/front_test.py
 - python Tests/lib_test.py
 notifications:
   slack:
