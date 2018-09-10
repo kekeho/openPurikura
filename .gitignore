@@ -2,3 +2,5 @@ env
 .vscode
 __pycache__/
 helen-dataset/
+database/openPurikura.db
+*.log

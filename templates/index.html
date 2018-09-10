@@ -15,10 +15,9 @@
         <div class="col-lg-9 offset-lg-1"><span class="start-main-title">openPurikura Platform</span></div>
     </div>
     <div class="row" id="input-info-row">
-        <div class="col" id="input-info-col"><input type="text" id="name" placeholder="名前を入力"><input type="email" id="email" placeholder="メールアドレスを入力"></div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-xl-4 offset-lg-4" id="start-button"><input type="submit" value="Start"></div>
+        <div class="col-lg-8 offset-lg-2">
+            <form class="register-form" action="/register" method="post"><input class="form-control" type="text" id="name" placeholder="名前を入力" name="name"><input class="form-control" type="email" id="email" placeholder="メールアドレスを入力" name="email"><button class="btn btn-primary" type="submit" id="start">Start</button></form>
+        </div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
