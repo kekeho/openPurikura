@@ -18,7 +18,7 @@ Base.metadata.bind = db_engine
 db_session = sessionmaker(bind=db_engine)
 
 # Selenium driver
-driver = webdriver.Firefox(CURRENT_DIRNAME + '/driver/')
+driver = webdriver.Firefox()
 
 class TestRegistration(unittest.TestCase):
     """test class for registration
