@@ -10,10 +10,9 @@ install:
 - tar -xvf geckodriver-v0.21.0-linux64.tar.gz -C Tests/driver
 - rm geckodriver-v0.21.0-linux64.tar.gz
 - export PATH="$PATH:Tests/driver"
-- python openPrikura.py
 script:
+- python openPrikura.py & python Tests/front_test.py
 - python Tests/lib_test.py
-- python Tests/purikura
 notifications:
   slack:
     secure: o8OqCOi3hjse1FZxRV+ZuNZXRySCxM1QAOipRo7mS4+WcTDu9W+dU0SLexKG8wSjnB20WjEyMYImNhDknydB56zlb/zRbyPdS6RPow6GEo5LX7c+RaI8DmEd5AP+slgh35nMg+tPddUZr8VItCIXz4IDjCPnaa+kmGklBNPPjxufj9zLWqV61b5QoH0W+4lkd03wfYdvIseGh/6LHvIjInPq6l5pUXNIpaCjgqoISAbgXo5m740ogQcvTM7v5nuSCIYV9QW5SFX22mkl7qJnTrnqi3UwSlMJSPozvKzDeuLRc7dGS6hapRbdkXWOmi6SI04JWynN/Z20DHhLmJ1nsCnFofahs1Z/qPCNpi4/WOK8pQB5nGk2lJH8fZzBZpVQpgwptqwcqc0CTGo0cB2G/d1BUrdMJGfVlvGZapOzlYHQIeFGFhiTGmRrgk06mM/a1YaCc0yR+9KqyCKdsV61VoSCnKoIyS+Fxzt4GWKM9Rv1rcc9ntOwpf0A4o1g2+ULy53Et5z3frxP7ESO+4FA+v7/QriuIS+b73CqSwQCQCFHSIIXx3T8r9QbxdU4p9b8WCVYhzmWff1RcTQmYgHMV2fNhdEyuGwcIh1OiM2qj1qaqVTZGAxAXrjnPMBXA84wdrQGEqNK+hfe8Emdn8ldF5YLbE2nX+9d69b4x0/hZQc=
