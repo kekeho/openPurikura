@@ -27,9 +27,9 @@ class TestRegistration(unittest.TestCase):
     def test_registration_name_email(self):
         """test method for register name and email address
         """
-        driver.get('http://localhost:5000/')
-        name_form = driver.find_element_by_id('name')
-        email_form = driver.find_element_by_id('email')
+        driver.get('http://localhost:5000/register')
+        name_form = driver.find_element_by_id('register-name')
+        email_form = driver.find_element_by_id('register-email')
 
         expected_name = 'TEST_USER'
         expected_email = 'test_user@example.com'
@@ -37,7 +37,7 @@ class TestRegistration(unittest.TestCase):
         name_form.send_keys(expected_name)
         email_form.send_keys(expected_email)
 
-        submit_button = driver.find_element_by_id('start')
+        submit_button = driver.find_element_by_id('submit-button')
         submit_button.click()
 
         session = db_session()

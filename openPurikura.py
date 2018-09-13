@@ -24,19 +24,22 @@ def index():
 
 
 # Register name and e-mail address
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    global session
-    session = Session()
-    new_user = User(name=request.form['name'], email=request.form['email'])
-    session.add(new_user)
-    session.commit()
-    return redirect('/')  # debug
+    if request.method == 'POST':
+        global session
+        session = Session()
+        new_user = User(name=request.form['name'], email=request.form['email'])
+        session.add(new_user)
+        session.commit()
+        return redirect('/take')  # debug
+    else:
+        return render_template('register.html')
 
 
 def main():
     app.debug = True
-    app.run()
+    app.run(host='192.168.11.39')
 
 if __name__ == '__main__':
     main()
