@@ -7,6 +7,7 @@ sys.path.append(CURRENT_DIRNAME + '/../')
 import unittest
 import purikura_lib
 import cv2
+import numpy as np
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
@@ -63,7 +64,7 @@ class TestEffects(unittest.TestCase):
 
         green_img = purikura_lib.effects.chromakey(green_img)
 
-        self.assertEqual(green_img.tolist(), transmitted_img.tolist())
+        np.testing.assert_array_equal(green_img, transmitted_img)
 
     def test_marge(self):
         """Marge images test
@@ -79,7 +80,17 @@ class TestEffects(unittest.TestCase):
         expected_img = cv2.imread(
             CURRENT_DIRNAME + '/sources/test-marged.png', cv2.IMREAD_UNCHANGED)
 
-        self.assertEqual(expected_img.tolist(), marged_img.tolist())
+        np.testing.assert_array_equal(expected_img, marged_img)
+
+    def test_skin_beautify(self):
+        """Skin beautify test
+        """
+        grandfather = cv2.imread(CURRENT_DIRNAME + '/sources/grandfather.jpg')
+        beautified = purikura_lib.effects.skin_beautify(grandfather)
+
+        expected_img = cv2.imread(
+            CURRENT_DIRNAME + '/sources/grandfather-beautify.png')
+        np.testing.assert_array_equal(expected_img, beautified)
 
 
 class TestUtils(unittest.TestCase):

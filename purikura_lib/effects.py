@@ -87,15 +87,28 @@ def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
     return np.asarray(image1)
 
 
+def skin_beautify(image: np.ndarray, rate=10):
+    """Skin beautify method (It called Bihada-Kako in Japanese Purikura)
+    Args:
+        image: openCV image (3-channel, 8bit color)
+        power: Processing rate (defalut=10)
+    Return:
+        np.ndarray: Beautified image
+
+    This function using Non-locale Means Algorithm
+    """
+    filtered_img = cv2.fastNlMeansDenoisingColored(
+        image, None, rate, 10, 7, 21)
+    return filtered_img
+
+
 def main():
-    girl = cv2.imread(
-        CURRENT_DIRNAME + '/../Tests/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
-    base = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/paris.jpg')
-    merged_img = merge(base, girl)
-    cv2.imshow('marged', merged_img)
+    face = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/grandfather.jpg')
+    beautified_face = skin_beautify(face)
+    cv2.imshow('Beautified', beautified_face)
     cv2.waitKey()
     cv2.imwrite(CURRENT_DIRNAME +
-                '/../Tests/sources/girl_in_paris.jpg', merged_img)
+                '/../Tests/sources/grandfather-beautify.png', beautified_face)
 
 
 if __name__ == '__main__':
