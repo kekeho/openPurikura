@@ -90,7 +90,7 @@ class TestEffects(unittest.TestCase):
 
         expected_img = cv2.imread(
             CURRENT_DIRNAME + '/sources/grandfather-beautify.png')
-        np.testing.assert_array_equal(expected_img, beautified)
+        np.testing.assert_almost_equal(expected_img, beautified)
 
 
 class TestUtils(unittest.TestCase):
