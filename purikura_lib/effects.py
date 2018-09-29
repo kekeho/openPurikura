@@ -3,10 +3,12 @@ import numpy as np
 import os
 import sys
 from PIL import Image
+from skimage import transform
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CURRENT_DIRNAME + '/')
 import utils
+import find
 
 
 class MaskShapeError(Exception):
@@ -102,14 +104,42 @@ def skin_beautify(image: np.ndarray, rate=10):
     return filtered_img
 
 
-def main():
-    face = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/grandfather.jpg')
-    beautified_face = skin_beautify(face)
-    cv2.imshow('Beautified', beautified_face)
-    cv2.waitKey()
-    cv2.imwrite(CURRENT_DIRNAME +
-                '/../Tests/sources/grandfather-beautify.png', beautified_face)
+def distort(image: np.array, from_points: list, to_points: list):
+    """
+    Args:
+        image: openCV image (np.ndarray)
+        roi_points: roi points list
+        from_points and to_points: distort image from_points to to_points
+    """
+    # Convert openCV array to PIL data
+    image = Image.fromarray(image)
+    image = image.convert('RGBA')
 
+    # roi == image size
+    roi_points = [(0, 0), (image.width, 0),
+                  (image.width, image.height),
+                  (0, image.height)]
+    from_points = np.concatenate((roi_points, from_points))
+    to_points = np.concatenate((roi_points, to_points))
+    
+    affin = transform.PiecewiseAffineTransform()
+    affin.estimate(to_points, from_points)
+    image_array = transform.warp(image, affin)
+    image_array = np.array(image_array * 255, dtype='uint8')
+
+    if image_array.shape[2] == 1:
+        image_array = image_array.reshape((image_array.shape[0], image_array.shape[1]))
+    warped_image = Image.fromarray(image_array, 'RGBA')
+    
+    return np.asarray(warped_image)
+
+
+def main():
+    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/grandfather.jpg')
+    image = distort(image, [(600, 600)], [(600, 700)])
+    cv2.imshow('image', image)
+    cv2.waitKey()
+    cv2.imwrite('yugami.png', image)
 
 if __name__ == '__main__':
     main()
