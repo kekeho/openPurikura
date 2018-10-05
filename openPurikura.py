@@ -39,7 +39,7 @@ def register():
 
 def main():
     app.debug = True
-    app.run(host='192.168.11.39')
+    app.run(port=8080)
 
 if __name__ == '__main__':
     main()

@@ -45,26 +45,18 @@ def generate_xml():
 
             gray_image = cv2.imread(img_filename, cv2.IMREAD_GRAYSCALE)
 
-            x, y, w, h = [int for i in range(4)]
+            image_xml += f"<box top='{0}' left='{0}' width='{gray_image.shape[0]}' height='{gray_image.shape[1]}'>\n"
 
-            if len(face_position(gray_image)) != 1:
-                print(
-                    f"Image includes more than one face: ignore {img_filename}")
-            else:
-                x, y, w, h = face_position(gray_image)[0]
+            i = 0
+            for line in file:
+                x, y = line.replace('\n', '').replace(
+                    '\r', '').replace(' ', '').split(',')
+                image_xml += f"<part name='{i}' y='{y.split('.')[0]}' x='{x.split('.')[0]}' />\n"
+                i += 1
+            image_xml += '</box>\n'
+            image_xml += '</image>\n'
 
-                image_xml += f"<box top='{y-50}' left='{x-50}' width='{w+100}' height='{h+100}'>\n"
-
-                i = 0
-                for line in file:
-                    x, y = line.replace('\n', '').replace(
-                        '\r', '').replace(' ', '').split(',')
-                    image_xml += f"<part name='{i}' y='{y.split('.')[0]}' x='{x.split('.')[0]}' />\n"
-                    i += 1
-                image_xml += '</box>\n'
-                image_xml += '</image>\n'
-
-                xml += image_xml
+            xml += image_xml
 
     xml += xml_template_footer
     return xml
