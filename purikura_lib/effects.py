@@ -2,8 +2,10 @@ import cv2
 import numpy as np
 import os
 import sys
+import math
 from PIL import Image
 from skimage import transform
+from PIL.PngImagePlugin import PngImageFile
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CURRENT_DIRNAME + '/')
@@ -196,6 +198,40 @@ def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
     return image
 
 
+def animal_ears(image: np.ndarray, ear_image: PngImageFile, face_landmarks: list):
+    """attach animal_ears like nekomimi
+    args:
+        image: base image
+        ear_image: one animal ear image
+        face_landmarks: face_landmarks list
+    """
+    for landmark in face_landmarks:
+        # position of ear_image center
+        left = landmark[140] - ((landmark[20] - landmark[140])*0.8).astype(np.int32)
+        right = landmark[119] - ((landmark[20] - landmark[119])*0.8).astype(np.int32)
+        
+        
+        l_delta = landmark[20] - landmark[140]
+        l_rad = math.atan2(l_delta[1], l_delta[0])
+        l_deg = math.degrees(l_rad)
+        l_deg = (l_deg-90) * -1
+        l_ear_image = ear_image.rotate(l_deg)
+        l_ear_image = np.asarray(l_ear_image)
+
+        r_delta = landmark[20] - landmark[119]
+        r_rad = math.atan2(r_delta[1], r_delta[0])
+        r_deg = math.degrees(r_rad)
+        r_deg = (r_deg-90) * -1
+        r_ear_image = ear_image.rotate(r_deg)
+        r_ear_image = np.asarray(r_ear_image)
+
+        ear_par = 20 #resize 20%
+        image = merge(image, l_ear_image, int(left[0]-l_ear_image.shape[0]/2*(ear_par/100)), int(left[1]-l_ear_image.shape[1]/2*(ear_par/100)), per=20)
+        image = merge(image, r_ear_image, int(right[0]-r_ear_image.shape[0]/2*(ear_par/100)), int(right[1]-r_ear_image.shape[1]/2*(ear_par/100)), per=20)
+
+    return image
+
+
 def main():
     image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
     gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -205,10 +241,12 @@ def main():
     image = eyes_shape_beautify(image, face_landmarks)
     image = skin_beautify(image, rate=5)
 
+    nekomimi = Image.open(CURRENT_DIRNAME + '/../Tests/sources/nekomimi.png')
+
+    image = animal_ears(image, nekomimi, face_landmarks)
+
     cv2.imshow('image', image)
     cv2.waitKey()
-    cv2.imwrite(CURRENT_DIRNAME +
-                '/../Tests/sources/katy_nose_eyes_skins_beautified.png', image)
 
 
 if __name__ == '__main__':
