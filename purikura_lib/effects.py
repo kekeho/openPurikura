@@ -173,25 +173,47 @@ def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
 
 
 def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
-    """Beautify nose👃
+    """Beautify eyes👀
     This function can uses for many people
     """
     for landmark in face_landmarks:
         # left eye
         x1, y1, x2, y2 = utils.detect_roi(landmark[134:153 + 1])  # roi
-        image = distort(image, [landmark[139]], [landmark[139] - (landmark[150] - landmark[139]) / 1.6],
+        l_upside_from_points = []
+        l_upside_to_points = []
+        l_down_from_points = []
+        l_down_to_points = []
+        for i, j in zip(range(134,143+1), list(range(143, 153+1))[:][::-1]):
+            l_upside_from_points.append(landmark[i] + (landmark[j] - landmark[i]) / 50)
+            l_upside_to_points.append(landmark[i] - (landmark[j] - landmark[i]) / 5)
+            l_down_from_points.append(landmark[j] - (landmark[j] - landmark[i]) / 20)
+            l_down_to_points.append(landmark[j] + (landmark[j] - landmark[i]) / 5)
+
+
+        image = distort(image, l_upside_from_points, l_upside_to_points,
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
-        image = distort(image, [landmark[150]], [landmark[150] + (landmark[150] - landmark[139]) / 1.6],
+        image = distort(image, l_down_from_points, l_down_to_points,
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
 
         # right eye
         x1, y1, x2, y2 = utils.detect_roi(landmark[114:133 + 1])  # roi
-        image = distort(image, [landmark[120]], [landmark[120] - (landmark[129] - landmark[120]) / 1.6],
+        r_upside_from_points = []
+        r_upside_to_points = []
+        r_down_from_points = []
+        r_down_to_points = []
+        for i, j in zip(range(114,123+1), list(range(124, 133+1))[:][::-1]):
+            r_upside_from_points.append(landmark[i] + (landmark[j] - landmark[i]) / 50)
+            r_upside_to_points.append(landmark[i] - (landmark[j] - landmark[i]) / 5)
+            r_down_from_points.append(landmark[j] - (landmark[j] - landmark[i]) / 20)
+            r_down_to_points.append(landmark[j] + (landmark[j] - landmark[i]) / 5)
+
+
+        image = distort(image, r_upside_from_points, r_upside_to_points,
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
-        image = distort(image, [landmark[129]], [landmark[129] + (landmark[129] - landmark[120]) / 1.6],
+        image = distort(image, r_down_from_points, r_down_to_points,
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
 
@@ -242,7 +264,6 @@ def main():
     image = skin_beautify(image, rate=5)
 
     nekomimi = Image.open(CURRENT_DIRNAME + '/../Tests/sources/nekomimi.png')
-
     image = animal_ears(image, nekomimi, face_landmarks)
 
     cv2.imshow('image', image)
