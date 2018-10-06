@@ -101,7 +101,7 @@ def normalization(face_landmarks):
 
 
 def facemark(gray_img):
-    """Recoginize face landmark position by i-bug 300-w dataset
+    """Recoginize face landmark position by helen dataset
     Return:
         randmarks = [
         [x, y],
@@ -126,6 +126,7 @@ def facemark(gray_img):
             numpy.array(
                 [[p.x, p.y] for p in predictor(gray_img, rect).parts()])
         )
+
     return normalization(landmarks)
 
 

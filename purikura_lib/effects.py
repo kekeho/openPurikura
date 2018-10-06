@@ -104,7 +104,7 @@ def skin_beautify(image: np.ndarray, rate=10):
     return filtered_img
 
 
-def distort(image: np.array, from_points: list, to_points: list):
+def distort(image: np.array, from_points: list, to_points: list, roi_points: list):
     """
     Args:
         image: openCV image (np.ndarray)
@@ -115,10 +115,6 @@ def distort(image: np.array, from_points: list, to_points: list):
     image = Image.fromarray(image)
     image = image.convert('RGBA')
 
-    # roi == image size
-    roi_points = [(0, 0), (image.width, 0),
-                  (image.width, image.height),
-                  (0, image.height)]
     from_points = np.concatenate((roi_points, from_points))
     to_points = np.concatenate((roi_points, to_points))
     
@@ -130,16 +126,61 @@ def distort(image: np.array, from_points: list, to_points: list):
     if image_array.shape[2] == 1:
         image_array = image_array.reshape((image_array.shape[0], image_array.shape[1]))
     warped_image = Image.fromarray(image_array, 'RGBA')
+    image.paste(warped_image, (0, 0), warped_image)
     
-    return np.asarray(warped_image)
+    return np.asarray(image)
+
+
+def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
+    """Beautify nose👃
+    This function can uses for many people
+    """
+    
+    faces_position = find.face_position(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
+    
+    for landmark, face_position in zip(face_landmarks, faces_position):
+        # Original face width
+        face_width = np.linalg.norm(landmark[40] - landmark[0])
+        # Original nose width (Under)
+        original_nose_width = np.linalg.norm(landmark[53] - landmark[45])
+        # Beautiful nose width
+        expected_nose_width = face_width / 6
+
+        if expected_nose_width >= original_nose_width:
+            # Already has beautiful shape nose
+            break
+        else:
+            # roi
+            x1, y1, x2, y2 = utils.detect_roi(landmark[41:57])
+            
+            image = distort(image, [landmark[41]], [landmark[41] + (landmark[57] - landmark[41])/7],  
+                                    [(x1, y1), (x2, y1), (x2, y2),
+                                    (x1, y2)])
+
+            image = distort(image, [landmark[57]], [landmark[57] - (landmark[57] - landmark[41])/7],  
+                                    [(x1, y1), (x2, y1), (x2, y2),
+                                    (x1, y2)])
+
+            image = distort(image, [landmark[45]], [landmark[45] + (landmark[53] - landmark[45])/7],  
+                                    [(x1, y1), (x2, y1), (x2, y2),
+                                    (x1, y2)])
+
+            image = distort(image, [landmark[53]], [landmark[53] - (landmark[53] - landmark[45])/7],  
+                                    [(x1, y1), (x2, y1), (x2, y2),
+                                    (x1, y2)])
+
+    return image
 
 
 def main():
-    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/grandfather.jpg')
-    image = distort(image, [(600, 600)], [(600, 700)])
+    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
+    gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    face_landmarks = find.facemark(gray_img)
+
+    image = nose_shape_beautify(image, face_landmarks)
     cv2.imshow('image', image)
     cv2.waitKey()
-    cv2.imwrite('yugami.png', image)
+    
 
 if __name__ == '__main__':
     main()
