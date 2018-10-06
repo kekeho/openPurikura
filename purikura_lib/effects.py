@@ -136,11 +136,7 @@ def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
     """Beautify nose👃
     This function can uses for many people
     """
-
-    faces_position = find.face_position(
-        cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
-
-    for landmark, face_position in zip(face_landmarks, faces_position):
+    for landmark in face_landmarks:
         # Original face width
         face_width = np.linalg.norm(landmark[40] - landmark[0])
         # Original nose width (Under)
@@ -153,7 +149,7 @@ def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
             break
         else:
             # roi
-            x1, y1, x2, y2 = utils.detect_roi(landmark[41:57])
+            x1, y1, x2, y2 = utils.detect_roi(landmark[41:57 + 1])
 
             image = distort(image, [landmark[41]], [landmark[41] + (landmark[57] - landmark[41]) / 7],
                             [(x1, y1), (x2, y1), (x2, y2),
@@ -174,14 +170,45 @@ def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
     return image
 
 
+def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
+    """Beautify nose👃
+    This function can uses for many people
+    """
+    for landmark in face_landmarks:
+        # left eye
+        x1, y1, x2, y2 = utils.detect_roi(landmark[134:153 + 1])  # roi
+        image = distort(image, [landmark[139]], [landmark[139] - (landmark[150] - landmark[139]) / 1.6],
+                        [(x1, y1), (x2, y1), (x2, y2),
+                            (x1, y2)])
+        image = distort(image, [landmark[150]], [landmark[150] + (landmark[150] - landmark[139]) / 1.6],
+                        [(x1, y1), (x2, y1), (x2, y2),
+                            (x1, y2)])
+
+        # right eye
+        x1, y1, x2, y2 = utils.detect_roi(landmark[114:133 + 1])  # roi
+        image = distort(image, [landmark[120]], [landmark[120] - (landmark[129] - landmark[120]) / 1.6],
+                        [(x1, y1), (x2, y1), (x2, y2),
+                            (x1, y2)])
+        image = distort(image, [landmark[129]], [landmark[129] + (landmark[129] - landmark[120]) / 1.6],
+                        [(x1, y1), (x2, y1), (x2, y2),
+                            (x1, y2)])
+
+    return image
+
+
 def main():
     image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
     gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     face_landmarks = find.facemark(gray_img)
 
     image = nose_shape_beautify(image, face_landmarks)
+    image = eyes_shape_beautify(image, face_landmarks)
+    image = skin_beautify(image, rate=5)
+
     cv2.imshow('image', image)
     cv2.waitKey()
+    cv2.imwrite(CURRENT_DIRNAME +
+                '/../Tests/sources/katy_nose_eyes_skins_beautified.png', image)
 
 
 if __name__ == '__main__':

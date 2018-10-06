@@ -13,7 +13,7 @@ def add_alpha_channel(image: np.ndarray):
 def detect_roi(points: list):
     xlist = []
     ylist = []
-    e = 20
+    e = 50
     for x, y in points:
         xlist.append(x)
         ylist.append(y)

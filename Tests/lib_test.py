@@ -82,27 +82,6 @@ class TestEffects(unittest.TestCase):
 
         np.testing.assert_array_equal(expected_img, marged_img)
 
-    def test_skin_beautify(self):
-        """Skin beautify test
-        """
-        grandfather = cv2.imread(CURRENT_DIRNAME + '/sources/grandfather.jpg')
-        beautified = purikura_lib.effects.skin_beautify(grandfather)
-
-        expected_img = cv2.imread(
-            CURRENT_DIRNAME + '/sources/grandfather-beautify.png')
-        np.testing.assert_almost_equal(expected_img, beautified)
-
-    
-    def test_disort(self):
-        """disort function test
-        """
-        original_image = cv2.imread(CURRENT_DIRNAME + '/sources/grandfather.jpg')
-        # imread with RGBA (-1)
-        expected_image = cv2.imread(CURRENT_DIRNAME + '/sources/distorted-grandfather.png', -1)
-        disorted_image = purikura_lib.effects.distort(original_image, [(600, 600)], [(600, 700)])
-        
-        np.testing.assert_equal(expected_image, disorted_image)
-
 
 class TestUtils(unittest.TestCase):
     """Test cases for util lib
