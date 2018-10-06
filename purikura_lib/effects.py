@@ -3,6 +3,7 @@ import numpy as np
 import os
 import sys
 import math
+from sympy import *
 from PIL import Image
 from skimage import transform
 from PIL.PngImagePlugin import PngImageFile
@@ -11,7 +12,6 @@ CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CURRENT_DIRNAME + '/')
 import utils
 import find
-
 
 class MaskShapeError(Exception):
     def __init__(self, ndarray1: np.ndarray, ndarray2: np.ndarray):
@@ -217,6 +217,32 @@ def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
 
+        highlight = cv2.imread(CURRENT_DIRNAME + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
+        
+        line1 = Segment(Point(landmark[134]), Point(landmark[145]))
+        line2 = Segment(Point(landmark[139]), Point(landmark[150]))
+        ls = intersection(line1, line2)
+
+        dx, dy = (landmark[150] - landmark[139]) / 5
+        x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
+        w = np.linalg.norm(landmark[150] - landmark[139])
+        ratio = w/highlight.shape[1] * 100
+        x = int(x - highlight.shape[0]*(ratio/100)/2)
+        y = int(y - highlight.shape[1]*(ratio/100)/2)
+        image = merge(image, highlight, x, y, ratio)
+
+        line1 = Segment(Point(landmark[114]), Point(landmark[124]))
+        line2 = Segment(Point(landmark[120]), Point(landmark[129]))
+        ls = intersection(line1, line2)
+        
+        dx, dy = (landmark[129] - landmark[120]) / 5
+        x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
+        w = np.linalg.norm(landmark[129] - landmark[120])
+        ratio = w/highlight.shape[1] * 100
+        x = int(x - highlight.shape[0]*(ratio/100)/2)
+        y = int(y - highlight.shape[1]*(ratio/100)/2)
+        image = merge(image, highlight, x, y, ratio)
+
     return image
 
 
@@ -255,7 +281,7 @@ def animal_ears(image: np.ndarray, ear_image: PngImageFile, face_landmarks: list
 
 
 def main():
-    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
+    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/japanese_girl.jpg')
     gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     face_landmarks = find.facemark(gray_img)
 
