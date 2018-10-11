@@ -22,7 +22,7 @@ for fname in images:
         imgpoints.append(corners2)
 
     else:
-        print fname
+        print(fname)
 
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 np.savez("camera.npz", mtx, dist)
