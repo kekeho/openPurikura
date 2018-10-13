@@ -5,16 +5,110 @@
     <title>HUGっとプリクラ</title>
     <link rel="stylesheet" type="text/css" href="css/purikuracss.css" />
     <script src="js/p5.min.js"></script>
+    <script src="js/p5.dom.js"></script>
     <script src="js/oekaki.js"></script>
 
   </head>
 
   <body>
-    <h1>HUGっとプリクラ</h1>
-    <p>
-      プリクラ用練習コードの作ってるのo
-    </p>
-    <!-- <canvas id="myCanvas" width="1000" height="600"></canvas> -->
+    <!-- <canvas id="myCanvas"></canvas> -->
+
+    <table class="obj clearfix">
+      <tbody id="palette">
+        <tr class="gyou">
+          <td class="buttonBlock" id="redButton">
+            <a href="#" class="changePenColor" id="red"
+              onclick="changeColor(1);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="blue"
+              onclick="changeColor(2);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="green"
+              onclick="changeColor(3);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="pink"
+              onclick="changeColor(4);return false;"><a/>
+          </td>
+          <td class="buttonBlock" id="pinkButton">
+            <a href="#" class="changePenColor" id="lightblue"
+              onclick="changeColor(5);return false;"><a/>
+          </td>
+        </tr>
+        <!-- 一行終わり ------------------------------------------------------->
+        <tr class="gyou">
+          <td class="buttonBlock" id="redButton">
+            <a href="#" class="changePenColor" id="lightgreen"
+              onclick="changeColor(6);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="balck"
+              onclick="changeColor(7);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="white"
+              onclick="changeColor(8);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="deepred"
+              onclick="changeColor(9);return false;"><a/>
+          </td>
+          <td class="buttonBlock" id="pinkButton">
+            <a href="#" class="changePenColor" id="salmonpink"
+              onclick="changeColor(10);return false;"><a/>
+          </td>
+        </tr>
+        <!-- 一行終わり ------------------------------------------------------->
+        <tr class="gyou">
+          <td class="buttonBlock" id="redButton">
+            <a href="#" class="changePenColor" id="yellow"
+              onclick="changeColor(11);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="vividgreen"
+              onclick="changeColor(12);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="orange"
+              onclick="changeColor(13);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="vividorange"
+              onclick="changeColor(14);return false;"><a/>
+          </td>
+          <td class="buttonBlock" id="pinkButton">
+            <a href="#" class="changePenColor" id="vividblue"
+              onclick="changeColor(15);return false;"><a/>
+          </td>
+        </tr>
+        <!-- 一行終わり ------------------------------------------------------->
+        <tr class="gyou">
+          <td class="buttonBlock" id="redButton">
+            <a href="#" class="changePenColor" id="deepblue"
+              onclick="changeColor(16);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="gray"
+              onclick="changeColor(17);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="beige"
+              onclick="changeColor(18);return false;"><a/>
+          </td>
+          <td class="buttonBlock">
+            <a href="#" class="changePenColor" id="deepred"
+              onclick="changeColor(19);return false;"><a/>
+          </td>
+          <td class="buttonBlock" id="pinkButton">
+            <a href="#" class="changePenColor" id="salmonpink"
+              onclick="changeColor(20);return false;"><a/>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
 
 
   </body>
