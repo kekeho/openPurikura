@@ -1,4 +1,123 @@
-body{
-  background-color: #eeeeee;
+html, body{
+  background-color: #202020;
   font-family: fantasy;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  position: relative;
+  z-index: 0;
+}
+
+.clearfix: after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+.obj {  /* パレットの一番親 */
+  background-color: #ccc;
+  position: absolute;
+  display: block;
+  width: 25vw;
+  height: 20vw;
+  z-index: 1;
+  border-radius: 2vh;
+  left: 1vw;
+  top: 40vh;
+  /* margin-top: 40vh; */
+}
+
+#palette {
+  height: 100%;
+}
+
+.gyou {
+  padding: 0vw;
+  height: 18%;
+}
+
+.buttonBlock {
+  background-color: #fff;
+  width: 10vw;
+  height: 5vw;
+  font-size: 14pt;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0vh;
+}
+
+#redButton {
+  border-radius: 2vh 0 0 0 / 2vh 0 0 0;
+}
+
+#pinkButton {
+  border-radius: 0 2vh 0 0 / 0 2vh 0 0;
+}
+
+table{
+  table-layout: fixed;
+}
+
+#red {
+  background: #ff0000;
+  color: #FFF;
+  border-bottom: solid 2px #bd6565;
+  /* top: 50%;
+  margin-top: -3vh;
+  margin-left: 0%;*/
+}
+
+#blue {
+  background: #4343ff;
+  color: #FFF;
+  border-bottom: solid 2px #7272bd;
+  /* top: 50%;
+  margin-top: -3vh;
+  margin-left: 6%; */
+}
+
+#green {
+  background: #43ff43;
+  color: #FFF;
+  border-bottom: solid 2px #72bd72;
+  /* top: 50%;
+  margin-top: -3vh;
+  margin-left: 10%; */
+}
+
+#deepred {
+  background: #c1272d;
+  color: #FFF;
+  border-bottom: solid 2px #aa3333;
+}
+
+#salmonpink {
+  background: #ed1e79;
+  color: #FFF;
+  border-bottom: solid 2px #cd0b59;
+}
+
+.changePenColor {
+  text-decoration: none;
+  display: block;
+  width: 70%;
+  height: 70%;
+  margin-left: 15%;
+  margin-top: 15%;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  vertical-align: middle;
+  overflow: hidden;
+  box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.29);
+  transition: .4s;
+  z-index: 1;
+}
+
+.changePenColor: active {
+    -ms-transform: translateY(2px);
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+    border-bottom: none;
 }
