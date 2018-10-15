@@ -3,8 +3,8 @@ import numpy as np
 import os
 import sys
 import math
-from sympy import *
-from PIL import Image
+from sympy import Segment, Point, intersection
+from PIL import Image, ImageEnhance
 from skimage import transform
 from PIL.PngImagePlugin import PngImageFile
 
@@ -102,9 +102,18 @@ def skin_beautify(image: np.ndarray, rate=10):
 
     This function using Non-locale Means Algorithm
     """
-    filtered_img = cv2.fastNlMeansDenoisingColored(
-        image, None, rate, 10, 7, 21)
+    filtered_img = cv2.fastNlMeansDenoisingColored(image, None, rate, 10, 7, 50)
     return filtered_img
+
+
+def color_correction(image: np.array):
+    # Gamma correction
+    gamma = 1.8
+    gamma_look_up_table = np.zeros((256, 1), dtype='uint8')
+    for i in range(256):
+        gamma_look_up_table[i][0] = 255 * pow(float(i) / 255, 1.0/gamma)
+    image = cv2.LUT(image, gamma_look_up_table)
+    return image
 
 
 def distort(image: np.array, from_points: list, to_points: list, roi_points: list):
@@ -333,7 +342,7 @@ def main():
         image = eyes_shape_beautify(image, face_landmarks)
         image = chin_shape_beautify(image, face_landmarks)
         image = skin_beautify(image, rate=5)
-
+        image = color_correction(image)
         image = animal_ears(image, nekomimi, face_landmarks)
 
         cv2.imshow('image', image)
