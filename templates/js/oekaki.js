@@ -39,16 +39,18 @@ let penWidth = {
   w9: 15
 };
 
+//キャンバス関係
 let canvas;
 let imageCanvas;
 let ctx;
 let ictx;
 let canvasLog;
-let cc;
 
+//ペンの一フレーム？前の座標
 let penX;
 let penY;
 
+//ペンの色と太さ
 let pColor;
 let pWidth;
 
@@ -56,9 +58,13 @@ let pWidth;
 let workMode;
 
 //作業モードボタンのdom
-let pen;
-let era;
-let sta;
+let pen_button;
+let era_button;
+let sta_button;
+
+//戻る、進むボタンのdom
+let back_button;
+let next_button;
 
 //編集する画像
 let img;
@@ -71,11 +77,23 @@ function init(){
   canvasInit();
   logStart();
   userInit();
+  buttonInit();
 
-  pen = document.getElementById('pencil');
-  era = document.getElementById('eraser');
-  sta = document.getElementById('cstanp');
+  eventInit();
+}
 
+function buttonInit(){
+  //作業モードボタン
+  pen_button = document.getElementById('pencil');
+  era_button = document.getElementById('eraser');
+  sta_button = document.getElementById('cstanp');
+
+  //戻る進むボタン
+  back_button = document.getElementById('back_butt');
+  next_button = document.getElementById('next_butt');
+}
+
+function eventInit(){
   //マウスが動いている時
   canvas.addEventListener('mousemove', onMove, false);
   //マウスが押されている時
@@ -84,8 +102,6 @@ function init(){
   canvas.addEventListener('mouseup', drawEnd, false);
   //マウスが外れたとき
   canvas.addEventListener('mouseout', drawEnd, false);
-
-  workMode = modeName.drawing;
 }
 
 function userInit(){
@@ -116,26 +132,26 @@ function canvasInit(){
 function logStart(){
   canvasLog = new CLog();
   canvasLog.top = 0;
-  canvasLog.master = 0;
+  canvasLog.current = 0;
   canvasLog.log.push(canvas);
 }
 
 function back(){
-  if (canvasLog.master <= 0) {
+  if (canvasLog.current <= 0) {
     alert("保存されている最古のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(canvasLog.log[--canvasLog.master], 0, 0);
+  ctx.drawImage(canvasLog.log[--canvasLog.current], 0, 0);
 }
 
 function next(){
-  if (canvasLog.master >= canvasLog.top) {
+  if (canvasLog.current >= canvasLog.top) {
     alert("保存されている最新のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(canvasLog.log[++canvasLog.master], 0, 0);
+  ctx.drawImage(canvasLog.log[++canvasLog.current], 0, 0);
 }
 
 //ペンがキャンバスの外に出たとき、浮いたときに線をやめて
@@ -151,15 +167,20 @@ function drawEnd() {
   penX = "";
   penY = "";
 
-  const logScreen = document.createElement('canvas');//キャッシュ用のキャンバスを用意
+  //キャッシュ用のキャンバスを用意
+  const logScreen = document.createElement('canvas');
   logScreen.width = canvas.width;
   logScreen.height = canvas.height;
   const logCtx = logScreen.getContext('2d');
-  logCtx.drawImage(canvas, 0, 0);//キャッシュ用のキャンバスに書き中のキャンバスをコピー
-  canvasLog.log.push(logScreen);
+  //キャッシュ用のキャンバスに書き中のキャンバスをコピー
+  logCtx.drawImage(canvas, 0, 0);
   canvasLog.top++;
-  canvasLog.master++;
+  canvasLog.current++;
+  canvasLog.log[current] = logScreen;//履歴配列に保存
   //alert(canvasLog.top);
+  if (canvasLog.current != canvas.top) {
+    canvas.top = canvas.current;
+  }
 }
 
 //ペンモードでタッチ
@@ -175,6 +196,7 @@ function onClick(e){
   }
 }
 
+//作業モードに応じて関数を切り替える
 function editPicture(e){
   switch (workMode){
     case modeName.drawing:
@@ -199,6 +221,7 @@ function onMove(e) {
   }
 }
 
+//線を引く関数。ペンで描くときの
 function drawLine(X, Y){
   ctx.lineCap = 'round';
   ctx.strokeStyle = 'rgb('+ pColor.r + ',' + pColor.g + ',' + pColor.b + ')';
@@ -219,39 +242,35 @@ function drawLine(X, Y){
   penY = Y;
 }
 
+//ペンの太さを変える関数
 function changeLineWidth(lineWidth){
-  switch (lineWidth) {
-    case 2:
-      pColor.r = 255;
-      pColor.g = 0;
-      pColor.b = 0;
-      break;
-    default:
-  }
+  pWidth = lineWidth;
 }
 
+//ペン、消しゴム、スタンプのモードを切り替える関数
 function tool(toolNum){
   if (toolNum == 1){// クリックされボタンが鉛筆だったら
     ctx.globalCompositeOperation = 'source-over';
-    pen.className = 'active';
-    era.className = '';
-    sta.className = '';
+    pen_button.className = 'active';
+    era_button.className = '';
+    sta_button.className = '';
   }
   else if (toolNum == 2){// クリックされボタンが消しゴムだったら
     ctx.globalCompositeOperation = 'destination-out';
-    pen.className = '';
-    era.className = 'active';
-    sta.className = '';
+    pen_button.className = '';
+    era_button.className = 'active';
+    sta_button.className = '';
   }
 
   else if (toolNum == 3){
     ctx.globalCompositeOperation = 'source-over';
-    pen.className = '';
-    era.className = '';
-    sta.className = 'active';
+    pen_button.className = '';
+    era_button.className = '';
+    sta_button.className = 'active';
   }
 }
 
+//色を変える関数　まだ二色足りない
 function changeColor(colorID){
   switch (colorID) {
     case penColor.red:
@@ -260,62 +279,86 @@ function changeColor(colorID){
       pColor.g = 0;
       break;
     case penColor.blue:
-      stroke(0, 0, 255);
+      penColor.r = 0;
+      penColor.g = 0;
+      penColor.b = 255;
       break;
     case penColor.green:
-      stroke(0,255,0);
+      penColor.r = 0;
+      penColor.g = 255;
+      penColor.b = 0;
       break;
     case penColor.black:
-      stroke(50);
+      penColor.r = 50;
+      penColor.g = 50;
+      penColor.b = 50;
       break;
     case penColor.white:
-      stroke(255);
+      penColor.r = 255;
+      penColor.g = 255;
+      penColor.b = 255;
       break;
     case penColor.deepblue:
-      stroke(0, 113, 176);
+      penColor.r = 0;
+      penColor.g = 113;
+      penColor.b = 176;
       break;
     case penColor.deepred:
-      stroke(193, 39, 45);
+      penColor.r = 193;
+      penColor.g = 39;
+      penColor.b = 45;
       break;
     case penColor.gray:
-      stroke(128, 128, 128);
+      penColor.r = 128;
+      penColor.g = 128;
+      penColor.b = 128;
       break;
     case penColor.vividblue:
-      stroke(0, 255, 255);
+      penColor.r = 0;
+      penColor.g = 255;
+      penColor.b = 255;
       break;
     case penColor.lightblue:
-      stroke(50, 200, 255);
+      penColor.r = 50;
+      penColor.g = 200;
+      penColor.b = 255;
       break;
     case penColor.vividgreen:
-      stroke(217, 224, 33);
+      penColor.r = 217;
+      penColor.g = 224;
+      penColor.b = 33;
       break;
     case penColor.lightgreen:
-      stroke(214, 255, 0);
+      penColor.r = 214;
+      penColor.g = 255;
+      penColor.b = 0;
       break;
     case penColor.orange:
-      stroke(247, 147, 30);
+      penColor.r = 247;
+      penColor.g = 147;
+      penColor.b = 30;
       break;
     case penColor.beige:
-      stroke(198, 156, 109);
+      penColor.r = 198;
+      penColor.g = 156;
+      penColor.b = 109;
       break;
     case penColor.pink:
-      stroke(255, 0, 255);
+      penColor.r = 255;
+      penColor.g = 0;
+      penColor.b = 255;
       break;
     case penColor.salmonpink:
-      stroke(237, 30, 121);
+      penColor.r = 237;
+      penColor.g = 30;
+      penColor.b = 121;
       break;
     case penColor.vividorange:
-      stroke(251, 176, 59);
+      penColor.r = 251;
+      penColor.g = 176;
+      penColor.b = 59;
       break;
     default:
-      if (ctx != 1) {
-        ctx = 1
-        workMode = modeName.waiting;
-      }else{
-        workMode = modeName.drawing;
-        ctx = 0;
-      }
-      eraser(ctx);
   }
 }
 
@@ -327,6 +370,6 @@ function PenColor(red, green, blue){
 
 function CLog(){
   this.top = 0;
-  this.master = 0;
+  this.current = 0;
   this.log = [];
 }
