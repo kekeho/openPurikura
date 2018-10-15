@@ -4,112 +4,95 @@
     <meta charset="utf-8" />
     <title>HUGっとプリクラ</title>
     <link rel="stylesheet" type="text/css" href="css/purikuracss.css" />
-    <script src="js/p5.min.js"></script>
-    <script src="js/p5.dom.js"></script>
     <script src="js/oekaki.js"></script>
 
   </head>
 
-  <body>
-    <!-- <canvas id="myCanvas"></canvas> -->
+  <body onload="init()">
+    <input type="image" id="pencil" src="pencil.png" width="35px" class="active" onClick="tool(1)">
+    <input type="image" id="eraser" src="eraser.png" width="35px" onClick="tool(2)">
+    <input type="image" id="cstanp" src="cstanp.png" width="35px" onClick="tool(3)">
 
-    <table class="obj clearfix">
-      <tbody id="palette">
-        <tr class="gyou">
-          <td class="buttonBlock" id="redButton">
-            <a href="#" class="changePenColor" id="red"
-              onclick="changeColor(1);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="blue"
-              onclick="changeColor(2);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="green"
-              onclick="changeColor(3);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="pink"
-              onclick="changeColor(4);return false;"><a/>
-          </td>
-          <td class="buttonBlock" id="pinkButton">
-            <a href="#" class="changePenColor" id="lightblue"
-              onclick="changeColor(5);return false;"><a/>
-          </td>
-        </tr>
-        <!-- 一行終わり ------------------------------------------------------->
-        <tr class="gyou">
-          <td class="buttonBlock" id="redButton">
-            <a href="#" class="changePenColor" id="lightgreen"
-              onclick="changeColor(6);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="balck"
-              onclick="changeColor(7);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="white"
-              onclick="changeColor(8);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="deepred"
-              onclick="changeColor(9);return false;"><a/>
-          </td>
-          <td class="buttonBlock" id="pinkButton">
-            <a href="#" class="changePenColor" id="salmonpink"
-              onclick="changeColor(10);return false;"><a/>
-          </td>
-        </tr>
-        <!-- 一行終わり ------------------------------------------------------->
-        <tr class="gyou">
-          <td class="buttonBlock" id="redButton">
-            <a href="#" class="changePenColor" id="yellow"
-              onclick="changeColor(11);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="vividgreen"
-              onclick="changeColor(12);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="orange"
-              onclick="changeColor(13);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="vividorange"
-              onclick="changeColor(14);return false;"><a/>
-          </td>
-          <td class="buttonBlock" id="pinkButton">
-            <a href="#" class="changePenColor" id="vividblue"
-              onclick="changeColor(15);return false;"><a/>
-          </td>
-        </tr>
-        <!-- 一行終わり ------------------------------------------------------->
-        <tr class="gyou">
-          <td class="buttonBlock" id="redButton">
-            <a href="#" class="changePenColor" id="deepblue"
-              onclick="changeColor(16);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="gray"
-              onclick="changeColor(17);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="beige"
-              onclick="changeColor(18);return false;"><a/>
-          </td>
-          <td class="buttonBlock">
-            <a href="#" class="changePenColor" id="deepred"
-              onclick="changeColor(19);return false;"><a/>
-          </td>
-          <td class="buttonBlock" id="pinkButton">
-            <a href="#" class="changePenColor" id="salmonpink"
-              onclick="changeColor(20);return false;"><a/>
-          </td>
-        </tr>
-      </tbody>
+    <!-- header -->
+    <div id="header">
+      <div id="end">END</div>
+      <div id="timer"></div>
+      <img id="logo" src="./logo.png">
+    </div>
 
-    </table>
+    <!-- content -->
+    <div id="content">
+      <div id="top">
+        <div id="tool">
+          <table id="pen">
+            <tr>
+              <td>消し<br>ゴム</td>
+              <td><div id="pen-l"></div></td>
+              <td><div id="pen-m"></div></td>
+              <td><div id="pen-s"></div></td>
+            </tr>
+          </table>
+          <table id="pallet">
+            <tr>
+              <td><div id="color-red"></div></td>
+              <td><div id="color-deepred"></div></td>
+              <td><div id="color-salmonpink"></div></td>
+              <td><div id="color-pink"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-yellow"></div></td>
+              <td><div id="color-vividgreen"></div></td>
+              <td><div id="color-orange"></div></td>
+              <td><div id="color-vividorange"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-vividblue"></div></td>
+              <td><div id="color-deepblue"></div></td>
+              <td><div id="color-blue"></div></td>
+              <td><div id="color-green"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-black"></div></td>
+              <td><div id="color-gray"></div></td>
+              <td><div id="color-white"></div></td>
+              <td><div id="color-beige"></div></td>
+            </tr>
+          </table>
+          <div id="back"></div>
+        </div>
+        <div id="canvas-box">
+            <canvas id="canvas" width=466 height=466></canvas>
+            <canvas id="imageCanvas" width=466 height=466></canvas>
+        </div>
+        <div id="zoom">
+          <div id="zoom-in">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <div id="zoom-out">
+            <div class="row">
+              <div class="col"></div>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+            </div>
+          </div>
+        </div>
+        <div id="picture">
+          <img>
+          <img>
+          <img>
+        </div>
+      </div>
+      <div id="bottom">
 
-
+      </div>
+    </div>
   </body>
 </html>
