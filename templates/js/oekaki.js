@@ -69,6 +69,7 @@ let drwaing;
 function init(){
 //ログ用のキャンバスを保存する配列
   canvasInit();
+  logStart();
   userInit();
 
   pen = document.getElementById('pencil');
@@ -110,10 +111,31 @@ function canvasInit(){
   img.onload = function() {
     ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
+}
+
+function logStart(){
   canvasLog = new CLog();
   canvasLog.top = 0;
   canvasLog.master = 0;
   canvasLog.log.push(canvas);
+}
+
+function back(){
+  if (canvasLog.master <= 0) {
+    alert("保存されている最古のscreenです");
+    return;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(canvasLog.log[--canvasLog.master], 0, 0);
+}
+
+function next(){
+  if (canvasLog.master >= canvasLog.top) {
+    alert("保存されている最新のscreenです");
+    return;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(canvasLog.log[++canvasLog.master], 0, 0);
 }
 
 //ペンがキャンバスの外に出たとき、浮いたときに線をやめて
@@ -301,10 +323,6 @@ function PenColor(red, green, blue){
   this.r = red;
   this.g = green;
   this.b = blue;
-}
-
-function back(){
-  ctx.drawImage()
 }
 
 function CLog(){
