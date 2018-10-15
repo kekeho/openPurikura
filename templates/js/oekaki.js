@@ -1,10 +1,11 @@
-var modeName = {
+let modeName = {
   waiting:0,
   drawing:1,
-  el_se:2
+  stanping:2,
+  el_se:3
 };
 
-var penColor = {
+let penColor = {
   red  : 1,
   blue : 2,
   green: 3,
@@ -26,7 +27,7 @@ var penColor = {
 
 };
 
-var penWeight = {
+let penWidth = {
   w1:  1,
   w2:  3,
   w3:  5,
@@ -38,83 +39,203 @@ var penWeight = {
   w9: 15
 };
 
-var myCanvas;
-var img;
-var canvasLog = new Array();
-var cc;
+let canvas;
+let imageCanvas;
+let ctx;
+let ictx;
+let canvasLog;
+let cc;
 
-var pColor = penColor.red;
-var pWeigh = penWeight.w3;
+let penX;
+let penY;
 
-var workMode = 0;
+let pColor;
+let pWidth;
 
-var redButton;
+//作業モード初期値はペン
+let workMode;
 
+//作業モードボタンのdom
+let pen;
+let era;
+let sta;
 
-function setup(){
-  myCanvas = createCanvas(windowWidth*5/12, windowWidth*5/12);
-  //saveCanvas(myCanvas, '../pictures/canvas0', 'png');
-  background(255);
-  //img = loadImage("assets/img.png");
-  stroke(penColor.black);
-  //redButton.position(100, 100);
-  myCanvas.position(windowWidth*3/11,windowHeight/9);
+//編集する画像
+let img;
+
+//書き中か
+let drwaing;
+
+function init(){
+//ログ用のキャンバスを保存する配列
+  canvasInit();
+  userInit();
+
+  pen = document.getElementById('pencil');
+  era = document.getElementById('eraser');
+  sta = document.getElementById('cstanp');
+
+  //マウスが動いている時
+  canvas.addEventListener('mousemove', onMove, false);
+  //マウスが押されている時
+  canvas.addEventListener('mousedown', onClick, false);
+  //マウスが上がったとき
+  canvas.addEventListener('mouseup', drawEnd, false);
+  //マウスが外れたとき
+  canvas.addEventListener('mouseout', drawEnd, false);
+
+  workMode = modeName.drawing;
 }
 
-function draw(){
-	//background(255);
-  //image(img, 0, 0);
+function userInit(){
+  penX = "";
+  penY = "";
+  workMode = modeName.drawing;
+
+  pColor = new PenColor(0, 0, 0);
+  pWidth = penWidth.w3;
+
+  drawing = false;
 }
 
-function mouseDragged(){
-  if (1) {
-    workMode = modeName.drawing;
-    drawLine(mouseX, mouseY);
+//キャンバスについての初期化関数
+function canvasInit(){
+  canvas = document.getElementById('canvas');
+  ctx = canvas.getContext('2d');
+  imageCanvas = document.getElementById('imageCanvas');
+  ictx = imageCanvas.getContext('2d');
+
+  img = new Image();
+  img.src = "js/assets/demo2.jpg";
+  img.onload = function() {
+    ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }
+  canvasLog = new CLog();
+  canvasLog.top = 0;
+  canvasLog.master = 0;
+  canvasLog.log.push(canvas);
+}
+
+//ペンがキャンバスの外に出たとき、浮いたときに線をやめて
+function drawEnd() {
+  if (!drawing) {
+    penX = "";
+    penY = "";
+    drawing = false;
+    return;
   }
 
+  drawing = false;
+  penX = "";
+  penY = "";
 
+  const logScreen = document.createElement('canvas');//キャッシュ用のキャンバスを用意
+  logScreen.width = canvas.width;
+  logScreen.height = canvas.height;
+  const logCtx = logScreen.getContext('2d');
+  logCtx.drawImage(canvas, 0, 0);//キャッシュ用のキャンバスに書き中のキャンバスをコピー
+  canvasLog.log.push(logScreen);
+  canvasLog.top++;
+  canvasLog.master++;
+  //alert(canvasLog.top);
 }
 
-function mousePressed(){
+//ペンモードでタッチ
+function onClick(e){
+  if (e.button === 0) {
+    const rect = e.target.getBoundingClientRect();
+    const before_x = ~~(e.clientX - rect.left);
+    const before_y = ~~(e.clientY - rect.top);
 
-}
-
-function mouseClicked(){
-  if(workMode == modeName.waiting){
-    // if(mouseX<50 && mouseY<50){
-    //   alert("reset");
-    // }
+    drawing = true;
+    //drawLineにマウスの位置を渡す
+    drawLine(before_x, before_y);
   }
 }
 
-function mouseReleased(){
-  if(workMode == modeName.drawing){
-    //myCanvas.getImageData('../pictures/canvas' + ++cc, 'png');
-  }
-  workMode = modeName.waiting;
-}
-
-function drawLine(penX, penY){
-  strokeWeight(penWeight.w6);
-  // stroke(255, 0, 0);
-  line(penX, penY, pmouseX, pmouseY);
-  //alert("drawing");
-}
-
-function lineColor(color){
-  switch (color) {
-    case 1:
-      stroke();
+function editPicture(e){
+  switch (workMode){
+    case modeName.drawing:
+      drawLine(e);
+      break;
+    case modeName.stanping:
+      stanpItem(e);
       break;
     default:
 
   }
 }
 
+//ペンモードでドラッグ
+function onMove(e) {
+  if(e.buttons === 1 || e.width === 1) {
+    const rect = e.target.getBoundingClientRect();
+    const before_x = ~~(e.clientX - rect.left);
+    const before_y = ~~(e.clientY - rect.top);
+
+    drawLine(before_x, before_y);
+  }
+}
+
+function drawLine(X, Y){
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = 'rgb('+ pColor.r + ',' + pColor.g + ',' + pColor.b + ')';
+  ctx.lineWidth = pWidth;
+
+  ctx.beginPath();
+  if (penX === "") {
+    ctx.moveTo(X, Y);
+  }else {
+    ctx.moveTo(penX, penY);
+  }
+
+  ctx.lineTo(X, Y);
+  ctx.stroke();
+  ctx.closePath();
+
+  penX = X;
+  penY = Y;
+}
+
+function changeLineWidth(lineWidth){
+  switch (lineWidth) {
+    case 2:
+      pColor.r = 255;
+      pColor.g = 0;
+      pColor.b = 0;
+      break;
+    default:
+  }
+}
+
+function tool(toolNum){
+  if (toolNum == 1){// クリックされボタンが鉛筆だったら
+    ctx.globalCompositeOperation = 'source-over';
+    pen.className = 'active';
+    era.className = '';
+    sta.className = '';
+  }
+  else if (toolNum == 2){// クリックされボタンが消しゴムだったら
+    ctx.globalCompositeOperation = 'destination-out';
+    pen.className = '';
+    era.className = 'active';
+    sta.className = '';
+  }
+
+  else if (toolNum == 3){
+    ctx.globalCompositeOperation = 'source-over';
+    pen.className = '';
+    era.className = '';
+    sta.className = 'active';
+  }
+}
+
 function changeColor(colorID){
   switch (colorID) {
     case penColor.red:
-      stroke(255, 0, 0);
+      pColor.r = 255;
+      pColor.b = 0;
+      pColor.g = 0;
       break;
     case penColor.blue:
       stroke(0, 0, 255);
@@ -165,6 +286,29 @@ function changeColor(colorID){
       stroke(251, 176, 59);
       break;
     default:
-      stroke(0);
+      if (ctx != 1) {
+        ctx = 1
+        workMode = modeName.waiting;
+      }else{
+        workMode = modeName.drawing;
+        ctx = 0;
+      }
+      eraser(ctx);
   }
+}
+
+function PenColor(red, green, blue){
+  this.r = red;
+  this.g = green;
+  this.b = blue;
+}
+
+function back(){
+  ctx.drawImage()
+}
+
+function CLog(){
+  this.top = 0;
+  this.master = 0;
+  this.log = [];
 }
