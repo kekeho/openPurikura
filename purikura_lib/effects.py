@@ -280,6 +280,15 @@ def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
             r_from_points.append(landmark[j])
             r_to_points.append(landmark[j] - (landmark[j] - landmark[i]) / 23)
 
+        # height reshape
+        for i, j in zip(range(15, 20+1), range(21, 26+1)):
+            l_from_points.append(landmark[i])
+            l_to_points.append(landmark[i] - (landmark[i] - landmark[40]) / 15)
+            r_from_points.append(landmark[j])
+            r_to_points.append(landmark[j] - (landmark[i] - landmark[0]) / 15)
+        l_from_points.append(landmark[20])
+        l_to_points.append(landmark[20] - (landmark[20] - landmark[49]) / 10)
+
         image = distort(image, l_from_points, l_to_points,
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
@@ -332,9 +341,8 @@ def main():
 
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
-        # ret, image = cap.read()
-        image = cv2.imread(CURRENT_DIRNAME +
-                           '/../Tests/sources/katy.jpg')
+        image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
+        ret, image = cap.read()
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = find.facemark(gray_img)
 
