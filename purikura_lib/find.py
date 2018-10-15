@@ -69,7 +69,7 @@ def normalization(face_landmarks):
         add_list.remove(117)
         add_list.remove(128)
         chin += add_list
-        
+
         for nose_i, fm_i in enumerate(nose):
             nose[nose_i] = facemark[fm_i]
 
@@ -94,14 +94,14 @@ def normalization(face_landmarks):
         for chin_i, fm_i in enumerate(chin):
             chin[chin_i] = facemark[fm_i]
 
-        return_list.append(chin + nose + outside_lips + inside_lips + \
-                        right_eye + left_eye + right_eyebrow + left_eyebrow)
-        
+        return_list.append(chin + nose + outside_lips + inside_lips +
+                           right_eye + left_eye + right_eyebrow + left_eyebrow)
+
     return return_list
 
 
 def facemark(gray_img):
-    """Recoginize face landmark position by i-bug 300-w dataset
+    """Recoginize face landmark position by helen dataset
     Return:
         randmarks = [
         [x, y],
@@ -126,6 +126,7 @@ def facemark(gray_img):
             numpy.array(
                 [[p.x, p.y] for p in predictor(gray_img, rect).parts()])
         )
+
     return normalization(landmarks)
 
 
