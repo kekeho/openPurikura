@@ -108,7 +108,7 @@ def skin_beautify(image: np.ndarray, rate=10):
 
 def color_correction(image: np.array):
     # Gamma correction
-    gamma = 1.8
+    gamma = 1.3
     gamma_look_up_table = np.zeros((256, 1), dtype='uint8')
     for i in range(256):
         gamma_look_up_table[i][0] = 255 * pow(float(i) / 255, 1.0/gamma)
