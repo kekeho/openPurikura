@@ -129,6 +129,13 @@ function canvasInit(){
   }
 }
 
+
+function CLog(){
+  this.top = 0;
+  this.current = 0;
+  this.log = [];
+}
+
 function logStart(){
   canvasLog = new CLog();
   canvasLog.top = 0;
@@ -176,7 +183,7 @@ function drawEnd() {
   logCtx.drawImage(canvas, 0, 0);
   canvasLog.top++;
   canvasLog.current++;
-  canvasLog.log[current] = logScreen;//履歴配列に保存
+  canvasLog.log[canvasLog.current] = logScreen;//履歴配列に保存
   //alert(canvasLog.top);
   if (canvasLog.current != canvas.top) {
     canvas.top = canvas.current;
@@ -196,28 +203,24 @@ function onClick(e){
   }
 }
 
-//作業モードに応じて関数を切り替える
-function editPicture(e){
+//ペンモードでドラッグ
+function onMove(e) {
+  //現在の作業モードに応じて処理を変える
   switch (workMode){
     case modeName.drawing:
-      drawLine(e);
+      //マウスが押されているなら描画処理に入る
+      if(e.buttons === 1 || e.width === 1) {
+        const rect = e.target.getBoundingClientRect();
+        const before_x = ~~(e.clientX - rect.left);
+        const before_y = ~~(e.clientY - rect.top);
+
+        drawLine(before_x, before_y);
+      }
       break;
     case modeName.stanping:
-      stanpItem(e);
       break;
     default:
 
-  }
-}
-
-//ペンモードでドラッグ
-function onMove(e) {
-  if(e.buttons === 1 || e.width === 1) {
-    const rect = e.target.getBoundingClientRect();
-    const before_x = ~~(e.clientX - rect.left);
-    const before_y = ~~(e.clientY - rect.top);
-
-    drawLine(before_x, before_y);
   }
 }
 
@@ -366,10 +369,4 @@ function PenColor(red, green, blue){
   this.r = red;
   this.g = green;
   this.b = blue;
-}
-
-function CLog(){
-  this.top = 0;
-  this.current = 0;
-  this.log = [];
 }
