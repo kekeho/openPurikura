@@ -299,6 +299,26 @@ def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
     return image
 
 
+def eye_bags(image: np.ndarray, face_landmarks: list):
+    # over_image = np.empty(image.shape, dtype=image.dtype)
+    for landmark in face_landmarks:
+        # left eye bottom
+        for i in range(144, 153):
+            from_x, from_y = landmark[i]; from_y += 7
+            to_x, to_y = landmark[i+1]; to_y += 7
+            cv2.line(image, (from_x, from_y), (to_x, to_y), (20, 20, 20), 3, cv2.LINE_AA)
+
+
+        # right eye bottom
+        for i in range(124, 133):
+            from_x, from_y = landmark[i]; from_y += 7
+            to_x, to_y = landmark[i+1]; to_y += 7
+            cv2.line(image, (from_x, from_y), (to_x, to_y), (20, 20, 20), 3, cv2.LINE_AA)
+    
+    return image
+
+
+
 def animal_ears(image: np.ndarray, ear_image: PngImageFile, face_landmarks: list):
     """attach animal_ears like nekomimi
     args:
@@ -347,6 +367,7 @@ def main():
         face_landmarks = find.facemark(gray_img)
 
         image = nose_shape_beautify(image, face_landmarks)
+        image = eye_bags(image, face_landmarks)
         image = eyes_shape_beautify(image, face_landmarks)
         image = chin_shape_beautify(image, face_landmarks)
         image = skin_beautify(image, rate=5)
