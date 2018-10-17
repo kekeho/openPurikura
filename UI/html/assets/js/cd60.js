@@ -6,10 +6,8 @@ $(function(){
     if (time > 1) {
       time--;
     }
-    /*
     else {
       $('#form').submit();
     }
-    */
   },1000);
 });
