@@ -39,10 +39,14 @@ let penWidth = {
 };
 
 //キャンバス関係
+//キャンバス三昧の配列
 let canvas;
-let imageCanvas;
+//キャンバス3枚のcontextの配列
 let ctx;
+//編集中の画像
+let imageCanvas;
 let ictx;
+//ログ用のキャンバスを保存する配列
 let canvasLog;
 
 //ペンの一フレーム？前の座標
@@ -74,7 +78,6 @@ let pic_num = 3;
 let drwaing;
 
 function init(){
-//ログ用のキャンバスを保存する配列
   canvasInit();
   logStart();
   userInit();
@@ -105,11 +108,13 @@ function eventInit(){
   //セーブボタン
   //save_button.addEventListener('mousedown', savePictures, false);
 
-  //マウスが動いている時
-  canvas.addEventListener('mousemove', onMove, false);
-  canvas.addEventListener('mousedown', onClick, false);
-  canvas.addEventListener('mouseup', drawEnd, false);
-  canvas.addEventListener('mouseout', drawEnd, false);
+  //canvas0~2に対するイベントリスナ
+  for (let i = 0; i<3; i++){
+    canvas[i].addEventListener('mousemove', onMove, false);
+    canvas[i].addEventListener('mousedown', onClick, false);
+    canvas[i].addEventListener('mouseup', drawEnd, false);
+    canvas[i].addEventListener('mouseout', drawEnd, false);
+  }
 }
 
 function userInit(){
@@ -125,8 +130,12 @@ function userInit(){
 
 //キャンバスについて、編集する画像の初期化関数
 function canvasInit(){
-  canvas = document.getElementById('canvas');
-  ctx = canvas.getContext('2d');
+  canvas = [];
+  ctx = [];
+  for(let i = 0; i<3; i++){
+    canvas[i] = document.getElementById('canvas');
+    ctx[i] = canvas.getContext('2d');
+  }
   imageCanvas = document.getElementById('imageCanvas');
   ictx = imageCanvas.getContext('2d');
 
@@ -169,7 +178,6 @@ function back(){
 }
 
 function next(){
-
   if (canvasLog.current >= canvasLog.top) {
     alert("保存されている最新のscreenです");
     return;
