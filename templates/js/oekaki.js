@@ -1,7 +1,7 @@
 let modeName = {
-  waiting:0,
-  drawing:1,
-  stanping:2,
+  waiting : 0,
+  drawing : 1,
+  stamping: 2
 };
 
 let penColor = {
@@ -218,14 +218,16 @@ function createCache(){
 //編集する画像を切り替える
 function switchPic(num){
   createCache();
+  canvasLog[pic_num].top--;
+  canvasLog[pic_num].current--;
 
   pic_num = num - 1;
+
   img = pictures[pic_num];
   ictx.clearRect(0, 0, canvas.width, canvas.height);
   ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-  const nextCanvas = canvasLog[pic_num].log[canvasLog[pic_num].current--];
-  canvasLog[pic_num].top--;
+  const nextCanvas = canvasLog[pic_num].log[canvasLog[pic_num].current];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(nextCanvas, 0, 0);
 }
@@ -296,20 +298,13 @@ function tool(toolNum){
     ctx.globalCompositeOperation = 'source-over';
     pen_button.className = 'active';
     era_button.className = '';
-    sta_button.className = '';
+    workMode = modeName.drawing;
   }
   else if (toolNum == 2){// クリックされボタンが消しゴムだったら
     ctx.globalCompositeOperation = 'destination-out';
     pen_button.className = '';
     era_button.className = 'active';
-    sta_button.className = '';
-  }
-
-  else if (toolNum == 3){
-    ctx.globalCompositeOperation = 'source-over';
-    pen_button.className = '';
-    era_button.className = '';
-    sta_button.className = 'active';
+    workMode = modeName.drawing;
   }
 }
 
