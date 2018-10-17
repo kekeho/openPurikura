@@ -92,12 +92,15 @@ def draw():
 def mail():
     return redirect('/end')
 
-#@app.route('/end')
-#def end():
-#    global id_pack = 0
-#    global id_photos = [0, 1, 2]
-#    global taken = 0
-#    return render_template('end.html')
+@app.route('/end')
+def end():
+    global id_pack
+    global id_photos
+    global taken
+    id_pack = 0
+    id_photos = [0, 1, 2]
+    taken = 0
+    return redirect('/')
 
 
 # Video streaming test page
