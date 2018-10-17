@@ -269,7 +269,9 @@ html, body{
   z-index: 2;
 }
 
-#imageCanvas{ z-index: 1 }
+#imageCanvas { z-index: 1 }
+
+#editCanvas { z-index: 3 }
 
 #canvas-box canvas {
   position: absolute;
