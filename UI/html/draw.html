@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./CSS/common.css">
+    <link rel="stylesheet" type="text/css" href="./CSS/draw.css">
+    <script type="text/javascript" src="./JS/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./JS/cd300.js"></script>
+  </head>
+  <body>
+    <form id="form" method="POST" action="/register">
+      <!-- header -->
+      <div id="header">
+        <div id="end">END</div>
+        <div id="timer"></div>
+        <img id="logo" src="./assets/src/logo.png">
+      </div>
+      
+      <!-- content -->
+      <div id="content-nofooter">
+        <div id="top">
+          
+          <div id="tool">
+            <table id="pen">
+              <tr>
+                <td>消し<br>ゴム</td>
+                <td><div id="pen-l"></div></td>
+                <td><div id="pen-m"></div></td>
+                <td><div id="pen-s"></div></td>
+              </tr>
+            </table>
+            <table id="pallet">
+              <tr>
+                <td><div id="color-red"></div></td>
+                <td><div id="color-deepred"></div></td>
+                <td><div id="color-salmonpink"></div></td>
+                <td><div id="color-pink"></div></td>
+              </tr>
+              <tr>
+                <td><div id="color-yellow"></div></td>
+                <td><div id="color-vividgreen"></div></td>
+                <td><div id="color-orange"></div></td>
+                <td><div id="color-vividorange"></div></td>
+              </tr>
+              <tr>
+                <td><div id="color-vividblue"></div></td>
+                <td><div id="color-deepblue"></div></td>
+                <td><div id="color-blue"></div></td>
+                <td><div id="color-green"></div></td>
+              </tr>
+              <tr>
+                <td><div id="color-black"></div></td>
+                <td><div id="color-gray"></div></td>
+                <td><div id="color-white"></div></td>
+                <td><div id="color-beige"></div></td>
+              </tr>
+            </table>
+            <div id="back"></div>
+          </div>
+          <div id="canvas-box">
+            <canvas id="canvas">
+            </canvas>
+          </div>
+          <div id="zoom">
+            <div id="zoom-in">
+              <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+              </div>
+              <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+              </div>
+            </div>
+            <div id="zoom-out">
+              <div class="row">
+                <div class="col"></div>
+              </div>
+              <div class="row">
+                <div class="col"></div>
+              </div>
+            </div>
+          </div>
+          <div id="picture">
+            <img>
+            <img>
+            <img>
+          </div>
+        </div>
+        <div id="bottom">
+          <div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </form>
+  </body>
+</html>

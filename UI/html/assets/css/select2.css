@@ -1,0 +1,92 @@
+#content {
+  position: relative;
+  box-sizing: border-box;
+  
+  margin: 2vh 4vh;
+  
+  background-color: #f2f2f2;
+  border: 20px solid #f2f2f2;
+  border-radius: 10px;
+}
+
+input[type="checkbox"] {
+  display: none;
+  box-sizing: border-box;
+}
+
+#content label {
+  position: absolute;
+  
+  width: 32vh;
+  height: 32vh;
+  
+  border: 5px solid #2eade2;
+  box-shadow: 0 0 10px 5px #a8d7ec;
+}
+
+label[for="select-1"] {
+  top: 0;
+  left: 0;
+}
+
+label[for="select-2"] {
+  bottom: 0;
+  left: 0;
+}
+
+label[for="select-3"] {
+  top: calc(50% - 16vh);
+  left: calc(50% - 16vh);
+}
+
+label[for="select-4"] {
+  top: 0;
+  right: 0;
+}
+
+label[for="select-5"] {
+  right: 0;
+  bottom: 0;
+}
+
+#content input:checked + label {
+  margin: -5px;
+  border-top: 10px solid #fbad16;
+  border-right: 10px solid #fbad16;
+  border-left: 10px solid #8048da;
+}
+
+#content input:checked + label::after {
+  content: '';
+  display: block;
+  
+  width: calc(100% + 20px);
+  height: 10px;
+  
+  margin-left: -10px;
+  
+  background: linear-gradient(45deg, #8048da, #fbad16);
+}
+
+#content img {
+  display: block;
+  
+  width: 100%;
+}
+
+#number {
+  position: absolute;
+  text-align: center;
+  
+  top: 8vh;
+  right: 0;
+  left: 0;
+  
+  margin: 0 auto;
+  
+  font: 5vh 'TsukuARdGothic-Regular';
+}
+
+#footer > label[for="next"] {
+  display: none;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/take.css">
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="./assets/js/cd5.js"></script>
+    <title></title>
+  </head>
+  <body>
+    <div id="header">
+      <div id="caption">撮影しよう！</div>
+      <img id="logo" src="./assets/src/logo.png">
+    </div>
+    <div id="content-nofooter">
+      <div id="top">
+        <div class="timer-box">
+          <div class="timer"></div>
+        </div>
+        <div id="screen-box">
+          <img src="./assets/src/pause.png">
+          <img id="video" src="{{ url_for('video_feed') }}">
+        </div>
+        <div class="timer-box">
+          <div class="timer"></div>
+        </div>
+      </div>
+      <div id="bottom">
+        <div>
+          <img id="pic-1" class="border-right" src="./assets/src/square.png">
+          <img id="pic-2" class="border-right" src="./assets/src/square.png">
+          <img id="pic-3" class="border-right" src="./assets/src/square.png">
+          <img id="pic-4" class="border-right" src="./assets/src/square.png">
+          <img id="pic-5" src="./assets/src/square.png">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
