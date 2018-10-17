@@ -1,7 +1,8 @@
 let modeName = {
   waiting : 0,
   drawing : 1,
-  stamping: 2
+  stamping: 2,
+  erasering: 3
 };
 
 let penColor = {
@@ -77,7 +78,7 @@ let pictures;
 let pic_num;
 
 //書き中か
-let drwaing;
+let drawingFlag;
 
 function init(){
   canvasInit();
@@ -125,7 +126,7 @@ function userInit(){
   pColor = new PenColor(0, 0, 0);
   pWidth = penWidth.w3;
 
-  drawing = false;
+  drawingFlag = false;
 }
 
 //キャンバスについて、編集する画像の初期化関数
@@ -170,33 +171,45 @@ function logStart(){
 }
 
 function back(){
+  if (workMode == modeName.erasering) {
+    ctx.globalCompositeOperation = 'source-over';
+  }
   if (canvasLog[pic_num].current <= 0) {
     //alert("保存されている最古のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(canvasLog[pic_num].log[--canvasLog[pic_num].current], 0, 0);
+  if (workMode == modeName.erasering) {
+    ctx.globalCompositeOperation = 'destination-out';
+  }
 }
 
 function next(){
+  if (workMode == modeName.erasering) {
+    ctx.globalCompositeOperation = 'source-over';
+  }
   if (canvasLog[pic_num].current >= canvasLog[pic_num].top) {
     //alert("保存されている最新のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(canvasLog[pic_num].log[++canvasLog[pic_num].current], 0, 0);
+  if (workMode == modeName.erasering) {
+    ctx.globalCompositeOperation = 'destination-out';
+  }
 }
 
 //ペンがキャンバスの外に出たとき、浮いたときに線をやめて
 function drawEnd() {
-  if (!drawing) {
+  if (!drawingFlag) {
     penX = "";
     penY = "";
-    drawing = false;
+    drawingFlag = false;
     return;
   }
 
-  drawing = false;
+  drawingFlag = false;
   penX = "";
   penY = "";
 
@@ -244,7 +257,7 @@ function onClick(e){
     const before_x = ~~(e.touches[0].clientX - rect.left);
     const before_y = ~~(e.touches[0].clientY - rect.top);
 
-    drawing = true;
+    drawingFlag = true;
     //drawLineにマウスの位置を渡す
     drawLine(before_x, before_y);
   }
@@ -255,6 +268,17 @@ function onMove(e) {
   //現在の作業モードに応じて処理を変える
   switch (workMode){
     case modeName.drawing:
+      //マウスが押されているなら描画処理に入る
+      e.preventDefault();
+      if(e.touches || e.width === 1) {
+        const rect = e.target.getBoundingClientRect();
+        const before_x = ~~(e.touches[0].clientX - rect.left);
+        const before_y = ~~(e.touches[0].clientY - rect.top);
+
+        drawLine(before_x, before_y);
+      }
+      break;
+    case modeName.erasering:
       //マウスが押されているなら描画処理に入る
       e.preventDefault();
       if(e.touches || e.width === 1) {
@@ -310,7 +334,7 @@ function tool(toolNum){
     ctx.globalCompositeOperation = 'destination-out';
     pen_button.className = '';
     era_button.className = 'active';
-    workMode = modeName.drawing;
+    workMode = modeName.erasering;
   }
 }
 
