@@ -31,8 +31,8 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        if request.form['agree'] != None:
-            return redirect('/end')
+        if 'agree' not in request.form:
+            return redirect('/reset')
 
         global session
         session = Session()
@@ -92,7 +92,7 @@ def draw():
 def mail():
     return redirect('/end')
 
-@app.route('/end')
+@app.route('/reset')
 def end():
     global id_pack
     global id_photos
