@@ -3,7 +3,7 @@ $(function(){
   
   setInterval(function(){
     $('.timer').text(time);
-    if (time > 0) {
+    if (time > 1) {
       time--;
     }
     /*

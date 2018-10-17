@@ -3,7 +3,7 @@ $(function(){
   
   setInterval(function(){
     $('#timer').text('' + parseInt(time / 10) + time % 10);
-    if (time > 0) {
+    if (time > 1) {
       time--;
     }
     /*
