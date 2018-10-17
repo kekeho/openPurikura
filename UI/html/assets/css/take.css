@@ -23,7 +23,7 @@
   width: 50vw;
 }
 
-#screen-box:first-child {
+#pause {
   display: block;
   position: absolute;
   z-index: 1;
