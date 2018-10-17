@@ -8,14 +8,18 @@ html, body{
   z-index: 0;
 }
 
-input[type="image"]{
-padding: 2px;
-outline: none;
- }
+.active{
+  background-color: #eee;
+}
 
-input[type="image"].active{
-background-color: #eee;
- }
+#picture-box > img {
+  display: block;
+  border: 2px solid black;
+  width: 10;
+  height: width;
+  padding: 2px;
+  outline: none;
+}
 
 #header {
   position: relative;
@@ -308,7 +312,7 @@ background-color: #eee;
   width: 6vh;
 }
 
-#picture {
+#picture-box {
   width: 15vw;
   height: 60vh;
 

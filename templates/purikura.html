@@ -9,15 +9,19 @@
   </head>
 
   <body onload="init()">
-    <input type="image" id="pencil" src="pencil.png" width="35px" class="active" onClick="tool(1)">
-    <input type="image" id="eraser" src="eraser.png" width="35px" onClick="tool(2)">
-    <input type="image" id="cstanp" src="cstanp.png" width="35px" onClick="tool(3)">
+    <img id="pencil" src="./assets/pencil.png" width="35px" class="active" onClick="tool(1)">
+    <img id="eraser" src="./assets/eraser.png" width="35px" onClick="tool(2)">
+    <img id="stanp"  src="./assets/cstanp.png" width="35px" onClick="tool(3)">
+
+    <img id="back_butt" src="assets/picture1.png" onClick="back()">
+    <img id="next_butt" src="assets/picture2.png" onClick="next()">
+
 
     <!-- header -->
     <div id="header">
       <div id="end">END</div>
       <div id="timer"></div>
-      <img id="logo" src="./logo.png">
+      <img id="logo" src="./assets/logo.png">
     </div>
 
     <!-- content -->
@@ -84,10 +88,11 @@
             </div>
           </div>
         </div>
-        <div id="picture">
-          <img>
-          <img>
-          <img>
+        <div id="picture-box">
+          <img id="picture1" src="assets/picture1.png" onClick="changePic(1)"
+            class="active">
+          <img id="picture2" src="assets/picture2.png" onClick="changePic(2)">
+          <img id="picture3" src="assets/picture3.png" onClick="changePic(3)">
         </div>
       </div>
       <div id="bottom">

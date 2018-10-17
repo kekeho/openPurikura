@@ -2,7 +2,6 @@ let modeName = {
   waiting:0,
   drawing:1,
   stanping:2,
-  el_se:3
 };
 
 let penColor = {
@@ -68,6 +67,8 @@ let next_button;
 
 //編集する画像
 let img;
+let pic;
+let pic_num = 3;
 
 //書き中か
 let drwaing;
@@ -83,24 +84,31 @@ function init(){
 }
 
 function buttonInit(){
-  //作業モードボタン
+  //drawingモード中の作業モードボタン
   pen_button = document.getElementById('pencil');
   era_button = document.getElementById('eraser');
-  sta_button = document.getElementById('cstanp');
+  sta_button = document.getElementById('stanp');
 
   //戻る進むボタン
-  back_button = document.getElementById('back_butt');
-  next_button = document.getElementById('next_butt');
+  // back_button = document.getElementById('back_butt');
+  // next_button = document.getElementById('next_butt');
+
+  //セーブボタン
+  //save_button = document.getElementById('save_butt');
 }
 
 function eventInit(){
+  //次へボタンと戻るボタン
+  // back_button.addEventListener('mousedown', back, false);
+  // next_button.addEventListener('mousedown', next, false);
+
+  //セーブボタン
+  //save_button.addEventListener('mousedown', savePictures, false);
+
   //マウスが動いている時
   canvas.addEventListener('mousemove', onMove, false);
-  //マウスが押されている時
   canvas.addEventListener('mousedown', onClick, false);
-  //マウスが上がったとき
   canvas.addEventListener('mouseup', drawEnd, false);
-  //マウスが外れたとき
   canvas.addEventListener('mouseout', drawEnd, false);
 }
 
@@ -115,15 +123,23 @@ function userInit(){
   drawing = false;
 }
 
-//キャンバスについての初期化関数
+//キャンバスについて、編集する画像の初期化関数
 function canvasInit(){
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
   imageCanvas = document.getElementById('imageCanvas');
   ictx = imageCanvas.getContext('2d');
 
-  img = new Image();
-  img.src = "js/assets/demo2.jpg";
+  //使用する3枚の画像
+  pic = [];
+  pic[0] = new Image();
+  pic[0].src = "./assets/picture1.png";
+  pic[1] = new Image();
+  pic[1].src = "./assets/picture2.png";
+  pic[2] = new Image();
+  pic[2].src = "./assets/picture3.png";
+
+  img = pic[0];
   img.onload = function() {
     ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
@@ -153,6 +169,7 @@ function back(){
 }
 
 function next(){
+
   if (canvasLog.current >= canvasLog.top) {
     alert("保存されている最新のscreenです");
     return;
@@ -174,6 +191,10 @@ function drawEnd() {
   penX = "";
   penY = "";
 
+  createCache();
+}
+
+function createCache(){
   //キャッシュ用のキャンバスを用意
   const logScreen = document.createElement('canvas');
   logScreen.width = canvas.width;
@@ -184,9 +205,8 @@ function drawEnd() {
   canvasLog.top++;
   canvasLog.current++;
   canvasLog.log[canvasLog.current] = logScreen;//履歴配列に保存
-  //alert(canvasLog.top);
-  if (canvasLog.current != canvas.top) {
-    canvas.top = canvas.current;
+  if (canvasLog.current != canvasLog.top) {
+    canvasLog.top = canvasLog.current;
   }
 }
 
@@ -363,6 +383,20 @@ function changeColor(colorID){
       break;
     default:
   }
+}
+
+//編集する画像を切り替える
+function changePic(num){
+  img = pic[num-1];
+  ictx.clearRect(0, 0, canvas.width, canvas.height);
+  ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+
+}
+
+//最後の完成写真を合成して保存する関数
+function savePictures(){
+
 }
 
 function PenColor(red, green, blue){
