@@ -47,8 +47,9 @@ def register():
 # Select a pack
 @app.route('/select1', methods=['GET', 'POST'])
 def select1():
+    global id_pack
     if request.method == 'POST':
-        global id_pack = int(request.form['pack'])
+        id_pack = int(request.form['pack'])
         return redirect('/take')
     else:
         return render_template('select1.html')
@@ -62,7 +63,8 @@ def take():
 # White out
 @app.route('/take/whiteout')
 def whiteout():
-    global taken += 1
+    global taken
+    taken += 1
     if taken < 5:
         return redirect('/take')
     else:
@@ -71,8 +73,9 @@ def whiteout():
 # Select 3 pics
 @app.route('/select2', methods=['GET', 'POST'])
 def select2():
+    global id_photos
     if request.method == 'POST':
-        global id_photos = request.form.getlist('select')
+        id_photos = request.form.getlist('select')
         return redirect('/take')
     else:
         return render_template('select.html')
