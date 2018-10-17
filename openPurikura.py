@@ -78,7 +78,7 @@ def select2():
     if request.method == 'POST':
         id_photos = request.form.getlist('select')
         return redirect('/take')
-        #return redirect('debug') #DBUG
+        #return redirect('debug') #DEBUG
     else:
         return render_template('select2.html')
 
