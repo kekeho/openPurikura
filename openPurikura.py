@@ -51,6 +51,7 @@ def select1():
     if request.method == 'POST':
         id_pack = int(request.form['pack'])
         return redirect('/take')
+        #return redirect('/debug') #DEBUG
     else:
         return render_template('select1.html')
 
@@ -77,8 +78,9 @@ def select2():
     if request.method == 'POST':
         id_photos = request.form.getlist('select')
         return redirect('/take')
+        #return redirect('debug') #DBUG
     else:
-        return render_template('select.html')
+        return render_template('select2.html')
 
 
 # Draw
@@ -92,6 +94,7 @@ def draw():
 def mail():
     return redirect('/end')
 
+# Reset variables
 @app.route('/reset')
 def end():
     global id_pack
@@ -102,6 +105,14 @@ def end():
     taken = 0
     return redirect('/')
 
+
+# Debug
+@app.route('/debug')
+def debug():
+    global id_pack
+    global id_photos
+    global taken
+    return render_template('debug.html', id_pack=id_pack, id_photos=id_photos, taken=taken)
 
 # Video streaming test page
 @app.route('/videostreaming')
