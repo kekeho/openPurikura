@@ -1,49 +1,71 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="ja">
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>openPurikura</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiko">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
-</head>
-
-<body class="register">
-    <nav class="navbar navbar-light navbar-expand-md">
-        <div class="container-fluid"><a class="navbar-brand" href="#">openPurikura</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse"
-                id="navcol-1">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/">◀Return</a></li>
-                </ul>
-            </div>
+    <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/register.css">
+    <script type="text/javascript" src="./assets/js//jquery.min.js"></script>
+    <script type="text/javascript" src="./assets/js/cd60.js"></script>
+  </head>
+  <body>
+    <form id="form" method="POST" action="/register">
+      <!-- header -->
+      <div id="header">
+        <div id="timer"></div>
+        <img id="logo" src="./assets/src/logo.png">
+      </div>
+      
+      <!-- content -->
+      <div id="content">
+        <div id="terms">
+          <p>
+            3年電子情報工学科企画「ハグっと！プリクラ」(以下、「当企画」といいます。)は、<br>
+            本アプリケーション上で提供するサービス(以下、「本サービス」といいます。)における<br>
+            プライバシー情報の取り扱いについて、<br>
+            以下のとおりプライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。
+          </p>
+          <h5>第1条(プライバシー情報)</h5>
+          <p>
+            プライバシー情報のうち…
+          </p>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          TESTTTTTTTT
         </div>
-    </nav>
-    <div class="container-fluid warnings-and-register">
-        <div class="row warnings-row">
-            <div class="col-lg-6 offset-lg-3 warnings-col">
-                <p class="warnings-header">Warning</p>
-                <p class="warnings">warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning&nbsp;warning</p>
-            </div>
-        </div>
-        <div class="row email-row">
-            <div class="col-lg-6 offset-lg-3 register-form-col">
-                <form action="/register" method="post">
-                    <p class="register-form-header">Name</p><input class="form-control register-input" type="text" id="register-name" placeholder="Ken" name="name">
-                    <p class="warnings-header">E-mail address</p><input class="form-control register-input" type="email" id="register-email" placeholder="user@example.com" name="email">
-                    <div class="form-row register-submit-row">
-                        <div class="col">
-                            <div class="container"><button class="btn btn-primary register-confirm-button" type="submit" id="submit-button">Accept &amp; Continue</button></div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
-
+        <input id="accept" type="checkbox" name="agree" value="1" required="required">
+        <label for="accept">以上の利用規約に同意します</label>
+        <p id="note">
+          メールアドレスをご登録いただくことで、撮った写真をお手元に残すことができます。<br>
+          未入力でもご体験いただけますが、写真は保存されません。<br>
+          また、本サービスはプリントシールでのご提供はございませんので、ご了承ください。
+        </p>
+        <input name="email" type="email" autocomplete="off" placeholder="メールアドレス">
+        <input name="name" type="text" autocomplete="off" placeholder="ニックネーム">
+      </div>
+      
+      <!-- footer -->
+      <div id="footer">
+        <input id="next" type="submit">
+        <label for="next">NEXT→</label>
+      </div>
+    </form>
+  </body>
 </html>
