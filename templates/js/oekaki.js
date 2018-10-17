@@ -111,6 +111,10 @@ function eventInit(){
   canvas.addEventListener('mousedown', onClick, false);
   canvas.addEventListener('mouseup', drawEnd, false);
   canvas.addEventListener('mouseout', drawEnd, false);
+  canvas.addEventListener('touchmove', onMove, false);
+  canvas.addEventListener('touchstart', onClick, false);
+  canvas.addEventListener('touchend', drawEnd, false);
+  canvas.addEventListener('touchchancel', drawEnd, false);
 }
 
 function userInit(){
@@ -234,7 +238,8 @@ function switchPic(num){
 
 //ペンモードでタッチ
 function onClick(e){
-  if (e.button === 0) {
+  e.preventDefault();
+  if (e.touches || e.button === 0) {
     const rect = e.target.getBoundingClientRect();
     const before_x = ~~(e.clientX - rect.left);
     const before_y = ~~(e.clientY - rect.top);
@@ -251,7 +256,8 @@ function onMove(e) {
   switch (workMode){
     case modeName.drawing:
       //マウスが押されているなら描画処理に入る
-      if(e.buttons === 1 || e.width === 1) {
+      e.preventDefault();
+      if(e.touches || e.buttons === 1 || e.width === 1) {
         const rect = e.target.getBoundingClientRect();
         const before_x = ~~(e.clientX - rect.left);
         const before_y = ~~(e.clientY - rect.top);
