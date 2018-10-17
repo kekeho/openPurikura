@@ -18,6 +18,9 @@ session = None
 
 # Front page
 
+id_pack = 0
+id_photos = [0, 1, 2]
+taken = 0
 
 @app.route('/')
 def index():
@@ -28,14 +31,70 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        if request.form['agree'] != None:
+            return redirect('/end')
+
         global session
         session = Session()
         new_user = User(name=request.form['name'], email=request.form['email'])
         session.add(new_user)
         session.commit()
-        return redirect('/take')  # debug
+        return redirect('/select1')  # debug
     else:
         return render_template('register.html')
+
+
+# Select a pack
+@app.route('/select1', methods=['GET', 'POST'])
+def select1():
+    if request.method == 'POST':
+        global id_pack = int(request.form['pack'])
+        return redirect('/take')
+    else:
+        return render_template('select1.html')
+
+
+# Take a photo
+@app.route('/take')
+def take():
+    return render_template('take.html')
+
+# White out
+@app.route('/take/whiteout')
+def whiteout():
+    global taken += 1
+    if taken < 5:
+        return redirect('/take')
+    else:
+        return redirect('/select2')
+
+# Select 3 pics
+@app.route('/select2', methods=['GET', 'POST'])
+def select2():
+    if request.method == 'POST':
+        global id_photos = request.form.getlist('select')
+        return redirect('/take')
+    else:
+        return render_template('select.html')
+
+
+# Draw
+@app.route('/draw')
+def draw():
+    return render_template('draw.html')
+
+
+# Send a mail
+@app.route('/mail')
+def mail():
+    return redirect('/end')
+
+#@app.route('/end')
+#def end():
+#    global id_pack = 0
+#    global id_photos = [0, 1, 2]
+#    global taken = 0
+#    return render_template('end.html')
 
 
 # Video streaming test page
