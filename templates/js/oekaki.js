@@ -39,9 +39,9 @@ let penWidth = {
 };
 
 //キャンバス関係
-//キャンバス三昧の配列
+//お絵かきようキャンバス
 let canvas;
-//キャンバス3枚のcontextの配列
+//キャンバスのcontextの配列
 let ctx;
 //編集中の画像
 let imageCanvas;
@@ -71,8 +71,10 @@ let next_button;
 
 //編集する画像
 let img;
-let pic;
-let pic_num = 3;
+//画像三昧の配列
+let pictures;
+//編集中の画像の添字
+let pic_num;
 
 //書き中か
 let drwaing;
@@ -101,20 +103,14 @@ function buttonInit(){
 }
 
 function eventInit(){
-  //次へボタンと戻るボタン
-  // back_button.addEventListener('mousedown', back, false);
-  // next_button.addEventListener('mousedown', next, false);
-
   //セーブボタン
   //save_button.addEventListener('mousedown', savePictures, false);
 
-  //canvas0~2に対するイベントリスナ
-  for (let i = 0; i<3; i++){
-    canvas[i].addEventListener('mousemove', onMove, false);
-    canvas[i].addEventListener('mousedown', onClick, false);
-    canvas[i].addEventListener('mouseup', drawEnd, false);
-    canvas[i].addEventListener('mouseout', drawEnd, false);
-  }
+  //canvasに対するイベントリスナ
+  canvas.addEventListener('mousemove', onMove, false);
+  canvas.addEventListener('mousedown', onClick, false);
+  canvas.addEventListener('mouseup', drawEnd, false);
+  canvas.addEventListener('mouseout', drawEnd, false);
 }
 
 function userInit(){
@@ -130,25 +126,23 @@ function userInit(){
 
 //キャンバスについて、編集する画像の初期化関数
 function canvasInit(){
-  canvas = [];
-  ctx = [];
-  for(let i = 0; i<3; i++){
-    canvas[i] = document.getElementById('canvas');
-    ctx[i] = canvas.getContext('2d');
-  }
+  pic_num = 0;
+
+  canvas = document.getElementById('canvas');
+  ctx = canvas.getContext('2d');
   imageCanvas = document.getElementById('imageCanvas');
   ictx = imageCanvas.getContext('2d');
 
   //使用する3枚の画像
-  pic = [];
-  pic[0] = new Image();
-  pic[0].src = "./assets/picture1.png";
-  pic[1] = new Image();
-  pic[1].src = "./assets/picture2.png";
-  pic[2] = new Image();
-  pic[2].src = "./assets/picture3.png";
+  pictures = [];
+  pictures[0] = new Image();
+  pictures[0].src = "./assets/picture1.png";
+  pictures[1] = new Image();
+  pictures[1].src = "./assets/picture2.png";
+  pictures[2] = new Image();
+  pictures[2].src = "./assets/picture3.png";
 
-  img = pic[0];
+  img = pictures[pic_num];
   img.onload = function() {
     ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
@@ -162,28 +156,31 @@ function CLog(){
 }
 
 function logStart(){
-  canvasLog = new CLog();
-  canvasLog.top = 0;
-  canvasLog.current = 0;
-  canvasLog.log.push(canvas);
+  canvasLog = [];
+  for (let i = 0; i<3; i++){
+    canvasLog[i] = new CLog();
+    canvasLog[i].top = 0;
+    canvasLog[i].current = 0;
+    canvasLog[i].log.push(canvas);
+  }
 }
 
 function back(){
-  if (canvasLog.current <= 0) {
+  if (canvasLog[pic_num].current <= 0) {
     alert("保存されている最古のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(canvasLog.log[--canvasLog.current], 0, 0);
+  ctx.drawImage(canvasLog[pic_num].log[--canvasLog[pic_num].current], 0, 0);
 }
 
 function next(){
-  if (canvasLog.current >= canvasLog.top) {
+  if (canvasLog[pic_num].current >= canvasLog[pic_num].top) {
     alert("保存されている最新のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(canvasLog.log[++canvasLog.current], 0, 0);
+  ctx.drawImage(canvasLog[pic_num].log[++canvasLog[pic_num].current], 0, 0);
 }
 
 //ペンがキャンバスの外に出たとき、浮いたときに線をやめて
@@ -210,12 +207,27 @@ function createCache(){
   const logCtx = logScreen.getContext('2d');
   //キャッシュ用のキャンバスに書き中のキャンバスをコピー
   logCtx.drawImage(canvas, 0, 0);
-  canvasLog.top++;
-  canvasLog.current++;
-  canvasLog.log[canvasLog.current] = logScreen;//履歴配列に保存
-  if (canvasLog.current != canvasLog.top) {
-    canvasLog.top = canvasLog.current;
+  canvasLog[pic_num].top++;
+  canvasLog[pic_num].current++;
+  canvasLog[pic_num].log[canvasLog[pic_num].current] = logScreen;//履歴配列に保存
+  if (canvasLog[pic_num].current != canvasLog[pic_num].top) {
+    canvasLog[pic_num].top = canvasLog[pic_num].current;
   }
+}
+
+//編集する画像を切り替える
+function switchPic(num){
+  createCache();
+
+  pic_num = num - 1;
+  img = pictures[pic_num];
+  ictx.clearRect(0, 0, canvas.width, canvas.height);
+  ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  const nextCanvas = canvasLog[pic_num].log[canvasLog[pic_num].current--];
+  canvasLog[pic_num].top--;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(nextCanvas, 0, 0);
 }
 
 //ペンモードでタッチ
@@ -310,96 +322,87 @@ function changeColor(colorID){
       pColor.g = 0;
       break;
     case penColor.blue:
-      penColor.r = 0;
-      penColor.g = 0;
-      penColor.b = 255;
+      pColor.r = 0;
+      pColor.g = 0;
+      pColor.b = 255;
       break;
     case penColor.green:
-      penColor.r = 0;
-      penColor.g = 255;
-      penColor.b = 0;
+      pColor.r = 0;
+      pColor.g = 255;
+      pColor.b = 0;
       break;
     case penColor.black:
-      penColor.r = 50;
-      penColor.g = 50;
-      penColor.b = 50;
+      pColor.r = 50;
+      pColor.g = 50;
+      pColor.b = 50;
       break;
     case penColor.white:
-      penColor.r = 255;
-      penColor.g = 255;
-      penColor.b = 255;
+      pColor.r = 255;
+      pColor.g = 255;
+      pColor.b = 255;
       break;
     case penColor.deepblue:
-      penColor.r = 0;
-      penColor.g = 113;
-      penColor.b = 176;
+      pColor.r = 0;
+      pColor.g = 113;
+      pColor.b = 176;
       break;
     case penColor.deepred:
-      penColor.r = 193;
-      penColor.g = 39;
-      penColor.b = 45;
+      pColor.r = 193;
+      pColor.g = 39;
+      pColor.b = 45;
       break;
     case penColor.gray:
-      penColor.r = 128;
-      penColor.g = 128;
-      penColor.b = 128;
+      pColor.r = 128;
+      pColor.g = 128;
+      pColor.b = 128;
       break;
     case penColor.vividblue:
-      penColor.r = 0;
-      penColor.g = 255;
-      penColor.b = 255;
+      pColor.r = 0;
+      pColor.g = 255;
+      pColor.b = 255;
       break;
     case penColor.lightblue:
-      penColor.r = 50;
-      penColor.g = 200;
-      penColor.b = 255;
+      pColor.r = 50;
+      pColor.g = 200;
+      pColor.b = 255;
       break;
     case penColor.vividgreen:
-      penColor.r = 217;
-      penColor.g = 224;
-      penColor.b = 33;
+      pColor.r = 217;
+      pColor.g = 224;
+      pColor.b = 33;
       break;
     case penColor.lightgreen:
-      penColor.r = 214;
-      penColor.g = 255;
-      penColor.b = 0;
+      pColor.r = 214;
+      pColor.g = 255;
+      pColor.b = 0;
       break;
     case penColor.orange:
-      penColor.r = 247;
-      penColor.g = 147;
-      penColor.b = 30;
+      pColor.r = 247;
+      pColor.g = 147;
+      pColor.b = 30;
       break;
     case penColor.beige:
-      penColor.r = 198;
-      penColor.g = 156;
-      penColor.b = 109;
+      pColor.r = 198;
+      pColor.g = 156;
+      pColor.b = 109;
       break;
     case penColor.pink:
-      penColor.r = 255;
-      penColor.g = 0;
-      penColor.b = 255;
+      pColor.r = 255;
+      pColor.g = 0;
+      pColor.b = 255;
       break;
     case penColor.salmonpink:
-      penColor.r = 237;
-      penColor.g = 30;
-      penColor.b = 121;
+      pColor.r = 237;
+      pColor.g = 30;
+      pColor.b = 121;
       break;
     case penColor.vividorange:
-      penColor.r = 251;
-      penColor.g = 176;
-      penColor.b = 59;
+      pColor.r = 251;
+      pColor.g = 176;
+      pColor.b = 59;
       break;
     default:
   }
-}
-
-//編集する画像を切り替える
-function changePic(num){
-  img = pic[num-1];
-  ictx.clearRect(0, 0, canvas.width, canvas.height);
-  ictx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-
 }
 
 //最後の完成写真を合成して保存する関数
