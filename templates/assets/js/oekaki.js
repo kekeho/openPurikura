@@ -54,6 +54,10 @@ let canvasLog;
 let penX;
 let penY;
 
+// 現在の座標
+let x;
+let y;
+
 //ペンの色と太さ
 let pColor;
 let pWidth;
@@ -87,6 +91,7 @@ function init(){
   buttonInit();
 
   eventInit();
+  loadStamp();
 }
 
 function buttonInit(){
@@ -253,22 +258,26 @@ function switchPic(num){
 function onClick(e){
   e.preventDefault();
 
+  const rect = e.target.getBoundingClientRect();
+
   // PCとiPadで座標の取得方法を変える
   if (e.touches) {
-    x = e.touches[0].clientX;
-    y = e.touches[0].clientY;
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top;
   } else {
-    x = e.clientX;
-    y = e.clientY;
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
   }
 
-  const rect = e.target.getBoundingClientRect();
-  const before_x = ~~(x - rect.left);
-  const before_y = ~~(y - rect.top);
+  const before_x = ~~(x);
+  const before_y = ~~(y);
 
   drawingFlag = true;
   //drawLineにマウスの位置を渡す
   drawLine(before_x, before_y);
+
+  stamp = new Stamp(stampImg, x, y, 1);
+  stamp.apply();
 }
 
 //ペンモードでドラッグ
@@ -283,18 +292,19 @@ function onMove(e) {
   switch (workMode){
     case modeName.drawing:
     case modeName.erasering:
+      const rect = e.target.getBoundingClientRect();
+
       // PCとiPadで座標の取得方法を変える
       if (e.touches) {
-        x = e.touches[0].clientX;
-        y = e.touches[0].clientY;
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
       } else {
-        x = e.clientX;
-        y = e.clientY;
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
       }
 
-      const rect = e.target.getBoundingClientRect();
-      const before_x = ~~(x - rect.left);
-      const before_y = ~~(y - rect.top);
+      const before_x = ~~(x);
+      const before_y = ~~(y);
 
       drawLine(before_x, before_y);
       break;
