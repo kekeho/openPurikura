@@ -338,11 +338,16 @@ def eye_bags(image: np.ndarray, face_landmarks: list):
                 line_list.append((roi_x, roi_y))
             before_point = point
 
+        # cal distance
+        eye_vertical_distance = (landmark[149] - landmark[139])[1]
+        under_eye_distance = eye_vertical_distance / 2
+        border_weight = eye_vertical_distance / 2
+
         # draw eyebag
         float_image = image.astype(np.float64)
         float_image.flags.writeable = True
         for point in line_list:
-            float_image[point[1]+10:point[1]+18, point[0], :3] *= 0.9
+            float_image[point[1]+int(under_eye_distance):point[1]+int(under_eye_distance + border_weight), point[0], :3] *= 0.92
         float_image.flags.writeable = False
         image = float_image.astype(np.uint8)
 
