@@ -252,47 +252,55 @@ function switchPic(num){
 //ペンモードでタッチ
 function onClick(e){
   e.preventDefault();
-  if (e.touches) {
-    const rect = e.target.getBoundingClientRect();
-    const before_x = ~~(e.touches[0].clientX - rect.left);
-    const before_y = ~~(e.touches[0].clientY - rect.top);
 
-    drawingFlag = true;
-    //drawLineにマウスの位置を渡す
-    drawLine(before_x, before_y);
+  // PCとiPadで座標の取得方法を変える
+  if (e.touches) {
+    x = e.touches[0].clientX;
+    y = e.touches[0].clientY;
+  } else {
+    x = e.clientX;
+    y = e.clientY;
   }
+
+  const rect = e.target.getBoundingClientRect();
+  const before_x = ~~(x - rect.left);
+  const before_y = ~~(y - rect.top);
+
+  drawingFlag = true;
+  //drawLineにマウスの位置を渡す
+  drawLine(before_x, before_y);
 }
 
 //ペンモードでドラッグ
 function onMove(e) {
+  // マウスが押されている場合にのみ処理を実行
+  if (!drawingFlag)
+    return;
+
+  e.preventDefault();
+
   //現在の作業モードに応じて処理を変える
   switch (workMode){
     case modeName.drawing:
-      //マウスが押されているなら描画処理に入る
-      e.preventDefault();
-      if(e.touches || e.width === 1) {
-        const rect = e.target.getBoundingClientRect();
-        const before_x = ~~(e.touches[0].clientX - rect.left);
-        const before_y = ~~(e.touches[0].clientY - rect.top);
-
-        drawLine(before_x, before_y);
-      }
-      break;
     case modeName.erasering:
-      //マウスが押されているなら描画処理に入る
-      e.preventDefault();
-      if(e.touches || e.width === 1) {
-        const rect = e.target.getBoundingClientRect();
-        const before_x = ~~(e.touches[0].clientX - rect.left);
-        const before_y = ~~(e.touches[0].clientY - rect.top);
-
-        drawLine(before_x, before_y);
+      // PCとiPadで座標の取得方法を変える
+      if (e.touches) {
+        x = e.touches[0].clientX;
+        y = e.touches[0].clientY;
+      } else {
+        x = e.clientX;
+        y = e.clientY;
       }
+
+      const rect = e.target.getBoundingClientRect();
+      const before_x = ~~(x - rect.left);
+      const before_y = ~~(y - rect.top);
+
+      drawLine(before_x, before_y);
       break;
+
     case modeName.stanping:
       break;
-    default:
-
   }
 }
 
