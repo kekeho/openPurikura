@@ -21,7 +21,7 @@ session = None
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('purikura.html')
 
 
 # Register name and e-mail address
