@@ -300,43 +300,11 @@ def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
 
 
 def eye_bags(image: np.ndarray, face_landmarks: list):
-    # over_image = np.empty(image.shape, dtype=image.dtype)
     for landmark in face_landmarks:
         # left eye bottom
-        before_point = None
-        line_list = []
-        for point in landmark[144:153+1]:
-            if before_point is None:
-                line_list.append(point)
-                before_point = point.tolist()
-                continue
-            before_x = before_point[0]
-            before_y = before_point[1]
-            dx = point[0] - before_x
-            dy = point[1] - before_y
-            for x in range(abs(dx)):
-                roi_x = int(before_x + x)
-                roi_y = int(before_y + (dy / dx * x))
-                line_list.append((roi_x, roi_y))
-            before_point = point
-
-
+        line_list = utils.line_generator(landmark[144:153+1])
         # right eye bottom
-        before_point = None
-        for point in landmark[124:133+1]:
-            if before_point is None:
-                line_list.append(point)
-                before_point = point.tolist()
-                continue
-            before_x = before_point[0]
-            before_y = before_point[1]
-            dx = point[0] - before_x
-            dy = point[1] - before_y
-            for x in range(abs(dx)):
-                roi_x = int(before_x + x)
-                roi_y = int(before_y + (dy / dx * x))
-                line_list.append((roi_x, roi_y))
-            before_point = point
+        line_list += utils.line_generator(landmark[124:133+1])
 
         # cal distance
         eye_vertical_distance = (landmark[149] - landmark[139])[1]
