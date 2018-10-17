@@ -303,18 +303,49 @@ def eye_bags(image: np.ndarray, face_landmarks: list):
     # over_image = np.empty(image.shape, dtype=image.dtype)
     for landmark in face_landmarks:
         # left eye bottom
-        for i in range(144, 153):
-            from_x, from_y = landmark[i]; from_y += 7
-            to_x, to_y = landmark[i+1]; to_y += 7
-            cv2.line(image, (from_x, from_y), (to_x, to_y), (20, 20, 20), 3, cv2.LINE_AA)
+        before_point = None
+        line_list = []
+        for point in landmark[144:153+1]:
+            if before_point is None:
+                line_list.append(point)
+                before_point = point.tolist()
+                continue
+            before_x = before_point[0]
+            before_y = before_point[1]
+            dx = point[0] - before_x
+            dy = point[1] - before_y
+            for x in range(abs(dx)):
+                roi_x = int(before_x + x)
+                roi_y = int(before_y + (dy / dx * x))
+                line_list.append((roi_x, roi_y))
+            before_point = point
 
 
         # right eye bottom
-        for i in range(124, 133):
-            from_x, from_y = landmark[i]; from_y += 7
-            to_x, to_y = landmark[i+1]; to_y += 7
-            cv2.line(image, (from_x, from_y), (to_x, to_y), (20, 20, 20), 3, cv2.LINE_AA)
-    
+        before_point = None
+        for point in landmark[124:133+1]:
+            if before_point is None:
+                line_list.append(point)
+                before_point = point.tolist()
+                continue
+            before_x = before_point[0]
+            before_y = before_point[1]
+            dx = point[0] - before_x
+            dy = point[1] - before_y
+            for x in range(abs(dx)):
+                roi_x = int(before_x + x)
+                roi_y = int(before_y + (dy / dx * x))
+                line_list.append((roi_x, roi_y))
+            before_point = point
+
+        # draw eyebag
+        float_image = image.astype(np.float64)
+        float_image.flags.writeable = True
+        for point in line_list:
+            float_image[point[1]+10:point[1]+18, point[0], :3] *= 0.9
+        float_image.flags.writeable = False
+        image = float_image.astype(np.uint8)
+
     return image
 
 
@@ -361,8 +392,8 @@ def main():
 
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
-        image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
-        ret, image = cap.read()
+        image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/japanese_girl.jpg')
+        # ret, image = cap.read()
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = find.facemark(gray_img)
 
