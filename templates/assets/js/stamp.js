@@ -4,6 +4,7 @@ function loadStamp() {
   stampImg.src = "./assets/stamp/stamp.png";
 }
 
+// スタンプを表すオブジェクト
 function Stamp(img, x, y, scale) {
   this.img = img;
   this.x = x;
@@ -17,6 +18,7 @@ function Stamp(img, x, y, scale) {
   this.canvas.id = "editCanvas";
   this.canvas.width = canvas.width;
   this.canvas.height = canvas.height;
+
   this.stampBox = document.getElementById("canvas-box");
   this.stampBox.appendChild(this.canvas);
 
@@ -26,7 +28,8 @@ function Stamp(img, x, y, scale) {
   // モード変更
   pen_button.className = '';
   era_button.className = '';
-  workMode = modeName.stamping;
+  sta_button.className = 'active';
+  workMode = modeName.editing;
 
   // 移動
   this.move = function(x, y) {
@@ -34,7 +37,7 @@ function Stamp(img, x, y, scale) {
     this.y = y;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(this.img, this.x, this.y);
+    this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
   }
 
   // リサイズ

@@ -273,7 +273,7 @@ html, body{
 }
 
 #imageCanvas { z-index: 1 }
-
+#eventCanvas { z-index: 5 }
 #editCanvas { z-index: 3 }
 
 #canvas-box canvas {

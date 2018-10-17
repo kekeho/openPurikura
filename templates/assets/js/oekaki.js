@@ -1,8 +1,9 @@
 let modeName = {
   waiting  : 0,
   drawing  : 1,
-  stamping : 2,
-  erasering: 3
+  erasering: 2,
+  stamping : 3,
+  editing  : 4
 };
 
 let penColor = {
@@ -23,8 +24,7 @@ let penColor = {
   vividblue  : 15,
   deepblue   : 16,
   gray       : 17,
-  beige      : 18,
-
+  beige      : 18
 };
 
 let penWidth = {
@@ -48,8 +48,11 @@ let ctx;
 let imageCanvas;
 let ictx;
 
+// イベント捕捉用キャンバス
+let eventCanvas;
+
 // ログ用のキャンバスを保存する配列
-let canvasLog = new Array();
+let canvasLog;
 
 // ペンの一フレーム？前の座標
 let penX;
@@ -78,7 +81,7 @@ let next_button;
 // 編集する画像
 let img;
 // 画像三昧の配列
-let pictures = new Array();
+let pictures;
 // 編集中の画像の添字
 let pic_num;
 
@@ -100,11 +103,7 @@ function buttonInit() {
   // drawingモード中の作業モードボタン
   pen_button = document.getElementById("pencil");
   era_button = document.getElementById("eraser");
-  sta_button = document.getElementById("stanp");
-
-  // 戻る進むボタン
-  //back_button = document.getElementById("back_butt");
-  //next_button = document.getElementById("next_butt");
+  sta_button = document.getElementById("stamp");
 
   // セーブボタン
   //save_button = document.getElementById("save_butt");
@@ -115,16 +114,16 @@ function eventInit() {
   //save_button.addEventListener("mousedown", savePictures, false);
 
   // PC用イベントリスナ
-  canvas.addEventListener("mousemove", onMove,  false);
-  canvas.addEventListener("mousedown", onClick, false);
-  canvas.addEventListener("mouseup",   drawEnd, false);
-  canvas.addEventListener("mouseout",  drawEnd, false);
+  eventCanvas.addEventListener("mousemove", onMove,  false);
+  eventCanvas.addEventListener("mousedown", onClick, false);
+  eventCanvas.addEventListener("mouseup",   drawEnd, false);
+  eventCanvas.addEventListener("mouseout",  drawEnd, false);
 
   // iPad用イベントリスナ
-  canvas.addEventListener("touchmove",    onMove,  false);
-  canvas.addEventListener("touchstart",   onClick, false);
-  canvas.addEventListener("touchend",     drawEnd, false);
-  canvas.addEventListener("touchchancel", drawEnd, false);
+  eventCanvas.addEventListener("touchmove",    onMove,  false);
+  eventCanvas.addEventListener("touchstart",   onClick, false);
+  eventCanvas.addEventListener("touchend",     drawEnd, false);
+  eventCanvas.addEventListener("touchchancel", drawEnd, false);
 }
 
 function userInit() {
@@ -146,8 +145,10 @@ function canvasInit() {
   ctx = canvas.getContext("2d");
   imageCanvas = document.getElementById("imageCanvas");
   ictx = imageCanvas.getContext("2d");
+  eventCanvas = document.getElementById("eventCanvas");
 
   // 使用する3枚の画像
+  pictures = [];
   pictures[0] = new Image();
   pictures[0].src = "./assets/picture1.png";
   pictures[1] = new Image();
@@ -169,6 +170,7 @@ function CLog() {
 }
 
 function logStart() {
+  canvasLog = [];
   for (let i = 0; i < 3; i++) {
     canvasLog[i] = new CLog();
     canvasLog[i].top = 0;
@@ -178,12 +180,15 @@ function logStart() {
 }
 
 function back() {
-  if (workMode == modeName.erasering)
-    ctx.globalCompositeOperation = "source-over";
-
   // これ以上戻れない
   if (canvasLog[pic_num].current <= 0)
     return;
+
+  if (workMode == modeName.editing)
+    return;
+
+  if (workMode == modeName.erasering)
+    ctx.globalCompositeOperation = "source-over";
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(canvasLog[pic_num].log[--canvasLog[pic_num].current], 0, 0);
@@ -193,12 +198,15 @@ function back() {
 }
 
 function next() {
-  if (workMode == modeName.erasering)
-    ctx.globalCompositeOperation = "source-over";
-
   // これ以上進めない
   if (canvasLog[pic_num].current >= canvasLog[pic_num].top)
     return;
+
+  if (workMode == modeName.editing)
+    return;
+
+  if (workMode == modeName.erasering)
+    ctx.globalCompositeOperation = "source-over";
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(canvasLog[pic_num].log[++canvasLog[pic_num].current], 0, 0);
@@ -209,18 +217,23 @@ function next() {
 
 // ペンがキャンバスの外に出たとき、浮いたときに線をやめて
 function drawEnd() {
-  if (!drawingFlag) {
-    penX = null;
-    penY = null;
-    drawingFlag = false;
-    return;
-  }
-
-  drawingFlag = false;
   penX = null;
   penY = null;
 
-  createCache();
+  switch (workMode) {
+    case modeName.stamping:
+    case modeName.editing:
+      break;
+
+    default:
+      if (drawingFlag) {
+        createCache();
+        return;
+      }
+      break;
+  }
+
+  drawingFlag = false;
 }
 
 function createCache() {
@@ -259,8 +272,8 @@ function switchPic(num) {
 
 // ペンモードでタッチ
 function onClick(e) {
+  drawingFlag = true;
   e.preventDefault();
-
   const rect = e.target.getBoundingClientRect();
 
   // PCとiPadで座標の取得方法を変える
@@ -275,11 +288,20 @@ function onClick(e) {
   const before_x = ~~(x);
   const before_y = ~~(y);
 
-  drawingFlag = true;
-  drawLine(before_x, before_y);
+  switch (workMode) {
+    case modeName.drawing:
+    case modeName.erasering:
+      drawLine(before_x, before_y);
+      break;
 
-  stamp = new Stamp(stampImg, x, y, 1);
-  stamp.apply();
+    case modeName.stamping:
+      stamp = new Stamp(stampImg, x, y, 1);
+      break;
+
+    case modeName.editing:
+      stamp.move(x, y);
+      break;
+  }
 }
 
 // ペンモードでドラッグ
@@ -289,29 +311,29 @@ function onMove(e) {
     return;
 
   e.preventDefault();
+  const rect = e.target.getBoundingClientRect();
+
+  // PCとiPadで座標の取得方法を変える
+  if (e.touches) {
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top;
+  } else {
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
+  }
 
   // 現在の作業モードに応じて処理を変える
   switch (workMode) {
     case modeName.drawing:
     case modeName.erasering:
-      const rect = e.target.getBoundingClientRect();
-
-      // PCとiPadで座標の取得方法を変える
-      if (e.touches) {
-        x = e.touches[0].clientX - rect.left;
-        y = e.touches[0].clientY - rect.top;
-      } else {
-        x = e.clientX - rect.left;
-        y = e.clientY - rect.top;
-      }
-
       const before_x = ~~(x);
       const before_y = ~~(y);
 
       drawLine(before_x, before_y);
       break;
 
-    case modeName.stanping:
+    case modeName.editing:
+      stamp.move(x, y);
       break;
   }
 }
@@ -344,16 +366,35 @@ function changeLineWidth(lineWidth) {
 
 // ペン、消しゴムのモードを切り替える関数
 function tool(toolNum) {
-  if (toolNum == 1) { // クリックされボタンが鉛筆だったら
-    ctx.globalCompositeOperation = "source-over";
-    pen_button.className = "active";
-    era_button.className = "";
-    workMode = modeName.drawing;
-  } else if (toolNum == 2) { // クリックされボタンが消しゴムだったら
-    ctx.globalCompositeOperation = "destination-out";
-    pen_button.className = "";
-    era_button.className = "active";
-    workMode = modeName.erasering;
+  if (workMode == modeName.editing) {
+    stamp.apply();
+    delete stamp;
+  }
+
+  switch (toolNum) {
+    case 0: // ペンモード
+      ctx.globalCompositeOperation = "source-over";
+      pen_button.className = "active";
+      era_button.className = "";
+      sta_button.className = "";
+      workMode = modeName.drawing;
+      break;
+
+    case 1: // 消しゴムモード
+      ctx.globalCompositeOperation = "destination-out";
+      pen_button.className = "";
+      era_button.className = "active";
+      sta_button.className = "";
+      workMode = modeName.erasering;
+      break;
+
+    case 2: // スタンプモード
+      ctx.globalCompositeOperation = "source-over";
+      pen_button.className = "";
+      era_button.className = "";
+      sta_button.className = "active";
+      workMode = modeName.stamping;
+      break;
   }
 }
 

@@ -11,8 +11,9 @@
   </head>
 
   <body onload="init()" oncontextmenu="return false;">
-    <img id="pencil" src="./assets/pencil.png" width="35px" class="active" onClick="tool(1)">
-    <img id="eraser" src="./assets/eraser.png" width="35px" onClick="tool(2)">
+    <img id="pencil" src="./assets/pencil.png" width="35px" class="active" onClick="tool(0)">
+    <img id="eraser" src="./assets/eraser.png" width="35px" onClick="tool(1)">
+    <img id="stamp" src="./assets/cstamp.png" width="35px" onClick="tool(2)">
 
     <img id="back_butt" src="assets/picture1.png" onClick="back()">
     <img id="next_butt" src="assets/picture2.png" onClick="next()">
@@ -70,6 +71,7 @@
         <div id="canvas-box">
             <canvas id="canvas" width=466 height=466></canvas>
             <canvas id="imageCanvas" width=466 height=466></canvas>
+            <canvas id="eventCanvas" width=466 height=466></canvas>
         </div>
         <div id="zoom">
           <div id="zoom-in">
