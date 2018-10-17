@@ -10,10 +10,15 @@ def add_alpha_channel(image: np.ndarray):
     return np.array(image, dtype='uint8')
 
 
-def detect_roi(points: list):
+def detect_roi(points: list, e=50):
+    """
+    Args:
+        points: points list
+        e: margin (default=50)
+    Return: (min_x, min_y, max_x, max_y)
+    """
     xlist = []
     ylist = []
-    e = 50
     for x, y in points:
         xlist.append(x)
         ylist.append(y)

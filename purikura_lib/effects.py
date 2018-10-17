@@ -322,6 +322,30 @@ def eye_bags(image: np.ndarray, face_landmarks: list):
     return image
 
 
+def lips_correction(image: np.array, face_landmarks: list):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    maskimage = None
+    float_image = image.astype(np.float64)
+    float_image.flags.writeable = True
+    for landmark in face_landmarks:
+        # left eye bottom
+        min_x, min_y, max_x, max_y = utils.detect_roi(landmark[58:85], e=0)
+        hsv_min = np.array([0 / 2, 255/100*37, 255/100*23])  # opencvのHueはHue/2を指定する
+        hsv_max = np.array([360 / 2, 255, 255])
+        maskimage = cv2.inRange(image[min_y:max_y, min_x:max_x], hsv_min, hsv_max)
+        for y, y_line in enumerate(maskimage):
+            if y_line.max == 0:
+                break
+            for x, pixel in enumerate(y_line):
+                if pixel != 0:
+                    float_image[min_y+y, min_x+x][1] = 350/2
+                    float_image[min_y+y, min_x+x][1] = 255/100*58
+                    float_image[min_y+y, min_x+x][2] = 255
+    float_image.flags.writeable = False
+    image = float_image.astype(np.uint8)
+    image = cv2.cvtColor(image, cv2.COLOR_HSV2BGR)
+    return image
+
 
 def animal_ears(image: np.ndarray, ear_image: PngImageFile, face_landmarks: list):
     """attach animal_ears like nekomimi
@@ -369,9 +393,9 @@ def main():
         # ret, image = cap.read()
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = find.facemark(gray_img)
-
         image = nose_shape_beautify(image, face_landmarks)
         image = eye_bags(image, face_landmarks)
+        image = lips_correction(image, face_landmarks)
         image = eyes_shape_beautify(image, face_landmarks)
         image = chin_shape_beautify(image, face_landmarks)
         image = skin_beautify(image, rate=5)
