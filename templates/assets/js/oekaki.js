@@ -171,7 +171,7 @@ function logStart(){
 
 function back(){
   if (canvasLog[pic_num].current <= 0) {
-    alert("保存されている最古のscreenです");
+    //alert("保存されている最古のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -180,7 +180,7 @@ function back(){
 
 function next(){
   if (canvasLog[pic_num].current >= canvasLog[pic_num].top) {
-    alert("保存されている最新のscreenです");
+    //alert("保存されている最新のscreenです");
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -239,10 +239,10 @@ function switchPic(num){
 //ペンモードでタッチ
 function onClick(e){
   e.preventDefault();
-  if (e.touches || e.button === 0) {
+  if (e.touches) {
     const rect = e.target.getBoundingClientRect();
-    const before_x = ~~(e.clientX - rect.left);
-    const before_y = ~~(e.clientY - rect.top);
+    const before_x = ~~(e.touches[0].clientX - rect.left);
+    const before_y = ~~(e.touches[0].clientY - rect.top);
 
     drawing = true;
     //drawLineにマウスの位置を渡す
@@ -257,10 +257,10 @@ function onMove(e) {
     case modeName.drawing:
       //マウスが押されているなら描画処理に入る
       e.preventDefault();
-      if(e.touches || e.buttons === 1 || e.width === 1) {
+      if(e.touches || e.width === 1) {
         const rect = e.target.getBoundingClientRect();
-        const before_x = ~~(e.clientX - rect.left);
-        const before_y = ~~(e.clientY - rect.top);
+        const before_x = ~~(e.touches[0].clientX - rect.left);
+        const before_y = ~~(e.touches[0].clientY - rect.top);
 
         drawLine(before_x, before_y);
       }
