@@ -123,27 +123,27 @@
   font: 2vw /3vw 'TsukuARdGothic-Regular';
 }
 
+label[for="pack-0"] > .pack-name,
+label[for="pack-0"]::before,
+label[for="pack-0"]::after {
+  background-color: #ff0000;
+}
+
 label[for="pack-1"] > .pack-name,
 label[for="pack-1"]::before,
 label[for="pack-1"]::after {
-  background-color: #ff0000;
+  background-color: #ed1e79;
 }
 
 label[for="pack-2"] > .pack-name,
 label[for="pack-2"]::before,
 label[for="pack-2"]::after {
-  background-color: #ed1e79;
+  background-color: #ffff00;
 }
 
 label[for="pack-3"] > .pack-name,
 label[for="pack-3"]::before,
 label[for="pack-3"]::after {
-  background-color: #ffff00;
-}
-
-label[for="pack-4"] > .pack-name,
-label[for="pack-4"]::before,
-label[for="pack-4"]::after {
   background-color: #0071bc;
 }
 

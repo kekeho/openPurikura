@@ -24,27 +24,27 @@ input[type="checkbox"] {
   box-shadow: 0 0 10px 5px #a8d7ec;
 }
 
-label[for="select-1"] {
+label[for="select-0"] {
   top: 0;
   left: 0;
 }
 
-label[for="select-2"] {
+label[for="select-1"] {
   bottom: 0;
   left: 0;
 }
 
-label[for="select-3"] {
+label[for="select-2"] {
   top: calc(50% - 16vh);
   left: calc(50% - 16vh);
 }
 
-label[for="select-4"] {
+label[for="select-3"] {
   top: 0;
   right: 0;
 }
 
-label[for="select-5"] {
+label[for="select-4"] {
   right: 0;
   bottom: 0;
 }
