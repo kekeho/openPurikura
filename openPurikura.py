@@ -5,14 +5,15 @@ from database.init_db import Base, User
 from camera.camera import VideoCamera
 import purikura_lib as pl
 import os
-import subprocess
+import shutil
 import cv2
 import sys
 
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = './templates/assets'
 
-app = Flask(__name__, static_folder='./templates/assets')
+app = Flask(__name__, static_folder=ASSETS_DIR)
 
 # Database setup
 database_file = CURRENT_DIRNAME + '/database/openPurikura.db'
@@ -77,8 +78,13 @@ def take():
     if request.method == 'GET':
         if (taken >= 5):
             taken = 0
-            del cam
             return redirect('/select2')
+
+        if (taken == 0):
+            for i in range(5):
+                shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_after.png'.format(i))
+            return render_template('take.html')
+
         else:
             return render_template('take.html')
 
@@ -86,20 +92,21 @@ def take():
         print(taken)
 
         image = cam.get_img()
-        cv2.imwrite('photos/' + str(taken) + '.png', image)
+        cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_before.png', image)
         
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = pl.find.facemark(gray_img)
 
         image = pl.effects.nose_shape_beautify(image, face_landmarks)
-        image = pl.effects.eye_bags(image, face_landmarks)
+        #image = pl.effects.eye_bags(image, face_landmarks)
         #image = pl.effects.lips_correction(image, face_landmarks)
         image = pl.effects.eyes_shape_beautify(image, face_landmarks)
         image = pl.effects.chin_shape_beautify(image, face_landmarks)
         image = pl.effects.skin_beautify(image, rate=5)
         image = pl.effects.color_correction(image)
 
-        cv2.imwrite('photos/' + str(taken) + '_after.png', image)
+        cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_after.png', image)
+        cv2.imwrite(ASSETS_DIR + '/photos/retouch.png', image)
 
         taken += 1
         return render_template('take.html')
