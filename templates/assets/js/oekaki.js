@@ -113,6 +113,8 @@ function buttonInit() {
   era_button = document.getElementById("eraser");
   sta_button = document.getElementById("stamp");
 
+  back_button = document.getElementById("back_butt");
+  next_button = document.getElementById("next_butt");
   // セーブボタン
   //save_button = document.getElementById("save_butt");
 }
@@ -196,6 +198,8 @@ function back() {
   if (workMode == modeName.editing)
     return;
 
+  back_button.className = "active";
+
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "source-over";
 
@@ -204,6 +208,10 @@ function back() {
 
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "destination-out";
+
+  setTimeout(function(){
+    back_button.className = "";
+  }, 150);
 }
 
 function next() {
@@ -214,6 +222,8 @@ function next() {
   if (workMode == modeName.editing)
     return;
 
+  next_button.className = "active";
+    
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "source-over";
 
@@ -222,6 +232,10 @@ function next() {
 
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "destination-out";
+
+  setTimeout(function(){
+    next_button.className = "";
+  }, 150);
 }
 
 // ペンがキャンバスの外に出たとき、浮いたときに線をやめて
