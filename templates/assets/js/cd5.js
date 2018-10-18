@@ -7,8 +7,13 @@ $(function(){
       $('.timer').text(time);
 
       if (time == 0) {
-        $.post("/take");
-        location.reload();
+        $.ajax({
+          type: 'POST',
+          url: '/take',
+          success: function() {
+            location.reload();
+          }
+        });
       }
     }
   }, 1300);

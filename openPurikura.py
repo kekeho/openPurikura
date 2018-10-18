@@ -83,8 +83,8 @@ def take():
             return render_template('take.html')
 
     else:
-        taken += 1
         cam.save('photos/' + str(taken) + '.png')
+        taken += 1
 
         return render_template('take.html')
 
