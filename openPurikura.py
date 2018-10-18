@@ -29,6 +29,9 @@ taken = 0
 def index():
     return render_template('index.html')
 
+@app.route('/oekaki')
+def oekaki():
+    return render_template('purikura.html')
 
 # Register name and e-mail address
 @app.route('/register', methods=['GET', 'POST'])
@@ -60,28 +63,15 @@ def select1():
 
 
 # Take a photo
-@app.route('/take')
+@app.route('/take', methods=["GET", "POST"])
 def take():
-    #global taken
-    #subprocess.Popen('python shot.py ' + str(taken + 1))
-    return render_template('take.html')
-
-# White out
-@app.route('/whiteout')
-def whiteout():
-    global taken
-    taken += 1
-
-    if taken < 5:
-        cap = cv2.VideoCapture(0)
-        while cap.isOpened():
-            (ret, frame) = cap.read()
-            cv2.imwrite(str(taken) + '.png', frame)
-            break
-        cap.release()
-        return redirect('/take')
+    if request.method == "GET":
+        return render_template('take.html')
     else:
-        return redirect('/select2')
+        print("bbb")
+        global taken
+        subprocess.Popen('python3 shot.py ' + str(taken + 1))
+        return render_template('take.html')
 
 # Select 3 pics
 @app.route('/select2', methods=['GET', 'POST'])
@@ -135,7 +125,6 @@ def videoStreaming():
 # Video streaming
 @app.route('/video_feed')
 def video_feed():
-    print('TEST-1')
     """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -143,7 +132,6 @@ def video_feed():
 
 # Get camera frame
 def gen(camera):
-    print('TEST-2')
     """Video streaming generator function."""
     while True:
         frame = camera.get_frame()
