@@ -7,27 +7,24 @@
 //
 
 import UIKit
+import WebKit
 
-class ViewController: UIViewController {
-
-    @IBOutlet weak var purikuraWeb: UIWebView!
-    var requestURL: NSURL?
-    var req: NSURLRequest?
+class ViewController: UIViewController, WKUIDelegate {
     
+    var webView: WKWebView!
+    
+    override func loadView() {
+        let webConfiguration = WKWebViewConfiguration()
+        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        webView.uiDelegate = self
+        view = webView
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        requestURL = NSURL(string: "/Users/katayamaryuichi/Documents/openPurikura/templates/purikura.html")
-        req = NSURLRequest(url: requestURL! as URL)
-        
-        purikuraWeb.loadRequest(req! as URLRequest)
-        
+        let myURL = URL(string: "http://192.168.145.18:8080")
+        let myRequest = URLRequest(url: myURL!)
+        webView.load(myRequest)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-
+    
 }
-
