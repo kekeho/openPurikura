@@ -4,6 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from database.init_db import Base, User
 from camera.camera_opencv import Camera
 import os
+import subprocess
+import cv2
+import sys
+
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__, static_folder='./templates/assets')
@@ -17,7 +21,6 @@ Session = sessionmaker(bind=db_engine)
 session = None
 
 # Front page
-
 id_pack = 0
 id_photos = [0, 1, 2]
 taken = 0
@@ -59,14 +62,23 @@ def select1():
 # Take a photo
 @app.route('/take')
 def take():
+    #global taken
+    #subprocess.Popen('python shot.py ' + str(taken + 1))
     return render_template('take.html')
 
 # White out
-@app.route('/take/whiteout')
+@app.route('/whiteout')
 def whiteout():
     global taken
     taken += 1
+
     if taken < 5:
+        cap = cv2.VideoCapture(0)
+        while cap.isOpened():
+            (ret, frame) = cap.read()
+            cv2.imwrite(str(taken) + '.png', frame)
+            break
+        cap.release()
         return redirect('/take')
     else:
         return redirect('/select2')
@@ -77,8 +89,8 @@ def select2():
     global id_photos
     if request.method == 'POST':
         id_photos = request.form.getlist('select')
-        return redirect('/take')
-        #return redirect('debug') #DEBUG
+        return redirect('/draw')
+        #return redirect('/debug') #DEBUG
     else:
         return render_template('select2.html')
 
@@ -123,6 +135,7 @@ def videoStreaming():
 # Video streaming
 @app.route('/video_feed')
 def video_feed():
+    print('TEST-1')
     """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -130,6 +143,7 @@ def video_feed():
 
 # Get camera frame
 def gen(camera):
+    print('TEST-2')
     """Video streaming generator function."""
     while True:
         frame = camera.get_frame()
