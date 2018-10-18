@@ -7,24 +7,29 @@ let modeName = {
 };
 
 let penColor = {
-  red        : 1,
-  blue       : 2,
-  green      : 3,
-  pink       : 4,
-  lightblue  : 5,
-  lightgreen : 6,
-  black      : 7,
-  white      : 8,
-  deepred    : 9,
-  salmonpink : 10,
-  yellow     : 11,
-  vividgreen : 12,
-  orange     : 13,
-  vividorange: 14,
-  vividblue  : 15,
-  deepblue   : 16,
-  gray       : 17,
-  beige      : 18
+  deepred    : 1,
+  red        : 2,
+  salmonpink : 3,
+  hotpink    : 4,
+  pink       : 5,
+
+  purple     : 6,
+  blue       : 7,
+  deepblue   : 8,
+  lightblue  : 9,
+  vividblue  : 10,
+
+  green      : 11,
+  yellow     : 12,
+  vividorange: 13,
+  orange     : 14,
+  beige      : 15,
+
+  vividgreen : 16,
+  darkgreen  : 17,
+  gray       : 18,
+  black      : 19,
+  white      : 20,
 };
 
 let penWidth = {
@@ -88,6 +93,9 @@ let pic_num;
 //書き中か
 let drawingFlag;
 
+//出来上がった写真たちが保存される配列
+let completedPictures;
+
 // onloadにより実行 
 function init() {
   canvasInit();
@@ -131,7 +139,8 @@ function userInit() {
   penY = null;
   workMode = modeName.drawing;
 
-  pColor = new PenColor(0, 0, 0);
+  pColor = new PenColor();
+  changeColor(penColor.black);
   pWidth = penWidth.w3;
 
   drawingFlag = false;
@@ -417,9 +426,9 @@ function changeColor(colorID) {
       pColor.b = 0;
       break;
     case penColor.black:
-      pColor.r = 50;
-      pColor.g = 50;
-      pColor.b = 50;
+      pColor.r = 20;
+      pColor.g = 20;
+      pColor.b = 20;
       break;
     case penColor.white:
       pColor.r = 255;
@@ -456,10 +465,10 @@ function changeColor(colorID) {
       pColor.g = 224;
       pColor.b = 33;
       break;
-    case penColor.lightgreen:
-      pColor.r = 214;
-      pColor.g = 255;
-      pColor.b = 0;
+    case penColor.darkgreen:
+      pColor.r = 85;
+      pColor.g = 107;
+      pColor.b = 47;
       break;
     case penColor.orange:
       pColor.r = 247;
@@ -473,8 +482,8 @@ function changeColor(colorID) {
       break;
     case penColor.pink:
       pColor.r = 255;
-      pColor.g = 0;
-      pColor.b = 255;
+      pColor.g = 192;
+      pColor.b = 203;
       break;
     case penColor.salmonpink:
       pColor.r = 237;
@@ -486,21 +495,34 @@ function changeColor(colorID) {
       pColor.g = 176;
       pColor.b = 59;
       break;
-<<<<<<< HEAD
     case penColor.yellow:
       pColor.r = 255;
       pColor.g = 255;
       pColor.b = 0;
       break;
+    case penColor.purple:
+      pColor.r = 160;
+      pColor.g = 0;
+      pColor.b = 160;
+      break;
+    case penColor.hotpink:
+      pColor.r = 255;
+      pColor.g = 105;
+      pColor.b = 180;
+      break;
     default:
-=======
->>>>>>> b82d88453d7cac036dd1895f01e023be43fa142e
+  }
+  if (workMode == modeName.erasering) {
+    tool(0);
   }
 }
 
 // 最後の完成写真を合成して保存する関数
 function savePictures() {
-
+  for(let i = 0; i<3; i++){
+    let compPNG = canvasLog.log[i].toDataURL();
+    completedPictures[i] = compPNG;
+  }
 }
 
 function PenColor(red, green, blue) {
