@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.init_db import Base, User
-from camera.camera_opencv import Camera
+from camera.camera import VideoCamera
 import os
 import subprocess
 import cv2
 import sys
+
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
@@ -24,6 +25,10 @@ session = None
 id_pack = 0
 id_photos = [0, 1, 2]
 taken = 0
+
+#Web camera
+cam = 0
+
 
 @app.route('/')
 def index():
@@ -71,17 +76,6 @@ def take():
         global taken
         global cam
 
-        """
-        cap = cv2.VideoCapture(0);
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH,  1080)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-
-        if cap.isOpened():
-            ret, frame = cap.read()
-            cv2.imwrite(str(taken + 1) + ".png", frame)
-
-        cap.release()
-        """
         cam.save()
 
         return render_template('take.html')
@@ -135,28 +129,26 @@ def videoStreaming():
     return render_template('videostreaming.html')
 
 
-# Video streaming
 @app.route('/video_feed')
 def video_feed():
     global cam
-    cam = Camera()
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(cam,
+    cam = VideoCamera()
+
+    return Response(gen(cam),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-# Get camera frame
 def gen(camera):
-    """Video streaming generator function."""
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
 def main():
     app.debug = True
     app.run(host='0.0.0.0', port=8080, threaded=True)
+
 
 if __name__ == '__main__':
     main()
