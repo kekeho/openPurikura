@@ -426,6 +426,11 @@ function changeColor(colorID){
       pColor.g = 176;
       pColor.b = 59;
       break;
+    case penColor.yellow:
+      pColor.r = 255;
+      pColor.g = 255;
+      pColor.b = 0;
+      break;
     default:
   }
 }
