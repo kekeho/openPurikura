@@ -10,8 +10,8 @@ class VideoCamera(object):
     def __del__(self):
         self.video.release()
 
-    def sakuzyo(self):
-        self.video.release()
+    def get_img(self):
+        return self.img
 
     def save(self, fname):
         cv2.imwrite(fname, self.img)

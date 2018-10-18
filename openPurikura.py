@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.init_db import Base, User
 from camera.camera import VideoCamera
+import purikura_lib as pl
 import os
 import subprocess
 import cv2
@@ -74,7 +75,6 @@ def take():
     global cam
 
     if request.method == 'GET':
-        print(taken)
         if (taken >= 5):
             taken = 0
             del cam
@@ -83,9 +83,25 @@ def take():
             return render_template('take.html')
 
     else:
-        cam.save('photos/' + str(taken) + '.png')
-        taken += 1
+        print(taken)
 
+        image = cam.get_img()
+        cv2.imwrite('photos/' + str(taken) + '.png', image)
+        
+        gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        face_landmarks = pl.find.facemark(gray_img)
+
+        image = pl.effects.nose_shape_beautify(image, face_landmarks)
+        image = pl.effects.eye_bags(image, face_landmarks)
+        #image = pl.effects.lips_correction(image, face_landmarks)
+        image = pl.effects.eyes_shape_beautify(image, face_landmarks)
+        image = pl.effects.chin_shape_beautify(image, face_landmarks)
+        image = pl.effects.skin_beautify(image, rate=5)
+        image = pl.effects.color_correction(image)
+
+        cv2.imwrite('photos/' + str(taken) + '_after.png', image)
+
+        taken += 1
         return render_template('take.html')
 
 
