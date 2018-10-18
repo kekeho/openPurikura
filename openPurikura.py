@@ -68,17 +68,23 @@ def select1():
 
 
 # Take a photo
-@app.route('/take', methods=["GET", "POST"])
+@app.route('/take', methods=['GET', 'POST'])
 def take():
-    if request.method == "GET":
-        return render_template('take.html')
+    global taken
+    global cam
+
+    if request.method == 'GET':
+        if (taken >= 5):
+            taken = 0
+            return redirect('/select2')
+        else:
+            return render_template('take.html')
+
     else:
-        global taken
-        global cam
-
-        cam.save()
-
+        cam.save('photos/' + str(taken) + '.png')
+        taken += 1
         return render_template('take.html')
+
 
 # Select 3 pics
 @app.route('/select2', methods=['GET', 'POST'])
