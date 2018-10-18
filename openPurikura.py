@@ -34,11 +34,8 @@ cam = 0
 
 @app.route('/')
 def index():
-    return render_template('purikura.html')
+    return render_template('index.html')
 
-@app.route('/oekaki')
-def oekaki():
-    return render_template('purikura.html')
 
 # Register name and e-mail address
 @app.route('/register', methods=['GET', 'POST'])
@@ -89,18 +86,18 @@ def take():
             return render_template('take.html')
 
     else:
-        print(taken)
-
         image = cam.get_img()
         cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_before.png', image)
         
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = pl.find.facemark(gray_img)
 
+        image = pl.dist.distortion(image)
         image = pl.effects.nose_shape_beautify(image, face_landmarks)
-        #image = pl.effects.eye_bags(image, face_landmarks)
+        image = pl.effects.eye_bags(image, face_landmarks)
         #image = pl.effects.lips_correction(image, face_landmarks)
         image = pl.effects.eyes_shape_beautify(image, face_landmarks)
+        #image = pl.effects.eyes_add_highlight(image, face_landmarks)
         image = pl.effects.chin_shape_beautify(image, face_landmarks)
         image = pl.effects.skin_beautify(image, rate=5)
         image = pl.effects.color_correction(image)

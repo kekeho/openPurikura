@@ -233,33 +233,39 @@ def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
 
-        # add highlight
-        highlight = cv2.imread(
-            CURRENT_DIRNAME + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
+    return image
 
-        line1 = Segment(Point(landmark[134]), Point(landmark[145]))
-        line2 = Segment(Point(landmark[139]), Point(landmark[150]))
-        ls = intersection(line1, line2)
 
-        dx, dy = (landmark[150] - landmark[139]) / 5
-        x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
-        w = np.linalg.norm(landmark[150] - landmark[139])
-        ratio = w / highlight.shape[1] * 100
-        x = int(x - highlight.shape[0] * (ratio / 100) / 2)
-        y = int(y - highlight.shape[1] * (ratio / 100) / 2)
-        image = merge(image, highlight, x, y, ratio)
+def eyes_add_highlight(image: np.ndarray, face_landmarks: list):
+    """Add highlight in eyes👀
+    This function can uses for many people
+    """
+    highlight = cv2.imread(
+        CURRENT_DIRNAME + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
 
-        line1 = Segment(Point(landmark[114]), Point(landmark[124]))
-        line2 = Segment(Point(landmark[120]), Point(landmark[129]))
-        ls = intersection(line1, line2)
+    line1 = Segment(Point(landmark[134]), Point(landmark[145]))
+    line2 = Segment(Point(landmark[139]), Point(landmark[150]))
+    ls = intersection(line1, line2)
 
-        dx, dy = (landmark[129] - landmark[120]) / 5
-        x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
-        w = np.linalg.norm(landmark[129] - landmark[120])
-        ratio = w / highlight.shape[1] * 100
-        x = int(x - highlight.shape[0] * (ratio / 100) / 2)
-        y = int(y - highlight.shape[1] * (ratio / 100) / 2)
-        image = merge(image, highlight, x, y, ratio)
+    dx, dy = (landmark[150] - landmark[139]) / 5
+    x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
+    w = np.linalg.norm(landmark[150] - landmark[139])
+    ratio = w / highlight.shape[1] * 100
+    x = int(x - highlight.shape[0] * (ratio / 100) / 2)
+    y = int(y - highlight.shape[1] * (ratio / 100) / 2)
+    image = merge(image, highlight, x, y, ratio)
+
+    line1 = Segment(Point(landmark[114]), Point(landmark[124]))
+    line2 = Segment(Point(landmark[120]), Point(landmark[129]))
+    ls = intersection(line1, line2)
+
+    dx, dy = (landmark[129] - landmark[120]) / 5
+    x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
+    w = np.linalg.norm(landmark[129] - landmark[120])
+    ratio = w / highlight.shape[1] * 100
+    x = int(x - highlight.shape[0] * (ratio / 100) / 2)
+    y = int(y - highlight.shape[1] * (ratio / 100) / 2)
+    image = merge(image, highlight, x, y, ratio)
 
     return image
 
