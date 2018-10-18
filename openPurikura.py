@@ -74,15 +74,18 @@ def take():
     global cam
 
     if request.method == 'GET':
+        print(taken)
         if (taken >= 5):
             taken = 0
+            del cam
             return redirect('/select2')
         else:
             return render_template('take.html')
 
     else:
-        cam.save('photos/' + str(taken) + '.png')
         taken += 1
+        cam.save('photos/' + str(taken) + '.png')
+
         return render_template('take.html')
 
 
@@ -138,7 +141,9 @@ def videoStreaming():
 @app.route('/video_feed')
 def video_feed():
     global cam
-    cam = VideoCamera()
+
+    if (cam == 0):
+        cam = VideoCamera()
 
     return Response(gen(cam),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
