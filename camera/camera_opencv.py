@@ -4,10 +4,15 @@ from camera.base_camera import BaseCamera
 
 class Camera(BaseCamera):
     video_source = 0
+    img = 0
 
     @staticmethod
     def set_video_source(source):
         Camera.video_source = source
+
+    @staticmethod
+    def save():
+        img.imwrite("1.png")
 
     @staticmethod
     def frames():

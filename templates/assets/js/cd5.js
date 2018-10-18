@@ -5,10 +5,9 @@ $(function(){
     console.log(time);
     $('.timer').text(time);
 
-    if (time >= 0) {
+    if (time > 0) {
       time--;
-
-    if (time == 0)
+    } else if (time == 0) {
       $.post("/take");
     }
   }, 1000);

@@ -68,9 +68,22 @@ def take():
     if request.method == "GET":
         return render_template('take.html')
     else:
-        print("bbb")
         global taken
-        subprocess.Popen('python3 shot.py ' + str(taken + 1))
+        global cam
+
+        """
+        cap = cv2.VideoCapture(0);
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH,  1080)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
+        if cap.isOpened():
+            ret, frame = cap.read()
+            cv2.imwrite(str(taken + 1) + ".png", frame)
+
+        cap.release()
+        """
+        cam.save()
+
         return render_template('take.html')
 
 # Select 3 pics
@@ -125,8 +138,10 @@ def videoStreaming():
 # Video streaming
 @app.route('/video_feed')
 def video_feed():
+    global cam
+    cam = Camera()
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
+    return Response(cam,
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
