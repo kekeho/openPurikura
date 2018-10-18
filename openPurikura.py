@@ -4,9 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from database.init_db import Base, User
 from camera.camera import VideoCamera
 import purikura_lib as pl
-import os
 import shutil
 import cv2
+import random
+import os
 import sys
 
 
@@ -46,7 +47,7 @@ def register():
 
         global session
         session = Session()
-        new_user = User(name=request.form['name'], email=request.form['email'])
+        new_user = User(id=random.randrange(10000), name=request.form['name'], email=request.form['email'])
         session.add(new_user)
         session.commit()
         return redirect('/select1')  # debug
