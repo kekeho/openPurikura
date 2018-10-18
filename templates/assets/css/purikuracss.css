@@ -7,6 +7,8 @@ html, body{
   position: fixed;
   z-index: 0;
   overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
 
 .active{
@@ -271,7 +273,7 @@ html, body{
 }
 
 #imageCanvas { z-index: 1 }
-
+#eventCanvas { z-index: 5 }
 #editCanvas { z-index: 3 }
 
 #canvas-box canvas {
