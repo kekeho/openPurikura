@@ -93,7 +93,7 @@ def take():
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = pl.find.facemark(gray_img)
 
-        image = pl.dist.distortion(image)
+        #image = pl.dist.distortion(image)
         image = pl.effects.nose_shape_beautify(image, face_landmarks)
         #image = pl.effects.eye_bags(image, face_landmarks)
         #image = pl.effects.lips_correction(image, face_landmarks)
