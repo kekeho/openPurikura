@@ -52,7 +52,7 @@ def line_generator(points):
 
 
 
-def hsv_color_range(image: np.ndarray, points: list, padding=0):
+def hsv_color_range(image, points, padding=0):
     """
     detect color range (hsv)
     Args:
@@ -75,9 +75,6 @@ def hsv_color_range(image: np.ndarray, points: list, padding=0):
                     color_list[:, 1].min(),
                     color_list[:, 2].min(),])
     
-<<<<<<< HEAD
-    return line_list
-=======
     return max, low
     
 
@@ -95,5 +92,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
->>>>>>> feature/effects
