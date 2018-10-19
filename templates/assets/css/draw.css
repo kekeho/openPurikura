@@ -326,7 +326,9 @@
   margin: 0.5vh auto;
 }
 
-#bottom > label[for="tab-3"] + div {
+#bottom > label[for="tab-3"] + div,
+#bottom > label[for="tab-4"] + div
+{
   align-items: center;
 
   font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
@@ -365,20 +367,44 @@
   line-height: 5vh;
 }
 
-#bottom > label[for="tab-3"] + div > table #weight-2 {
+#bottom > label[for="tab-3"] + div > table #font-weight-2 {
   font-weight: 200;
 }
 
-#bottom > label[for="tab-3"] + div #weight-4 {
+#bottom > label[for="tab-3"] + div #font-weight-4 {
   font-weight: 400;
 }
 
-#bottom > label[for="tab-3"] + div #weight-6 {
+#bottom > label[for="tab-3"] + div #font-weight-6 {
   font-weight: 600;
 }
 
-#bottom > label[for="tab-3"] + div #weight-8 {
+#bottom > label[for="tab-3"] + div #font-weight-8 {
   font-weight: 800;
+}
+
+#bottom > div > #pen {
+  border-spacing: 3vw;
+}
+
+#bottom > div > #pen td {
+  width: 8vh;
+  height: 8vh;
+  
+  margin: 1vh;
+  border: 1px solid black;
+  border-radius: 10%;
+  box-shadow: 0 0 3px 1px black;
+}
+
+#bottom > div >  #pen img {
+  width: 8vh;
+  height: 8vh;
+}
+
+#bottom > div > #pen-weight img {
+  width: 7vh;
+  height: 7vh;
 }
 
 #bottom > div > label {
@@ -475,3 +501,4 @@
 #bottom > div > div > img:last-child {
   margin-right: 1vw;
 }
+
