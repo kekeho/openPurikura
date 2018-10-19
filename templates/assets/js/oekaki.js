@@ -3,7 +3,9 @@ let modeName = {
   drawing  : 1,
   erasering: 2,
   stamping : 3,
-  editing  : 4
+  stediting: 4,
+  texting  : 5,
+  txediting: 6
 };
 
 let penColor = {
@@ -93,6 +95,9 @@ let pic_num;
 //書き中か
 let drawingFlag;
 
+//テキストフィールド
+let textField;
+
 //出来上がった写真たちが保存される配列
 let completedPictures;
 
@@ -161,11 +166,11 @@ function canvasInit() {
   // 使用する3枚の画像
   pictures = [];
   pictures[0] = new Image();
-  pictures[0].src = "./assets/picture1.png";
+  pictures[0].src = "./assets/picture/picture1.png";
   pictures[1] = new Image();
-  pictures[1].src = "./assets/picture2.png";
+  pictures[1].src = "./assets/picture/picture2.png";
   pictures[2] = new Image();
-  pictures[2].src = "./assets/picture3.png";
+  pictures[2].src = "./assets/picture/picture3.png";
 
   img = pictures[pic_num];
   img.onload = function() {
@@ -195,7 +200,10 @@ function back() {
   if (canvasLog[pic_num].current <= 0)
     return;
 
-  if (workMode == modeName.editing)
+  if (workMode == modeName.stediting)
+    return;
+
+  if (workMode == modeName.txediting)
     return;
 
   back_button.className = "active";
@@ -219,7 +227,10 @@ function next() {
   if (canvasLog[pic_num].current >= canvasLog[pic_num].top)
     return;
 
-  if (workMode == modeName.editing)
+  if (workMode == modeName.stediting)
+    return;
+
+  if (workMode == modeName.txediting)
     return;
 
   next_button.className = "active";
@@ -245,7 +256,8 @@ function drawEnd() {
 
   switch (workMode) {
     case modeName.stamping:
-    case modeName.editing:
+    case modeName.stediting:
+    case modeName.txediting:
       break;
 
     default:
@@ -321,7 +333,7 @@ function onClick(e) {
       stamp = new Stamp(stampImg, x, y, 1);
       break;
 
-    case modeName.editing:
+    case modeName.stediting:
       stamp.move(x, y);
       break;
   }
@@ -355,7 +367,7 @@ function onMove(e) {
       drawLine(before_x, before_y);
       break;
 
-    case modeName.editing:
+    case modeName.stediting:
       stamp.move(x, y);
       break;
   }
@@ -389,7 +401,7 @@ function changeLineWidth(lineWidth) {
 
 // ペン、消しゴムのモードを切り替える関数
 function tool(toolNum) {
-  if (workMode == modeName.editing) {
+  if (workMode == modeName.stediting) {
     stamp.apply();
     delete stamp;
   }
@@ -411,7 +423,7 @@ function tool(toolNum) {
       workMode = modeName.erasering;
       break;
 
-    case 2: // スタンプモード
+    case 2: // スタンプモード, テキストモード
       ctx.globalCompositeOperation = "source-over";
       pen_button.className = "";
       era_button.className = "";
@@ -421,7 +433,7 @@ function tool(toolNum) {
   }
 }
 
-// 色を変える関数　まだ二色足りない
+// 色を変える関数
 function changeColor(colorID) {
   switch (colorID) {
     case penColor.red:

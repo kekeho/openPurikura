@@ -29,7 +29,7 @@ function Stamp(img, x, y, scale) {
   pen_button.className = '';
   era_button.className = '';
   sta_button.className = 'active';
-  workMode = modeName.editing;
+  workMode = modeName.stediting;
 
   // 移動
   this.move = function(x, y) {
