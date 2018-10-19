@@ -52,9 +52,12 @@ label[for="select-4"] {
 }
 
 #content input:checked + label {
+  height: calc(32vh + 10px);
+
   margin: 0;
   border-top: 10px solid #fbad16;
   border-right: 10px solid #fbad16;
+  border-bottom: 0;
   border-left: 10px solid #8048da;
   box-shadow: none;
 }
@@ -62,7 +65,10 @@ label[for="select-4"] {
 #content input:checked + label::after {
   content: '';
   display: block;
+  position: absolute;
   
+  bottom: 0;
+
   width: calc(100% + 20px);
   height: 10px;
   
