@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import purikura_lib as pl
 import time
 import shutil
+import subprocess
 import cv2
 import random
 import os
@@ -15,7 +16,7 @@ ASSETS_DIR = './templates/assets'
 
 sys.path.append(CURRENT_DIRNAME + '/database')
 sys.path.append(CURRENT_DIRNAME + '/camera')
-from init_db import Base, User
+from init_db import Base, User, CurId
 from camera import VideoCamera
 
 app = Flask(__name__, static_folder=ASSETS_DIR)
@@ -33,8 +34,11 @@ id_pack = 0
 id_photos = [0, 1, 2]
 taken = 0
 
-#Web camera
+# Web camera
 cam = None
+
+# Current ID
+curid = 0
 
 
 @app.route('/')
@@ -50,8 +54,14 @@ def register():
             return redirect('/reset')
 
         global session
+        global curid
+
         session = Session()
-        new_user = User(id=random.randrange(10000), name=request.form['name'], email=request.form['email'])
+        new_curid = CurId()
+        curid = session.query(CurId.id).first().id
+        print(curid)
+
+        new_user = User(id=curid, name=request.form['name'], email=request.form['email'])
         session.add(new_user)
         session.commit()
         return redirect('/select1')  # debug
@@ -107,6 +117,8 @@ def take():
 # Retouching
 @app.route('/retouching', methods=['GET', 'POST'])
 def retouching():
+    global id_pack
+
     if request.method == 'GET':
         return render_template('retouching.html')
 
@@ -118,13 +130,21 @@ def retouching():
 
             #image = pl.dist.distortion(image)
             image = pl.effects.nose_shape_beautify(image, face_landmarks)
-            #image = pl.effects.eye_bags(image, face_landmarks)
+            image = pl.effects.eye_bags(image, face_landmarks)
             #image = pl.effects.lips_correction(image, face_landmarks)
             image = pl.effects.eyes_shape_beautify(image, face_landmarks)
             #image = pl.effects.eyes_add_highlight(image, face_landmarks)
             image = pl.effects.chin_shape_beautify(image, face_landmarks)
             image = pl.effects.skin_beautify(image, rate=5)
             image = pl.effects.color_correction(image)
+            image = pl.effects.chromakey_green(image)
+
+            background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
+            image = pl.effects.merge(background, image)
+
+            if (i == 4):
+                teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
+                image = pl.effects.merge(image, teacher)
 
             cv2.imwrite(ASSETS_DIR + '/photos/{}_after.png'.format(i), image)
 
@@ -152,11 +172,30 @@ def select2():
 def draw():
     return render_template('draw.html')
 
-
 # Send a mail
 @app.route('/mail')
 def mail():
-    return redirect('/end')
+    global id_pack
+    global curid
+
+    if request.method == 'GET':
+        return render_template('mail.html')
+
+    else:
+        subprocess.call('ruby mail/MailTest002.rb ' + curid)
+
+        session = Session()
+        curid = session.query(CurId).first().id = curid + 1
+        session.commit()
+
+        sleep(3)
+
+        return render_template('mail.html')
+
+# End
+@app.route('/end')
+def theend():
+    return render_template('end.html')
 
 # Reset variables
 @app.route('/reset')

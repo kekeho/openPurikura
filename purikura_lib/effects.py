@@ -49,7 +49,26 @@ def delete_pixel(image, mask):
     return return_img
 
 
-def chromakey(image):
+def chromakey_green(image):
+    """transpare green pixels
+    Return:
+        image which includes alpha channel: np.ndarray
+    """
+    # Green
+    # why I should divide by 2...f**k
+    lower_color = np.array([65 / 2, 50, 50])
+    upper_color = np.array([155 / 2, 255, 255])
+
+    # convert image to hsv
+    hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    # transparent mask
+    mask = cv2.inRange(hsv_img, lower_color, upper_color)
+    return_img = delete_pixel(image, mask)
+
+    return return_img
+
+
+def chromakey_blue(image):
     """transpare green pixels
     Return:
         image which includes alpha channel: np.ndarray
@@ -84,12 +103,13 @@ def merge(image1, image2, x=0, y=0, per=100):
         image2, (int(image2.shape[1] * (per / 100)), int(image2.shape[0] * (per / 100))))
 
     # Convert opencv array to PIL data
-    image1 = Image.fromarray(image1)
-    image2 = Image.fromarray(image2)
+    image1 = Image.fromarray(image1).convert('RGBA')
+    image2 = Image.fromarray(image2).convert('RGBA')
 
-    image1.paste(image2, box=(x, y), mask=image2)
+    result = Image.alpha_composite(image1, image2)
+    #image1.paste(image2, box=(x, y), mask=image2)
 
-    return np.asarray(image1)
+    return np.asarray(result)
 
 
 def skin_beautify(image, rate=10):
