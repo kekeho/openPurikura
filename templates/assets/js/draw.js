@@ -210,8 +210,6 @@ function back() {
   if (workMode == modeName.txediting)
     return;
 
-  back_button.className = "active";
-
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "source-over";
 
@@ -222,7 +220,6 @@ function back() {
     ctx.globalCompositeOperation = "destination-out";
 
   setTimeout(function(){
-    back_button.className = "";
   }, 150);
 }
 
@@ -236,8 +233,6 @@ function next() {
 
   if (workMode == modeName.txediting)
     return;
-
-  next_button.className = "active";
     
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "source-over";
@@ -249,7 +244,6 @@ function next() {
     ctx.globalCompositeOperation = "destination-out";
 
   setTimeout(function(){
-    next_button.className = "";
   }, 150);
 }
 
@@ -348,6 +342,13 @@ function onClick(e) {
 }
 
 function putText(size) {
+  //二つ以上連続で作成ボタンを押された時
+  if (workMode == modeName.txediting) {
+    text.fontsize = size;
+    text.move(text.x, text.y);
+    return;
+  }
+
   if (loadText())
     text = new Text(input_text, x, y, size);
 }
@@ -581,10 +582,30 @@ function changeColor(colorID) {
 
 // 最後の完成写真を合成して保存する関数
 function savePictures() {
+  let toImgCanvas;
+  let data;
+  let bin;
+  let buffer;
+
   for(let i = 0; i<3; i++){
-    let compPNG = canvasLog.log[i].toDataURL();
-    completedPictures[i] = compPNG;
+    toImgCanvas = canvasLog[i].log[canvasLog[i].current];
+    data   = toImgCanvas.toDataURL('img/png');
+    bin    = atob(data.split(',')[1]);
+    buffer = new Uint8Array(bin.length);
+
+    for (var j = 0; j < bin.length; j++) {
+      buffer[j] = bin.charCodeAt(j);
+    }
+    let blob = new Blob([buffer.buffer], {type: 'img/png'});
+    let url = window.URL.createObjectURL(blob);
+
+    let downloader = $('#download');
+    downloader.attr('href', url);
+    downloader.attr('download', i+'-compic.png');
+
+    downloader.click();
   }
+  
 }
 
 function PenColor(red, green, blue) {
