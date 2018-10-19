@@ -95,7 +95,7 @@ def take():
 
         image = pl.dist.distortion(image)
         image = pl.effects.nose_shape_beautify(image, face_landmarks)
-        image = pl.effects.eye_bags(image, face_landmarks)
+        #image = pl.effects.eye_bags(image, face_landmarks)
         #image = pl.effects.lips_correction(image, face_landmarks)
         image = pl.effects.eyes_shape_beautify(image, face_landmarks)
         #image = pl.effects.eyes_add_highlight(image, face_landmarks)
