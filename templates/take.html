@@ -22,7 +22,12 @@
         </div>
         <div id="screen-box">
           <img id="pause" src="./assets/src/pause.png">
-          <img id="video" src="{{ url_for('video_feed') }}">
+          <div id="video-box">
+            <img id="video" src="{{ url_for('video_feed') }}">
+            {% if pack %}
+              <img id="teacher" src="./assets/background/pack-{{ pack }}/teacher.png">
+            {% endif %}
+          </div>
         </div>
         <div class="timer-box">
           <div class="timer"></div>

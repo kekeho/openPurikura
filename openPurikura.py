@@ -74,6 +74,7 @@ def select1():
 # Take a photo
 @app.route('/take', methods=['GET', 'POST'])
 def take():
+    global id_pack
     global taken
     global cam
 
@@ -86,6 +87,9 @@ def take():
             for i in range(5):
                 shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_before.png'.format(i))
             return render_template('take.html')
+
+        elif (taken == 4):
+            return render_template('take.html', pack=str(id_pack))
 
         else:
             return render_template('take.html')

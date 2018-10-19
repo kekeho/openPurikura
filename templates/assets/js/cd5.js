@@ -11,6 +11,7 @@ $(function(){
       if (time == 0) {
         shutter.play()
         $('#video').attr('src', './assets/src/white.png');
+        $('#teacher').hide();
 
         $.ajax({
           type: 'POST',
@@ -24,5 +25,5 @@ $(function(){
         });
       }
     }
-  }, 1300);
+  }, 300);
 });
