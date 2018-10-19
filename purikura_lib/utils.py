@@ -1,5 +1,5 @@
 import numpy as np
-
+import cv2
 
 def add_alpha_channel(image):
     image = image.tolist()
@@ -17,12 +17,10 @@ def detect_roi(points, e=50):
         e: margin (default=50)
     Return: (min_x, min_y, max_x, max_y)
     """
-    xlist = []
-    ylist = []
-    for x, y in points:
-        xlist.append(x)
-        ylist.append(y)
-    return min(xlist) - e, min(ylist) - e, max(xlist) + e, max(ylist) + e
+    points = np.array(points)
+    x = points[:, 0]
+    y = points[:, 1]
+    return x.min() - e, y.min() - e, x.max() + e, y.max() + e
 
 
 def line_generator(points):
@@ -49,5 +47,53 @@ def line_generator(points):
             roi_y = int(before_y + (dy / dx * x))
             line_list.append((roi_x, roi_y))
         before_point = point
-    
+
     return line_list
+
+
+
+def hsv_color_range(image: np.ndarray, points: list, padding=0):
+    """
+    detect color range (hsv)
+    Args:
+        image: cv2 image (BGR COLOR)
+        points: check pixel points list [(x0, y0), (x1, y1), ...]      padding: check pixel without padding area
+    Returns:
+        [h_max, s_max, v_max], [h_low, s_low, v_low] (numpy array)
+    """
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    color_list = []
+    for point in points:
+        color = image[point[0], point[1]][:3]
+        color_list.append(color)
+    color_list = np.asarray(color_list)
+    max = np.array([color_list[:, 0].max(), 
+                    color_list[:, 1].max(), 
+                    color_list[:, 2].max()])
+    low = np.array([color_list[:, 0].min(), 
+                    color_list[:, 1].min(),
+                    color_list[:, 2].min(),])
+    
+<<<<<<< HEAD
+    return line_list
+=======
+    return max, low
+    
+
+
+def main():
+    import os
+    import find
+    CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+
+    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
+    gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    face_landmarks = find.facemark(gray_img)
+    for facemark in face_landmarks:
+        hsv_color_range(image, facemark)
+
+if __name__ == '__main__':
+    main()
+    
+>>>>>>> feature/effects
