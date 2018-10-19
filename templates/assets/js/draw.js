@@ -99,11 +99,8 @@ let drawingFlag;
 let textField;
 //入力されたテキスト
 let input_text;
-//テキストの決定ボタン
-let txt_button1;
-let txt_button2;
-let txt_button3;
-let txt_button4;
+//キャンバスのid被らないためのk
+let tc;
 
 //出来上がった写真たちが保存される配列
 let completedPictures;
@@ -128,11 +125,6 @@ function buttonInit() {
   back_button = document.getElementById("back_butt");
   next_button = document.getElementById("next_butt");
 
-  txt_button1 = document.getElementById("font-weight-2");
-  txt_button2 = document.getElementById("font-weight-4");
-  txt_button3 = document.getElementById("font-weight-6");
-  txt_button4 = document.getElementById("font-weight-8");
-
   textField = document.getElementById("i_text");
   // セーブボタン
   //save_button = document.getElementById("save_butt");
@@ -147,20 +139,6 @@ function eventInit() {
   eventCanvas.addEventListener("touchstart",   onClick, false);
   eventCanvas.addEventListener("touchend",     drawEnd, false);
   eventCanvas.addEventListener("touchchancel", drawEnd, false);
-
-  // テキスト用のボタンイベント
-  txt_button1.addEventListener("touchstart", function() {
-    putText(8);
-  }, false);
-  txt_button2.addEventListener("touchstart", function() {
-    putText(10);
-  }, false);
-  txt_button3.addEventListener("touchstart", function() {
-    putText(12);
-  }, false);
-  txt_button4.addEventListener("touchstart", function() {
-    putText(14);
-  }, false);
 }
 
 function userInit() {
@@ -177,6 +155,7 @@ function userInit() {
 
 // キャンバスについて、編集する画像の初期化関数
 function canvasInit() {
+  tc = 0;
   pic_num = 0;
 
   canvas = document.getElementById("canvas");
@@ -366,7 +345,8 @@ function onClick(e) {
 }
 
 function putText(size) {
-  text = new Text(input_text, x, y, size);
+  if (loadText())
+    text = new Text(input_text, x, y, size);
 }
 
 // ペンモードでドラッグ
@@ -400,7 +380,11 @@ function onMove(e) {
     case modeName.stediting:
       stamp.move(x, y);
       break;
-  }
+
+    case modeName.txediting:
+      text.move(x, y);
+      break;
+    }
 }
 
 // 線を引く関数。ペンで描くときの
@@ -434,6 +418,11 @@ function tool(toolNum) {
   if (workMode == modeName.stediting) {
     stamp.apply();
     delete stamp;
+  }
+
+  if (workMode == modeName.txediting) {
+    text.apply();
+    delete text;
   }
 
   switch (toolNum) {
