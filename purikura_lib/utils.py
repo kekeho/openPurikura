@@ -17,12 +17,10 @@ def detect_roi(points: list, e=50):
         e: margin (default=50)
     Return: (min_x, min_y, max_x, max_y)
     """
-    xlist = []
-    ylist = []
-    for x, y in points:
-        xlist.append(x)
-        ylist.append(y)
-    return min(xlist) - e, min(ylist) - e, max(xlist) + e, max(ylist) + e
+    points = np.array(points)
+    x = points[:, 0]
+    y = points[:, 1]
+    return x.min() - e, y.min() - e, x.max() + e, y.max() + e
 
 
 def line_generator(points: list):
