@@ -3,8 +3,8 @@ import numpy as np
 import os
 import sys
 import math
-from sympy import *
-from PIL import Image
+from sympy import Segment, Point, intersection
+from PIL import Image, ImageEnhance
 from skimage import transform
 from PIL.PngImagePlugin import PngImageFile
 
@@ -102,9 +102,18 @@ def skin_beautify(image: np.ndarray, rate=10):
 
     This function using Non-locale Means Algorithm
     """
-    filtered_img = cv2.fastNlMeansDenoisingColored(
-        image, None, rate, 10, 7, 21)
+    filtered_img = cv2.fastNlMeansDenoisingColored(image, None, rate, 10, 7, 50)
     return filtered_img
+
+
+def color_correction(image: np.array):
+    # Gamma correction
+    gamma = 1.3
+    gamma_look_up_table = np.zeros((256, 1), dtype='uint8')
+    for i in range(256):
+        gamma_look_up_table[i][0] = 255 * pow(float(i) / 255, 1.0/gamma)
+    image = cv2.LUT(image, gamma_look_up_table)
+    return image
 
 
 def distort(image: np.array, from_points: list, to_points: list, roi_points: list):
@@ -224,33 +233,39 @@ def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
 
-        # add highlight
-        highlight = cv2.imread(
-            CURRENT_DIRNAME + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
+    return image
 
-        line1 = Segment(Point(landmark[134]), Point(landmark[145]))
-        line2 = Segment(Point(landmark[139]), Point(landmark[150]))
-        ls = intersection(line1, line2)
 
-        dx, dy = (landmark[150] - landmark[139]) / 5
-        x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
-        w = np.linalg.norm(landmark[150] - landmark[139])
-        ratio = w / highlight.shape[1] * 100
-        x = int(x - highlight.shape[0] * (ratio / 100) / 2)
-        y = int(y - highlight.shape[1] * (ratio / 100) / 2)
-        image = merge(image, highlight, x, y, ratio)
+def eyes_add_highlight(image: np.ndarray, face_landmarks: list):
+    """Add highlight in eyes👀
+    This function can uses for many people
+    """
+    highlight = cv2.imread(
+        CURRENT_DIRNAME + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
 
-        line1 = Segment(Point(landmark[114]), Point(landmark[124]))
-        line2 = Segment(Point(landmark[120]), Point(landmark[129]))
-        ls = intersection(line1, line2)
+    line1 = Segment(Point(landmark[134]), Point(landmark[145]))
+    line2 = Segment(Point(landmark[139]), Point(landmark[150]))
+    ls = intersection(line1, line2)
 
-        dx, dy = (landmark[129] - landmark[120]) / 5
-        x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
-        w = np.linalg.norm(landmark[129] - landmark[120])
-        ratio = w / highlight.shape[1] * 100
-        x = int(x - highlight.shape[0] * (ratio / 100) / 2)
-        y = int(y - highlight.shape[1] * (ratio / 100) / 2)
-        image = merge(image, highlight, x, y, ratio)
+    dx, dy = (landmark[150] - landmark[139]) / 5
+    x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
+    w = np.linalg.norm(landmark[150] - landmark[139])
+    ratio = w / highlight.shape[1] * 100
+    x = int(x - highlight.shape[0] * (ratio / 100) / 2)
+    y = int(y - highlight.shape[1] * (ratio / 100) / 2)
+    image = merge(image, highlight, x, y, ratio)
+
+    line1 = Segment(Point(landmark[114]), Point(landmark[124]))
+    line2 = Segment(Point(landmark[120]), Point(landmark[129]))
+    ls = intersection(line1, line2)
+
+    dx, dy = (landmark[129] - landmark[120]) / 5
+    x, y = int(ls[0].x) - dx, int(ls[0].y) - dy
+    w = np.linalg.norm(landmark[129] - landmark[120])
+    ratio = w / highlight.shape[1] * 100
+    x = int(x - highlight.shape[0] * (ratio / 100) / 2)
+    y = int(y - highlight.shape[1] * (ratio / 100) / 2)
+    image = merge(image, highlight, x, y, ratio)
 
     return image
 
@@ -271,6 +286,15 @@ def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
             r_from_points.append(landmark[j])
             r_to_points.append(landmark[j] - (landmark[j] - landmark[i]) / 23)
 
+        # height reshape
+        for i, j in zip(range(15, 20+1), range(21, 26+1)):
+            l_from_points.append(landmark[i])
+            l_to_points.append(landmark[i] - (landmark[i] - landmark[40]) / 15)
+            r_from_points.append(landmark[j])
+            r_to_points.append(landmark[j] - (landmark[i] - landmark[0]) / 15)
+        l_from_points.append(landmark[20])
+        l_to_points.append(landmark[20] - (landmark[20] - landmark[49]) / 10)
+
         image = distort(image, l_from_points, l_to_points,
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
@@ -278,6 +302,54 @@ def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
                         [(x1, y1), (x2, y1), (x2, y2),
                             (x1, y2)])
 
+    return image
+
+
+def eye_bags(image: np.ndarray, face_landmarks: list):
+    for landmark in face_landmarks:
+        # left eye bottom
+        line_list = utils.line_generator(landmark[144:153+1])
+        # right eye bottom
+        line_list += utils.line_generator(landmark[124:133+1])
+
+        # cal distance
+        eye_vertical_distance = (landmark[149] - landmark[139])[1]
+        under_eye_distance = eye_vertical_distance / 2
+        border_weight = eye_vertical_distance / 2
+
+        # draw eyebag
+        float_image = image.astype(np.float64)
+        float_image.flags.writeable = True
+        for point in line_list:
+            float_image[point[1]+int(under_eye_distance):point[1]+int(under_eye_distance + border_weight), point[0], :3] *= 0.92
+        float_image.flags.writeable = False
+        image = float_image.astype(np.uint8)
+
+    return image
+
+
+def lips_correction(image: np.array, face_landmarks: list):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    maskimage = None
+    float_image = image.astype(np.float64)
+    float_image.flags.writeable = True
+    for landmark in face_landmarks:
+        # left eye bottom
+        min_x, min_y, max_x, max_y = utils.detect_roi(landmark[58:85], e=0)
+        hsv_min = np.array([0 / 2, 255/100*37, 255/100*23])  # opencvのHueはHue/2を指定する
+        hsv_max = np.array([360 / 2, 255, 255])
+        maskimage = cv2.inRange(image[min_y:max_y, min_x:max_x], hsv_min, hsv_max)
+        for y, y_line in enumerate(maskimage):
+            if y_line.max == 0:
+                break
+            for x, pixel in enumerate(y_line):
+                if pixel != 0:
+                    float_image[min_y+y, min_x+x][1] = 350/2
+                    float_image[min_y+y, min_x+x][1] = 255/100*58
+                    float_image[min_y+y, min_x+x][2] = 255
+    float_image.flags.writeable = False
+    image = float_image.astype(np.uint8)
+    image = cv2.cvtColor(image, cv2.COLOR_HSV2BGR)
     return image
 
 
@@ -323,17 +395,17 @@ def main():
 
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
+        image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/japanese_girl.jpg')
         # ret, image = cap.read()
-        image = cv2.imread(CURRENT_DIRNAME +
-                           '/../Tests/sources/katy.jpg')
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = find.facemark(gray_img)
-
         image = nose_shape_beautify(image, face_landmarks)
+        image = eye_bags(image, face_landmarks)
+        image = lips_correction(image, face_landmarks)
         image = eyes_shape_beautify(image, face_landmarks)
         image = chin_shape_beautify(image, face_landmarks)
         image = skin_beautify(image, rate=5)
-
+        image = color_correction(image)
         image = animal_ears(image, nekomimi, face_landmarks)
 
         cv2.imshow('image', image)

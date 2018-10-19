@@ -1,0 +1,79 @@
+#top {
+  display: flex;
+  align-items: flex-end;
+}
+
+.timer-box {
+  width: 25vw;
+}
+
+.timer {
+  text-align: center;
+  
+  width: 14vw;
+  
+  margin: auto;
+  border-bottom: 5px solid;
+  
+  font: 8vw /5vw 'Futura';
+}
+
+#screen-box {
+  position: relative;
+  width: 50vw;
+}
+
+#pause {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  
+  width: 60vh;
+  
+  top: -5vh;
+  left: 0;
+  right: 0;
+  
+  margin: 0 auto;
+}
+
+#video {
+  display: block;
+  
+  width: 60vh;
+  height: 60vh;
+  
+  margin: 0 auto;
+  border: 3px solid lightskyblue;
+  
+  box-shadow: 0 0 10px 4px lightblue;
+  
+  transform: scaleX(-1);
+}
+
+#bottom {
+  height: 24vh;
+  margin: 2vh auto;
+}
+
+#bottom > div {
+  display: flex;
+  align-items: center;
+  
+  width: 110vh;
+  height: 24vh;
+  
+  margin: 1vh auto;
+  
+  border: 4px solid #666666;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 2px #666666;
+}
+
+.border-right {
+  border-right: 1px solid black;
+}
+
+#bottom img {
+  height: 22vh;
+}

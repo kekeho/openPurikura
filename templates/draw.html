@@ -2,12 +2,13 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
     <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/cd300.js"></script>
   </head>
-  <body></body>
+  <body>
     <!-- header -->
     <div id="header">
       <div id="end">END</div>
@@ -175,19 +176,35 @@
           <input type="text" placeholder="入力...">
           <table>
             <tr>
-              <td id="weight-2">あ</td>
-              <td id="weight-4">あ</td>
+              <td id="font-weight-2">あ</td>
+              <td id="font-weight-4">あ</td>
             </tr>
             <tr>
-              <td id="weight-6">あ</td>
-              <td id="weight-8">あ</td>
+              <td id="font-weight-6">あ</td>
+              <td id="font-weight-8">あ</td>
             </tr>
           </table>
         </div>
         <input id="tab-4" type="radio" name="tab">
         <label for="tab-4">お絵かき</label>
         <div>
-
+          <table id="pen">
+            <tr>
+              <td><img src=""></td>
+              <td><img src=""></td>
+              <td><img src=""></td>
+              <td><img src=""></td>
+              <td><img src=""></td>
+            </tr>
+          </table>
+          <table id="pen-weight">
+              <tr>
+                <td><img src=""></td>
+                <td><img src="./assets/src/pen-big.png"></td>
+                <td><img src="./assets/src/pen-medium.png"></td>
+                <td><img src="./assets/src/pen-small.png"></td>
+              </tr>
+            </table>
         </div>
       </div>
     </div>
