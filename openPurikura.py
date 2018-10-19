@@ -166,7 +166,7 @@ def videoStreaming():
 def video_feed():
     global cam
 
-    if (cam == 0):
+    if (cam == None):
         cam = VideoCamera()
 
     return Response(gen(cam),
