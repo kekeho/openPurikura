@@ -14,15 +14,14 @@ class ViewController: UIViewController, WKUIDelegate {
     var webView: WKWebView!
     
     override func loadView() {
-        let webConfiguration = WKWebViewConfiguration()
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        webView.frame = self.view.bounds
         webView.uiDelegate = self
         view = webView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let myURL = URL(string: "http://192.168.145.18:8080")
+        let myURL = URL(string: "")//http://192.168.145.18:8080
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }
