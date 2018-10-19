@@ -10,7 +10,7 @@ $(function(){
 
       if (time == 0) {
         shutter.play()
-        $('#video').attr('src', './assets/src/shutter.png');
+        $('#video').attr('src', './assets/src/white.png');
 
         $.ajax({
           type: 'POST',
@@ -18,7 +18,7 @@ $(function(){
           success: function() {
             $('#video').attr('src', './assets/photos/retouch.png');
             setTimeout(function() {
-                location.reload();
+              location.reload();
             }, 3000);
           }
         });
