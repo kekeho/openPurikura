@@ -1,5 +1,5 @@
 import numpy as np
-
+import cv2
 
 def add_alpha_channel(image: np.ndarray):
     image = image.tolist()
@@ -51,3 +51,47 @@ def line_generator(points: list):
         before_point = point
     
     return line_list
+
+
+
+def hsv_color_range(image: np.ndarray, points: list):
+    """
+    detect color range (hsv)
+    Args:
+        image: cv2 image (BGR COLOR)
+        points: check pixel points list [(x0, y0), (x1, y1), ...]
+    Returns:
+        [h_max, s_max, v_max], [h_low, s_low, v_low]
+    """
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    color_list = []
+    for point in points:
+        color = image[point[0], point[1]][:3]
+        color_list.append(color)
+    color_list = np.asarray(color_list)
+    max = [color_list[:, 0].max(), 
+                color_list[:, 1].max(), 
+                color_list[:, 2].max()]
+    low = [color_list[:, 0].min(), 
+                color_list[:, 1].min(),
+                color_list[:, 2].min(),]
+    
+    return max, low
+    
+
+
+def main():
+    import os
+    import find
+    CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+
+    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
+    gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    face_landmarks = find.facemark(gray_img)
+    for facemark in face_landmarks:
+        hsv_color_range(image, facemark)
+
+if __name__ == '__main__':
+    main()
+    
