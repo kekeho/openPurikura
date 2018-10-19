@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.init_db import Base, User
-from camera.camera import VideoCamera
+from init_db import Base, User
+from camera import VideoCamera
 import purikura_lib as pl
 import shutil
 import cv2
