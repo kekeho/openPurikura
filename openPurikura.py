@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from init_db import Base, User
-from camera import VideoCamera
 import purikura_lib as pl
 import shutil
 import cv2
@@ -13,6 +11,11 @@ import sys
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = './templates/assets'
+
+sys.path.append(CURRENT_DIRNAME + '/database')
+sys.path.append(CURRENT_DIRNAME + '/camera')
+from init_db import Base, User
+from camera import VideoCamera
 
 app = Flask(__name__, static_folder=ASSETS_DIR)
 
@@ -30,7 +33,7 @@ id_photos = [0, 1, 2]
 taken = 0
 
 #Web camera
-cam = 0
+cam = None
 
 
 @app.route('/')

@@ -2,7 +2,10 @@ import cv2
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(1)
+        print("aaa")
+        self.video = cv2.VideoCapture('/home/daichi/openPurikura/camera/test.mp4')
+        if (self.video.isOpened() == False):
+            print("bbb")
 
         self.video.set(cv2.CAP_PROP_FRAME_WIDTH,  1920)
         self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
