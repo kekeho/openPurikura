@@ -1,6 +1,6 @@
 //文字列の取得
 function loadText(){
-  text = textField.nodeValue;
+  input_text = textField.value;
 }
 
 function Text(text, x, y, fontsize){

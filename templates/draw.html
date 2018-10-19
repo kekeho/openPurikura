@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="./assets/js/cd300.js"></script>
+  </head>
+  <body></body>
+    <!-- header -->
+    <div id="header">
+      <div id="end">END</div>
+      <div id="timer"></div>
+      <img id="logo" src="./assets/src/logo.png">
+    </div>
+    
+    <!-- content -->
+    <div id="content-nofooter">
+      <div id="top">
+        <div id="tool">
+          <table id="tool-top">
+            <tr>
+              <td><img src="./assets/src/eraser.png"></td>
+              <td><img src="./assets/src/pen-big.png"></td>
+              <td><img src="./assets/src/pen-medium.png"></td>
+              <td><img src="./assets/src/pen-small.png"></td>
+            </tr>
+            <tr>
+              <td><img src="./assets/src/undo.png"></td>
+              <td><img src="./assets/src/rotate-reverseclock.png"></td>
+              <td><img src="./assets/src/rotate-clock.png"></td>
+              <td><img src="./assets/src/redo.png"></td>
+            </tr>
+          </table>
+          <table id="pallet">
+            <tr>
+              <td><div id="color-deepred"></div></td>
+              <td><div id="color-purple"></div></td>
+              <td><div id="color-green"></div></td>
+              <td><div id="color-vividgreen"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-red"></div></td>
+              <td><div id="color-blue"></div></td>
+              <td><div id="color-yellow"></div></td>
+              <td><div id="color-darkgreen"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-salmonpink"></div></td>
+              <td><div id="color-deepblue"></div></td>
+              <td><div id="color-vividorange"></div></td>
+              <td><div id="color-gray"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-hotpink"></div></td>
+              <td><div id="color-lightblue"></div></td>
+              <td><div id="color-orange"></div></td>
+              <td><div id="color-black"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-pink"></div></td>
+              <td><div id="color-vividblue"></div></td>
+              <td><div id="color-beige"></div></td>
+              <td><div id="color-white"></div></td>
+            </tr>
+          </table>
+        </div>
+        <div id="canvas-box">
+          <canvas id="canvas">
+          </canvas>
+        </div>
+        <div id="zoom">
+          <div id="zoom-in">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <div id="zoom-out">
+            <div class="row">
+              <div class="col"></div>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+            </div>
+          </div>
+        </div>
+        <div id="picture">
+          <input id="picture-1" type="radio" name="picture">
+          <label for="picture-1">
+            <img src="./assets/src/square.png">
+          </label>
+          <input id="picture-2" type="radio" name="picture">
+          <label for="picture-2">
+            <img src="./assets/src/square.png">
+          </label>
+          <input id="picture-3" type="radio" name="picture">
+          <label for="picture-3">
+            <img src="./assets/src/square.png">
+          </label>
+        </div>
+      </div>
+      <div id="bottom">
+        <input id="tab-1" type="radio" name="tab" checked="checked">
+        <label for="tab-1">スタンプ1</label>
+        <div>
+          <input id="tab-1-1" type="radio" name="tab-tab-1" checked="checked">
+          <label for="tab-1-1">日本語スタンプ</label>
+          <div>
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+          </div>
+          <input id="tab-1-2" type="radio" name="tab-tab-1">
+          <label for="tab-1-2">英語スタンプ</label>
+          <div>
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+          </div>
+          <input id="tab-1-3" type="radio" name="tab-tab-1">
+          <label for="tab-1-3">韓国語スタンプ</label>
+          <div>
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+          </div>
+        </div>
+        <input id="tab-2" type="radio" name="tab">
+        <label for="tab-2">スタンプ2</label>
+        <div>
+          <input id="tab-2-1" type="radio" name="tab-tab-2" checked="checked">
+          <label for="tab-2-1">絵文字</label>
+          <div>
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+          </div>
+          <input id="tab-2-2" type="radio" name="tab-tab-2">
+          <label for="tab-2-2">動物スタンプ</label>
+          <div>
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+            <img src="./assets/src/square.png">
+          </div>
+        </div>
+        <input id="tab-3" type="radio" name="tab">
+        <label for="tab-3">文字入力</label>
+        <div>
+          <input type="text" placeholder="入力...">
+          <table>
+            <tr>
+              <td id="weight-2">あ</td>
+              <td id="weight-4">あ</td>
+            </tr>
+            <tr>
+              <td id="weight-6">あ</td>
+              <td id="weight-8">あ</td>
+            </tr>
+          </table>
+        </div>
+        <input id="tab-4" type="radio" name="tab">
+        <label for="tab-4">お絵かき</label>
+        <div>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

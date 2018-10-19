@@ -97,6 +97,13 @@ let drawingFlag;
 
 //テキストフィールド
 let textField;
+//入力されたテキスト
+let input_text;
+//テキストの決定ボタン
+let txt_button1;
+let txt_button2;
+let txt_button3;
+let txt_button4;
 
 //出来上がった写真たちが保存される配列
 let completedPictures;
@@ -120,6 +127,13 @@ function buttonInit() {
 
   back_button = document.getElementById("back_butt");
   next_button = document.getElementById("next_butt");
+
+  txt_button1 = document.getElementById("weight-2");
+  txt_button2 = document.getElementById("weight-4");
+  txt_button3 = document.getElementById("weight-6");
+  txt_button4 = document.getElementById("weight-8");
+
+  textField = document.getElementById("i_text");
   // セーブボタン
   //save_button = document.getElementById("save_butt");
 }
@@ -128,17 +142,25 @@ function eventInit() {
   // セーブボタン
   //save_button.addEventListener("mousedown", savePictures, false);
 
-  // PC用イベントリスナ
-  eventCanvas.addEventListener("mousemove", onMove,  false);
-  eventCanvas.addEventListener("mousedown", onClick, false);
-  eventCanvas.addEventListener("mouseup",   drawEnd, false);
-  eventCanvas.addEventListener("mouseout",  drawEnd, false);
-
   // iPad用イベントリスナ
   eventCanvas.addEventListener("touchmove",    onMove,  false);
   eventCanvas.addEventListener("touchstart",   onClick, false);
   eventCanvas.addEventListener("touchend",     drawEnd, false);
   eventCanvas.addEventListener("touchchancel", drawEnd, false);
+
+  // テキスト用のボタンイベント
+  txt_button1.addEventListener("touchstart", function() {
+    putText(8);
+  }, false);
+  txt_button2.addEventListener("touchstart", function() {
+    putText(10);
+  }, false);
+  txt_button3.addEventListener("touchstart", function() {
+    putText(12);
+  }, false);
+  txt_button4.addEventListener("touchstart", function() {
+    putText(14);
+  }, false);
 }
 
 function userInit() {
@@ -336,7 +358,15 @@ function onClick(e) {
     case modeName.stediting:
       stamp.move(x, y);
       break;
+
+    case modeName.txediting:
+      text.move(x, y);
+      break;
   }
+}
+
+function putText(size) {
+  text = new Text(input_text, x, y, size);
 }
 
 // ペンモードでドラッグ
