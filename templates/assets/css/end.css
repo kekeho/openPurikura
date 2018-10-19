@@ -1,0 +1,19 @@
+body > div {
+  margin: 0 auto;
+}
+  
+.textcontainer {
+  margin: 20vh auto 0 auto;
+}
+
+span:first-child {
+  font: 15vh 'Arial Black';
+}
+  
+#message {
+  text-align: center;
+
+  margin-top: 10vh;
+  
+  font: 3vh 'TsukuARdGothic-Regular';
+}

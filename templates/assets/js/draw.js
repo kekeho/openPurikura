@@ -128,10 +128,10 @@ function buttonInit() {
   back_button = document.getElementById("back_butt");
   next_button = document.getElementById("next_butt");
 
-  txt_button1 = document.getElementById("weight-2");
-  txt_button2 = document.getElementById("weight-4");
-  txt_button3 = document.getElementById("weight-6");
-  txt_button4 = document.getElementById("weight-8");
+  txt_button1 = document.getElementById("font-weight-2");
+  txt_button2 = document.getElementById("font-weight-4");
+  txt_button3 = document.getElementById("font-weight-6");
+  txt_button4 = document.getElementById("font-weight-8");
 
   textField = document.getElementById("i_text");
   // セーブボタン
@@ -188,11 +188,11 @@ function canvasInit() {
   // 使用する3枚の画像
   pictures = [];
   pictures[0] = new Image();
-  pictures[0].src = "./assets/picture/picture1.png";
+  pictures[0].src = "./assets/src/square.png";
   pictures[1] = new Image();
-  pictures[1].src = "./assets/picture/picture2.png";
+  pictures[1].src = "./assets/src/square.png";
   pictures[2] = new Image();
-  pictures[2].src = "./assets/picture/picture3.png";
+  pictures[2].src = "./assets/src/square.png";
 
   img = pictures[pic_num];
   img.onload = function() {
@@ -439,25 +439,16 @@ function tool(toolNum) {
   switch (toolNum) {
     case 0: // ペンモード
       ctx.globalCompositeOperation = "source-over";
-      pen_button.className = "active";
-      era_button.className = "";
-      sta_button.className = "";
       workMode = modeName.drawing;
       break;
 
     case 1: // 消しゴムモード
       ctx.globalCompositeOperation = "destination-out";
-      pen_button.className = "";
-      era_button.className = "active";
-      sta_button.className = "";
       workMode = modeName.erasering;
       break;
 
     case 2: // スタンプモード, テキストモード
       ctx.globalCompositeOperation = "source-over";
-      pen_button.className = "";
-      era_button.className = "";
-      sta_button.className = "active";
       workMode = modeName.stamping;
       break;
   }

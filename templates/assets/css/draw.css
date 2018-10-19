@@ -72,7 +72,7 @@
 }
 
 #color-vividgreen {
-  background-color: #00ffff;
+  background-color: #7fe021;
 }
 
 #color-red {
@@ -91,7 +91,7 @@
   background-color: #556b2f;
 }
 
-#color-salmonink {
+#color-salmonpink {
   background-color: #ed1e79;
 }
 
@@ -140,16 +140,37 @@
 }
 
 #canvas-box {
+  position: relative;
   width: 50vw;
 }
 
-#canvas {
+#canvas-box  canvas {
   display: block;
-  width: 60vh;
-  height: 60vh;
-  
-  margin: 0 auto;
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  margin: auto;
   border: 2px solid black;
+}
+
+#imageCanvas {
+  z-index: 1;
+}
+
+#canvas {
+  z-index: 2;
+}
+
+#eventCanvas {
+  z-index: 4;
+}
+
+#editanvas {
+  z-index: 3;
 }
 
 #zoom {
