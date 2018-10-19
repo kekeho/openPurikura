@@ -2,15 +2,19 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.init_db import Base, User
-from camera.camera_opencv import Camera
-import os
-import subprocess
+from camera.camera import VideoCamera
+import purikura_lib as pl
+import shutil
 import cv2
+import random
+import os
 import sys
 
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
-app = Flask(__name__, static_folder='./templates/assets')
+CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = './templates/assets'
+
+app = Flask(__name__, static_folder=ASSETS_DIR)
 
 # Database setup
 database_file = CURRENT_DIRNAME + '/database/openPurikura.db'
@@ -24,6 +28,10 @@ session = None
 id_pack = 0
 id_photos = [0, 1, 2]
 taken = 0
+
+#Web camera
+cam = 0
+
 
 @app.route('/')
 def index():
@@ -39,7 +47,7 @@ def register():
 
         global session
         session = Session()
-        new_user = User(name=request.form['name'], email=request.form['email'])
+        new_user = User(id=random.randrange(10000), name=request.form['name'], email=request.form['email'])
         session.add(new_user)
         session.commit()
         return redirect('/select1')  # debug
@@ -60,28 +68,47 @@ def select1():
 
 
 # Take a photo
-@app.route('/take')
+@app.route('/take', methods=['GET', 'POST'])
 def take():
-    #global taken
-    #subprocess.Popen('python shot.py ' + str(taken + 1))
-    return render_template('take.html')
-
-# White out
-@app.route('/whiteout')
-def whiteout():
     global taken
-    taken += 1
+    global cam
 
-    if taken < 5:
-        cap = cv2.VideoCapture(0)
-        while cap.isOpened():
-            (ret, frame) = cap.read()
-            cv2.imwrite(str(taken) + '.png', frame)
-            break
-        cap.release()
-        return redirect('/take')
+    if request.method == 'GET':
+        if (taken >= 5):
+            taken = 0
+            return redirect('/select2')
+
+        if (taken == 0):
+            for i in range(5):
+                shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_after.png'.format(i))
+            return render_template('take.html')
+
+        else:
+            return render_template('take.html')
+
     else:
-        return redirect('/select2')
+        image = cam.get_img()
+        cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_before.png', image)
+        
+        gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        face_landmarks = pl.find.facemark(gray_img)
+
+        image = pl.dist.distortion(image)
+        image = pl.effects.nose_shape_beautify(image, face_landmarks)
+        image = pl.effects.eye_bags(image, face_landmarks)
+        #image = pl.effects.lips_correction(image, face_landmarks)
+        image = pl.effects.eyes_shape_beautify(image, face_landmarks)
+        #image = pl.effects.eyes_add_highlight(image, face_landmarks)
+        image = pl.effects.chin_shape_beautify(image, face_landmarks)
+        image = pl.effects.skin_beautify(image, rate=5)
+        image = pl.effects.color_correction(image)
+
+        cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_after.png', image)
+        cv2.imwrite(ASSETS_DIR + '/photos/retouch.png', image)
+
+        taken += 1
+        return render_template('take.html')
+
 
 # Select 3 pics
 @app.route('/select2', methods=['GET', 'POST'])
@@ -132,28 +159,28 @@ def videoStreaming():
     return render_template('videostreaming.html')
 
 
-# Video streaming
 @app.route('/video_feed')
 def video_feed():
-    print('TEST-1')
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
+    global cam
+
+    if (cam == 0):
+        cam = VideoCamera()
+
+    return Response(gen(cam),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-# Get camera frame
 def gen(camera):
-    print('TEST-2')
-    """Video streaming generator function."""
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
 def main():
     app.debug = True
     app.run(host='0.0.0.0', port=8080, threaded=True)
+
 
 if __name__ == '__main__':
     main()
