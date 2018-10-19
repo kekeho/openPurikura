@@ -1,13 +1,13 @@
 =begin
 
 コマンドライン引数として、IDと添付枚数を指定
-ARGV[0]:ID, ARGV[1]:添付枚数
+ARGV[0]:ID
 
 送信先のデータベース("openPurikura.db")の指定されたIDに、指定された数の画像を添付しメールを送信します。
 IDのかぶりにも対応。
 画像は、"image_'ID'_'枚数'.png"を送信します。
 例えば、IDが10の方に画像を3枚送信する場合、
-"image_10_1.png","image_10_2.png","image_10_3.png"の3枚が送られます。
+"./images/10_1.png","./images/10_2.png","./images/10_3.png"の3枚が送られます。
 
 データベースの情報が代入される変数↓↓↓↓↓↓
 row[0]：送信先ID
@@ -47,7 +47,7 @@ tdb = SQLite3::Database.new 'openPurikura.db'
 fdb = SQLite3::Database.new 'maillist.db'
 
 tdb.execute("select * from users where id = '#{ARGV[0]}'") do |row|
-  	print "id:#{row[0]} name:#{row[1]} mail:#{row[2]} 添付画像数:#{ARGV[1]}\n"
+  	print "id:#{row[0]} name:#{row[1]} mail:#{row[2]}\n"
 
   	fdb.execute("select * from FromMail where id = #{SELECT_FM}") do |row2|
 
@@ -67,10 +67,10 @@ tdb.execute("select * from users where id = '#{ARGV[0]}'") do |row|
 		mail.charset = 'utf-8'								#文字コードの指定
 		mail.from "#{row2[1]}"								#送信元メールアドレス
 		mail.to "#{row[2]}"   								#送信先メールアドレス
-		mail.subject "プリクラ：#{row[1]}"						#メールタイトル
-		mail.body "ほんぶん"									#メール本文
-		for num in 1..ARGV[1].to_i do
-			mail.add_file "./image_#{ARGV[0]}_#{num}.png"	#添付画像
+		mail.subject "3Jクラス企画プリクラ"						#メールタイトル
+		mail.body "#{row[1]}さん。\nご利用ありがとうございました。\n撮影したプリクラを添付します。\n" #メール本文
+		for num in 1..3.to_i do
+			mail.add_file "./images/#{ARGV[0]}_#{num}.png"	#添付画像
 		end
 		mail.delivery_method(:smtp, options)				#設定の読み込み
 		mail.deliver 										#メールの送信

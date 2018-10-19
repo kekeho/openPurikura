@@ -15,7 +15,7 @@ import find
 
 
 class MaskShapeError(Exception):
-    def __init__(self, ndarray1: np.ndarray, ndarray2: np.ndarray):
+    def __init__(self, ndarray1, ndarray2):
         self.shape1 = ndarray1.shape
         self.shape2 = ndarray2.shape
 
@@ -23,7 +23,7 @@ class MaskShapeError(Exception):
         return 'The shapes of image and mask does not match! {} != {}'.format(self.shape1[:2], self.shape2)
 
 
-def delete_pixel(image: np.ndarray, mask: np.ndarray):
+def delete_pixel(image, mask):
     """Generate image which has alpha channel & transparent pixel by mask
     Args:
         image: HSV or RGB(BGR) image
@@ -49,7 +49,7 @@ def delete_pixel(image: np.ndarray, mask: np.ndarray):
     return return_img
 
 
-def chromakey(image: np.ndarray):
+def chromakey(image):
     """transpare green pixels
     Return:
         image which includes alpha channel: np.ndarray
@@ -68,7 +68,7 @@ def chromakey(image: np.ndarray):
     return return_img
 
 
-def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
+def merge(image1, image2, x=0, y=0, per=100):
     """Put image2 on image 1
     Args:
         image1: base image
@@ -92,7 +92,7 @@ def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
     return np.asarray(image1)
 
 
-def skin_beautify(image: np.ndarray, rate=10):
+def skin_beautify(image, rate=10):
     """Skin beautify method (It called Bihada-Kako in Japanese Purikura)
     Args:
         image: openCV image (3-channel, 8bit color)
@@ -106,7 +106,7 @@ def skin_beautify(image: np.ndarray, rate=10):
     return filtered_img
 
 
-def color_correction(image: np.array):
+def color_correction(image):
     # Gamma correction
     gamma = 1.3
     gamma_look_up_table = np.zeros((256, 1), dtype='uint8')
@@ -116,7 +116,7 @@ def color_correction(image: np.array):
     return image
 
 
-def distort(image: np.array, from_points: list, to_points: list, roi_points: list):
+def distort(image, from_points, to_points, roi_points):
     """
     Args:
         image: openCV image (np.ndarray)
@@ -144,8 +144,8 @@ def distort(image: np.array, from_points: list, to_points: list, roi_points: lis
     return np.asarray(image)
 
 
-def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
-    """Beautify nose👃
+def nose_shape_beautify(image, face_landmarks):
+    """Beautify nose
     This function can uses for many people
     """
     for landmark in face_landmarks:
@@ -182,8 +182,8 @@ def nose_shape_beautify(image: np.ndarray, face_landmarks: list):
     return image
 
 
-def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
-    """Beautify eyes👀
+def eyes_shape_beautify(image, face_landmarks):
+    """Beautify eyes
     This function can uses for many people
     """
     for landmark in face_landmarks:
@@ -236,8 +236,8 @@ def eyes_shape_beautify(image: np.ndarray, face_landmarks: list):
     return image
 
 
-def eyes_add_highlight(image: np.ndarray, face_landmarks: list):
-    """Add highlight in eyes👀
+def eyes_add_highlight(image, face_landmarks):
+    """Add highlight in eyes
     This function can uses for many people
     """
     highlight = cv2.imread(
@@ -270,8 +270,8 @@ def eyes_add_highlight(image: np.ndarray, face_landmarks: list):
     return image
 
 
-def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
-    """Beautify chin💁
+def chin_shape_beautify(image, face_landmarks):
+    """Beautify chin
     This function can uses for many people
     """
     for landmark in face_landmarks:
@@ -305,7 +305,7 @@ def chin_shape_beautify(image: np.ndarray, face_landmarks: list):
     return image
 
 
-def eye_bags(image: np.ndarray, face_landmarks: list):
+def eye_bags(image, face_landmarks):
     for landmark in face_landmarks:
         # left eye bottom
         line_list = utils.line_generator(landmark[144:153+1])
@@ -328,7 +328,7 @@ def eye_bags(image: np.ndarray, face_landmarks: list):
     return image
 
 
-def lips_correction(image: np.array, face_landmarks: list):
+def lips_correction(image, face_landmarks):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     maskimage = None
     float_image = image.astype(np.float64)
@@ -336,7 +336,7 @@ def lips_correction(image: np.array, face_landmarks: list):
     for landmark in face_landmarks:
         # left eye bottom
         min_x, min_y, max_x, max_y = utils.detect_roi(landmark[58:85], e=0)
-        hsv_min = np.array([0 / 2, 255/100*37, 255/100*23])  # opencvのHueはHue/2を指定する
+        hsv_min = np.array([0 / 2, 255/100*37, 255/100*23])
         hsv_max = np.array([360 / 2, 255, 255])
         maskimage = cv2.inRange(image[min_y:max_y, min_x:max_x], hsv_min, hsv_max)
         for y, y_line in enumerate(maskimage):
@@ -353,7 +353,7 @@ def lips_correction(image: np.array, face_landmarks: list):
     return image
 
 
-def animal_ears(image: np.ndarray, ear_image: PngImageFile, face_landmarks: list):
+def animal_ears(image, ear_image, face_landmarks):
     """attach animal_ears like nekomimi
     args:
         image: base image

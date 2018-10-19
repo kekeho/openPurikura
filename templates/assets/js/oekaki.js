@@ -128,10 +128,10 @@ function buttonInit() {
   back_button = document.getElementById("back_butt");
   next_button = document.getElementById("next_butt");
 
-  txt_button1 = document.getElementById("weight-2");
-  txt_button2 = document.getElementById("weight-4");
-  txt_button3 = document.getElementById("weight-6");
-  txt_button4 = document.getElementById("weight-8");
+  txt_button1 = document.getElementById("font-weight-2");
+  txt_button2 = document.getElementById("font-weight-4");
+  txt_button3 = document.getElementById("font-weight-6");
+  txt_button4 = document.getElementById("font-weight-8");
 
   textField = document.getElementById("i_text");
   // セーブボタン
@@ -366,7 +366,8 @@ function onClick(e) {
 }
 
 function putText(size) {
-  text = new Text(input_text, x, y, size);
+  if (loadText())
+    text = new Text(input_text, x, y, size);
 }
 
 // ペンモードでドラッグ

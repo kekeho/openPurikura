@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def add_alpha_channel(image: np.ndarray):
+def add_alpha_channel(image):
     image = image.tolist()
     for line_count, line in enumerate(image):
         for row_count, pixel in enumerate(line):
@@ -10,7 +10,7 @@ def add_alpha_channel(image: np.ndarray):
     return np.array(image, dtype='uint8')
 
 
-def detect_roi(points: list, e=50):
+def detect_roi(points, e=50):
     """
     Args:
         points: points list
@@ -25,7 +25,7 @@ def detect_roi(points: list, e=50):
     return min(xlist) - e, min(ylist) - e, max(xlist) + e, max(ylist) + e
 
 
-def line_generator(points: list):
+def line_generator(points):
     """
     Create line from few points (set of pixels)
     Arg:

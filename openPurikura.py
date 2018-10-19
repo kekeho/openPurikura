@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.init_db import Base, User
-from camera.camera import VideoCamera
 import purikura_lib as pl
+import time
 import shutil
 import cv2
 import random
@@ -13,6 +12,11 @@ import sys
 
 CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = './templates/assets'
+
+sys.path.append(CURRENT_DIRNAME + '/database')
+sys.path.append(CURRENT_DIRNAME + '/camera')
+from init_db import Base, User
+from camera import VideoCamera
 
 app = Flask(__name__, static_folder=ASSETS_DIR)
 
@@ -30,7 +34,7 @@ id_photos = [0, 1, 2]
 taken = 0
 
 #Web camera
-cam = 0
+cam = None
 
 
 @app.route('/')
@@ -70,44 +74,61 @@ def select1():
 # Take a photo
 @app.route('/take', methods=['GET', 'POST'])
 def take():
+    global id_pack
     global taken
     global cam
 
     if request.method == 'GET':
         if (taken >= 5):
             taken = 0
-            return redirect('/select2')
+            return redirect('/retouching')
 
         if (taken == 0):
             for i in range(5):
-                shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_after.png'.format(i))
+                shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_before.png'.format(i))
             return render_template('take.html')
+
+        elif (taken == 4):
+            return render_template('take.html', pack=str(id_pack))
 
         else:
             return render_template('take.html')
 
     else:
         image = cam.get_img()
-        cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_before.png', image)
-        
-        gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        face_landmarks = pl.find.facemark(gray_img)
-
-        image = pl.dist.distortion(image)
-        image = pl.effects.nose_shape_beautify(image, face_landmarks)
-        #image = pl.effects.eye_bags(image, face_landmarks)
-        #image = pl.effects.lips_correction(image, face_landmarks)
-        image = pl.effects.eyes_shape_beautify(image, face_landmarks)
-        #image = pl.effects.eyes_add_highlight(image, face_landmarks)
-        image = pl.effects.chin_shape_beautify(image, face_landmarks)
-        image = pl.effects.skin_beautify(image, rate=5)
-        image = pl.effects.color_correction(image)
-
-        cv2.imwrite(ASSETS_DIR + '/photos/' + str(taken) + '_after.png', image)
+        cv2.imwrite(ASSETS_DIR + '/photos/{}_before.png'.format(taken), image)
         cv2.imwrite(ASSETS_DIR + '/photos/retouch.png', image)
+        time.sleep(0.8)
 
         taken += 1
         return render_template('take.html')
+
+
+# Retouching
+@app.route('/retouching', methods=['GET', 'POST'])
+def retouching():
+    if request.method == 'GET':
+        return render_template('retouching.html')
+
+    else:
+        for i in range(5):
+            image = cv2.imread(ASSETS_DIR + '/photos/{}_before.png'.format(i))
+            gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            face_landmarks = pl.find.facemark(gray_img)
+
+            #image = pl.dist.distortion(image)
+            image = pl.effects.nose_shape_beautify(image, face_landmarks)
+            #image = pl.effects.eye_bags(image, face_landmarks)
+            #image = pl.effects.lips_correction(image, face_landmarks)
+            image = pl.effects.eyes_shape_beautify(image, face_landmarks)
+            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
+            image = pl.effects.chin_shape_beautify(image, face_landmarks)
+            image = pl.effects.skin_beautify(image, rate=5)
+            image = pl.effects.color_correction(image)
+
+            cv2.imwrite(ASSETS_DIR + '/photos/{}_after.png'.format(i), image)
+
+        return render_template('retouching.html')
 
 
 # Select 3 pics
@@ -116,6 +137,10 @@ def select2():
     global id_photos
     if request.method == 'POST':
         id_photos = request.form.getlist('select')
+
+        for i in range(3):
+            shutil.copyfile(ASSETS_DIR + '/photos/{}_after.png'.format(id_photos[i]), ASSETS_DIR + '/photos/draw_{}.png'.format(i))
+
         return redirect('/draw')
         #return redirect('/debug') #DEBUG
     else:
@@ -163,7 +188,7 @@ def videoStreaming():
 def video_feed():
     global cam
 
-    if (cam == 0):
+    if (cam == None):
         cam = VideoCamera()
 
     return Response(gen(cam),

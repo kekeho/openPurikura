@@ -166,10 +166,10 @@
 }
 
 #eventCanvas {
-  z-index: 4;
+  z-index: 5;
 }
 
-#editanvas {
+#editCanvas {
   z-index: 3;
 }
 
