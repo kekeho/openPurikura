@@ -150,16 +150,16 @@ function eventInit() {
 
   // テキスト用のボタンイベント
   txt_button1.addEventListener("touchstart", function() {
-    putText(8);
+    putText(20);
   }, false);
   txt_button2.addEventListener("touchstart", function() {
-    putText(10);
+    putText(25);
   }, false);
   txt_button3.addEventListener("touchstart", function() {
-    putText(12);
+    putText(30);
   }, false);
   txt_button4.addEventListener("touchstart", function() {
-    putText(14);
+    putText(35);
   }, false);
 }
 
@@ -366,7 +366,8 @@ function onClick(e) {
 }
 
 function putText(size) {
-  text = new Text(input_text, x, y, size);
+  if(loadText())
+    text = new Text(input_text, x, y, size);
 }
 
 // ペンモードでドラッグ
@@ -399,6 +400,9 @@ function onMove(e) {
 
     case modeName.stediting:
       stamp.move(x, y);
+      break;
+    case modeName.txediting:
+      text.move(x, y);
       break;
   }
 }
@@ -434,6 +438,11 @@ function tool(toolNum) {
   if (workMode == modeName.stediting) {
     stamp.apply();
     delete stamp;
+  }
+
+  if (workMode == modeName.txediting) {
+    text.apply();
+    delete text;
   }
 
   switch (toolNum) {
@@ -568,7 +577,7 @@ function changeColor(colorID) {
       break;
     default:
   }
-  if (workMode == modeName.erasering) {
+  if (workMode != modeName.drawing) {
     tool(0);
   }
 }

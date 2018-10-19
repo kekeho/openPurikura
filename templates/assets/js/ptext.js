@@ -1,6 +1,6 @@
 //文字列の取得
 function loadText(){
-  input_text = textField.value;
+  return input_text = textField.value;
 }
 
 function Text(text, x, y, fontsize){
@@ -17,11 +17,11 @@ function Text(text, x, y, fontsize){
 
   //キャンバスをスクリーン上に追加
   this.textBox = document.getElementById("canvas-box");
-  this.textBox.appendchild(this.canvas);
+  this.textBox.appendChild(this.canvas);
   
   this.ctx = this.canvas.getContext('2d');
   this.ctx.font = fontsize + "px serif";
-  thix.ctx.textAlign = "center";
+  this.ctx.textAlign = "center";
   this.ctx.fillText(this.text, this.x, this.y);
   
   //モード変更
@@ -45,8 +45,10 @@ function Text(text, x, y, fontsize){
   }
 
   this.apply = function() {
-    ctx.textAlign = "center";
-    ctx.fillText(this.text, this.x, this.y);
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(this.text, this.x, this.y);
+
+    ctx.drawImage(this.canvas, 0, 0);
     createCache();
     this.cancel();
   }
