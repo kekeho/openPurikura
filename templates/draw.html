@@ -7,8 +7,11 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/cd300.js"></script>
+    <script type="text/javascript" src="./assets/js/draw.js"></script>
+    <script type="text/javascript" src="./assets/js/ptext.js"></script>
+    <script type="text/javascript" src="./assets/js/stamp.js"></script>
   </head>
-  <body>
+  <body onload="init()" oncontextmenu="return false;">
     <!-- header -->
     <div id="header">
       <div id="end">END</div>
@@ -23,53 +26,54 @@
           <table id="tool-top">
             <tr>
               <td><img src="./assets/src/eraser.png"></td>
-              <td><img src="./assets/src/pen-big.png"></td>
-              <td><img src="./assets/src/pen-medium.png"></td>
-              <td><img src="./assets/src/pen-small.png"></td>
+              <td onclick="tool(1); changeLineWidth(20)"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="tool(1); changeLineWidth(15)"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="tool(1); changeLineWidth(10)"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
-              <td><img src="./assets/src/undo.png"></td>
+              <td><img onclick="back()"src="./assets/src/undo.png"></td>
               <td><img src="./assets/src/rotate-reverseclock.png"></td>
               <td><img src="./assets/src/rotate-clock.png"></td>
-              <td><img src="./assets/src/redo.png"></td>
+              <td><img onclick="next()" src="./assets/src/redo.png"></td>
             </tr>
           </table>
           <table id="pallet">
             <tr>
-              <td><div id="color-deepred"></div></td>
-              <td><div id="color-purple"></div></td>
-              <td><div id="color-green"></div></td>
-              <td><div id="color-vividgreen"></div></td>
+              <td><div id="color-deepred" onclick="changeColor(1)"></div></td>
+              <td><div id="color-purple" onclick="changeColor(5)"></div></td>
+              <td><div id="color-green" onclick="changeColor(11)"></div></td>
+              <td><div id="color-vividgreen" onclick="changeColor(16)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-red"></div></td>
-              <td><div id="color-blue"></div></td>
-              <td><div id="color-yellow"></div></td>
-              <td><div id="color-darkgreen"></div></td>
+              <td><div id="color-red" onclick="changeColor(2)"></div></td>
+              <td><div id="color-blue" onclick="changeColor(7)"></div></td>
+              <td><div id="color-yellow" onclick="changeColor(12)"></div></td>
+              <td><div id="color-darkgreen" onclick="changeColor(17)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-salmonpink"></div></td>
-              <td><div id="color-deepblue"></div></td>
-              <td><div id="color-vividorange"></div></td>
-              <td><div id="color-gray"></div></td>
+              <td><div id="color-salmonpink" onclick="changeColor(3)"></div></td>
+              <td><div id="color-deepblue" onclick="changeColor(8)"></div></td>
+              <td><div id="color-vividorange" onclick="changeColor(13)"></div></td>
+              <td><div id="color-gray" onclick="changeColor(18)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-hotpink"></div></td>
-              <td><div id="color-lightblue"></div></td>
-              <td><div id="color-orange"></div></td>
-              <td><div id="color-black"></div></td>
+              <td><div id="color-hotpink" onclick="changeColor(4)"></div></td>
+              <td><div id="color-lightblue" onclick="changeColor(9)"></div></td>
+              <td><div id="color-orange" onclick="changeColor(14)"></div></td>
+              <td><div id="color-black" onclick="changeColor(19)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-pink"></div></td>
-              <td><div id="color-vividblue"></div></td>
-              <td><div id="color-beige"></div></td>
-              <td><div id="color-white"></div></td>
+              <td><div id="color-pink" onclick="changeColor(5)"></div></td>
+              <td><div id="color-vividblue" onclick="changeColor(10)"></div></td>
+              <td><div id="color-beige" onclick="changeColor(15)"></div></td>
+              <td><div id="color-white" onclick="changeColor(20)"></div></td>
             </tr>
           </table>
         </div>
         <div id="canvas-box">
-          <canvas id="canvas">
-          </canvas>
+          <canvas id="imageCanvas" width=466 height=466></canvas>
+          <canvas id="canvas" width=466 height=466></canvas>
+          <canvas id="eventCanvas" width=466 height=466></canvas>
         </div>
         <div id="zoom">
           <div id="zoom-in">
@@ -92,17 +96,17 @@
           </div>
         </div>
         <div id="picture">
-          <input id="picture-1" type="radio" name="picture">
+          <input id="picture-1" type="radio" name="picture" checked="checked">
           <label for="picture-1">
-            <img src="./assets/src/square.png">
+            <img onclick="switchPic(1)" src="./assets/src/square.png">
           </label>
           <input id="picture-2" type="radio" name="picture">
           <label for="picture-2">
-            <img src="./assets/src/square.png">
+            <img onclick="switchPic(2)" src="./assets/src/square.png">
           </label>
           <input id="picture-3" type="radio" name="picture">
           <label for="picture-3">
-            <img src="./assets/src/square.png">
+            <img onclick="switchPic(3)" src="./assets/src/square.png">
           </label>
         </div>
       </div>
@@ -173,7 +177,7 @@
         <input id="tab-3" type="radio" name="tab">
         <label for="tab-3">文字入力</label>
         <div>
-          <input type="text" placeholder="入力...">
+          <input id="i_text" type="text" placeholder="入力...">
           <table>
             <tr>
               <td id="font-weight-2">あ</td>
@@ -198,13 +202,13 @@
             </tr>
           </table>
           <table id="pen-weight">
-              <tr>
-                <td><img src=""></td>
-                <td><img src="./assets/src/pen-big.png"></td>
-                <td><img src="./assets/src/pen-medium.png"></td>
-                <td><img src="./assets/src/pen-small.png"></td>
-              </tr>
-            </table>
+            <tr>
+              <td><img src=""></td>
+              <td onclick="tool(0); changeLineWidth(20)"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="tool(0); changeLineWidth(20)"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="tool(0); changeLineWidth(20)"><img src="./assets/src/pen-small.png"></td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
