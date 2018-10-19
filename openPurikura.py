@@ -94,7 +94,7 @@ def take():
         image = cam.get_img()
         cv2.imwrite(ASSETS_DIR + '/photos/{}_before.png'.format(taken), image)
         cv2.imwrite(ASSETS_DIR + '/photos/retouch.png', image)
-        time.sleep(0.5)
+        time.sleep(0.8)
 
         taken += 1
         return render_template('take.html')
@@ -133,6 +133,10 @@ def select2():
     global id_photos
     if request.method == 'POST':
         id_photos = request.form.getlist('select')
+
+        for i in range(3):
+            shutil.copyfile(ASSETS_DIR + '/photos/{}_after.png'.format(id_photos[i]), ASSETS_DIR + '/photos/draw_{}.png'.format(i))
+
         return redirect('/draw')
         #return redirect('/debug') #DEBUG
     else:
