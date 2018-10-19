@@ -49,19 +49,19 @@ def line_generator(points: list):
             roi_y = int(before_y + (dy / dx * x))
             line_list.append((roi_x, roi_y))
         before_point = point
-    
+
     return line_list
 
 
 
-def hsv_color_range(image: np.ndarray, points: list):
+def hsv_color_range(image: np.ndarray, points: list, padding=0):
     """
     detect color range (hsv)
     Args:
         image: cv2 image (BGR COLOR)
-        points: check pixel points list [(x0, y0), (x1, y1), ...]
+        points: check pixel points list [(x0, y0), (x1, y1), ...]      padding: check pixel without padding area
     Returns:
-        [h_max, s_max, v_max], [h_low, s_low, v_low]
+        [h_max, s_max, v_max], [h_low, s_low, v_low] (numpy array)
     """
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -70,12 +70,12 @@ def hsv_color_range(image: np.ndarray, points: list):
         color = image[point[0], point[1]][:3]
         color_list.append(color)
     color_list = np.asarray(color_list)
-    max = [color_list[:, 0].max(), 
-                color_list[:, 1].max(), 
-                color_list[:, 2].max()]
-    low = [color_list[:, 0].min(), 
-                color_list[:, 1].min(),
-                color_list[:, 2].min(),]
+    max = np.array([color_list[:, 0].max(), 
+                    color_list[:, 1].max(), 
+                    color_list[:, 2].max()])
+    low = np.array([color_list[:, 0].min(), 
+                    color_list[:, 1].min(),
+                    color_list[:, 2].min(),])
     
     return max, low
     
