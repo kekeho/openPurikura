@@ -7,6 +7,7 @@ function Text(text, x, y, fontsize){
   this.text = text;
   this.x = x;
   this.y = y;
+  this.angle = 0;
   this.count = tc++;
   this.fontsize = fontsize;
 
@@ -26,9 +27,6 @@ function Text(text, x, y, fontsize){
   this.ctx.fillText(this.text, this.x, this.y);
   
   //モード変更
-  // pen_button.className = '';
-  // era_button.className = '';
-  // sta_button.className = 'active';
   workMode = modeName.txediting;
 
   console.log("aaa");
@@ -39,17 +37,35 @@ function Text(text, x, y, fontsize){
     this.y = y;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.font = fontsize + "px serif";
+    this.ctx.font = this.fontsize + "px serif";
+    //this.ctx.translate(this.x, this.y);
     this.ctx.fillText(this.text, this.x, this.y);
   }
 
+  //回転操作　wayに応じて回転方向を変える
+  this.spin = function(way) {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.rotate(1 * 10 * Math.PI/180);
+    this.ctx.translate(10, 10);
+    this.ctx.font = this.fontsize + "px serif";
+    this.ctx.strokeStyle = "blue";
+    this.ctx.strokeRect(-5, -5, 10, 10);
+    // this.ctx.fillText(this.text, 0, 0);
+    // this.ctx.rotate(-(this.angle) * 10 * Math.PI/180);
+    // this.ctx.translate(-this.x, -this.y);
+    
+    console.log(this.angle);
+    createCache();
+  }
+
+  //配置キャンセル
   this.cancel = function(){
     this.textBox.removeChild(this.canvas);
   }
 
+  //配置決定
   this.apply = function() {
-    ctx.textAlign = "center";
-    ctx.fillText(this.text, this.x, this.y);
+    ctx.drawImage(this.canvas, 0, 0);
     createCache();
     this.cancel();
   }
