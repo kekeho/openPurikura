@@ -9,21 +9,16 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKUIDelegate {
+class ViewController: UIViewController, UIWebViewDelegate {
+    @IBOutlet weak var myWebView: UIWebView!
     
-    var webView: WKWebView!
-    
-    override func loadView() {
-        webView.frame = self.view.bounds
-        webView.uiDelegate = self
-        view = webView
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let myURL = URL(string: "")//http://192.168.145.18:8080
-        let myRequest = URLRequest(url: myURL!)
-        webView.load(myRequest)
+        URLCache.shared.diskCapacity = 0
+        URLCache.shared.memoryCapacity = 0
+        let url = URL(string: "http://sekiei.jp")
+        let request = URLRequest(url: url!)
+        myWebView.loadRequest(request)
     }
-    
 }
