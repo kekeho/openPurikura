@@ -106,7 +106,7 @@ let tc;
 let completedPictures;
 
 // 現在選択されているカラー
-var color = pColor.black;
+var currentColor = penColor.black;
 
 // onloadにより実行 
 function init() {
