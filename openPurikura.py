@@ -43,6 +43,9 @@ cam = None
 # Current ID
 curid = 0
 
+# Send images
+imgs = []
+
 
 @app.route('/')
 def index():
@@ -183,18 +186,15 @@ def select2():
 @app.route('/draw', methods=['GET', 'POST'])
 def draw():
     global curid
+    global imgs
 
     if request.method == 'GET':
         return render_template('draw.html')
 
     else:
         #print(request.form)
-        print(request.form)
         img_cnt  = request.form['cnt']
-        enc_data  = request.form['img']
-        dec_data = base64.b64decode(enc_data.split(',')[1])
-        dec_img  = Image.open(BytesIO(dec_data))
-        dec_img.save('images/{}_{}.png'.format(curid, img_cnt))
+        imgs[img_cnt] = request.form['img']
         return render_template('draw.html')
 
 
@@ -208,7 +208,14 @@ def mail():
         return render_template('mail.html')
 
     else:
-        #subprocess.call(['ruby', 'database/mail.rb', '0'])
+        global imgs
+
+        for i in range(3)
+            enc_data = imgs[i]
+            dec_data = base64.b64decode(enc_data.split(',')[1])
+            dec_img  = Image.open(BytesIO(dec_data))
+            dec_img.save('images/{}_{}.png'.format(i, img_cnt))
+
         subprocess.call(['ruby', 'database/mail.rb', str(curid)])
 
         session = Session()

@@ -689,7 +689,7 @@ function savePictures() {
       type: 'POST',
       url: '/draw',
       data: {
-        cnt: i + 1,
+        cnt: i,
         img: base64
       },
       async: false
