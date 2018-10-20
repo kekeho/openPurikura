@@ -25,7 +25,7 @@ from camera import VideoCamera
 app = Flask(__name__, static_folder=ASSETS_DIR)
 
 # Database setup
-database_file = CURRENT_DIRNAME + '/database/openPurikura.db'
+database_file = CURRENT_DIRNAME + '/openPurikura.db'
 db_engine = create_engine('sqlite:///' + database_file,
                           convert_unicode=True, echo=True)
 Base.metadata.bind = db_engine

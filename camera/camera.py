@@ -2,7 +2,7 @@ import cv2
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
+        self.video = cv2.VideoCapture(1)
 
         self.video.set(cv2.CAP_PROP_FRAME_WIDTH,  1920)
         self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
