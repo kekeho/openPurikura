@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import * #Flask, render_template, request, redirect, url_for, Response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from PIL import Image
+from io import BytesIO
 import purikura_lib as pl
 import time
 import shutil
 import subprocess
+import base64
 import cv2
 import random
 import os
@@ -22,7 +25,7 @@ from camera import VideoCamera
 app = Flask(__name__, static_folder=ASSETS_DIR)
 
 # Database setup
-database_file = CURRENT_DIRNAME + '/database/openPurikura.db'
+database_file = CURRENT_DIRNAME + '/openPurikura.db'
 db_engine = create_engine('sqlite:///' + database_file,
                           convert_unicode=True, echo=True)
 Base.metadata.bind = db_engine
@@ -98,8 +101,8 @@ def take():
                 shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_before.png'.format(i))
             return render_template('take.html')
 
-        elif (taken == 4):
-            return render_template('take.html', pack=str(id_pack))
+        #elif (taken == 4):
+        #    return render_template('take.html', pack=str(id_pack))
 
         else:
             return render_template('take.html')
@@ -128,23 +131,32 @@ def retouching():
             gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             face_landmarks = pl.find.facemark(gray_img)
 
-            #image = pl.dist.distortion(image)
-            image = pl.effects.nose_shape_beautify(image, face_landmarks)
-            image = pl.effects.eye_bags(image, face_landmarks)
-            #image = pl.effects.lips_correction(image, face_landmarks)
-            image = pl.effects.eyes_shape_beautify(image, face_landmarks)
-            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
-            image = pl.effects.chin_shape_beautify(image, face_landmarks)
-            image = pl.effects.skin_beautify(image, rate=5)
-            image = pl.effects.color_correction(image)
             image = pl.effects.chromakey_green(image)
-
+            print("h")
             background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
+            print("i")
             image = pl.effects.merge(background, image)
 
-            if (i == 4):
-                teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
-                image = pl.effects.merge(image, teacher)
+            print("a")
+            #image = pl.dist.distortion(image)
+            image = pl.effects.nose_shape_beautify(image, face_landmarks)
+            print("b")
+            #image = pl.effects.eye_bags(image, face_landmarks)
+            #image = pl.effects.lips_correction(image, face_landmarks)
+            print("c")
+            image = pl.effects.eyes_shape_beautify(image, face_landmarks)
+            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
+            print("d")
+            image = pl.effects.chin_shape_beautify(image, face_landmarks)
+            print("e")
+            #image = pl.effects.skin_beautify(image, rate=2)
+            print("f")
+            image = pl.effects.color_correction(image)
+            print("g")
+
+            #if (i == 4):
+            #    teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
+            #    image = pl.effects.merge(image, teacher)
 
             cv2.imwrite(ASSETS_DIR + '/photos/{}_after.png'.format(i), image)
 
@@ -168,12 +180,24 @@ def select2():
 
 
 # Draw
-@app.route('/draw')
+@app.route('/draw', methods=['GET', 'POST'])
 def draw():
-    return render_template('draw.html')
+    global curid
+
+    if request.method == 'GET':
+        return render_template('draw.html')
+
+    else:
+        img_cnt  = request.form['cnt']
+        enc_data = request.form['img']
+        dec_data = base64.b64decode(enc_data.split(',')[1])
+        dec_img  = Image.open(BytesIO(dec_data))
+        dec_img.save('images/{}_{}.png'.format(curid, img_cnt))
+        return render_template('draw.html')
+
 
 # Send a mail
-@app.route('/mail')
+@app.route('/mail', methods=['GET', 'POST'])
 def mail():
     global id_pack
     global curid
@@ -182,13 +206,13 @@ def mail():
         return render_template('mail.html')
 
     else:
-        subprocess.call('ruby mail/MailTest002.rb ' + curid)
+        subprocess.call(['ruby', 'database/mail.rb', str(curid)])
 
         session = Session()
         curid = session.query(CurId).first().id = curid + 1
         session.commit()
 
-        sleep(3)
+        time.sleep(3)
 
         return render_template('mail.html')
 

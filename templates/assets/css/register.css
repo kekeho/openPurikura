@@ -16,14 +16,30 @@
   border: 5px solid #a0a0a0;
   border-radius: 5px;
   box-shadow: 0 0 10px 3px #b0b0b0;
+
+  font: 2vh 'TsukuARdGothic-Regular';
 }
 
-#terms > p {
+#terms  p, #terms  ol {
   margin: 8px 8px;
 }
 
-#terms > h5 {
-  margin: 2px 8px 0 8px;
+#terms ol {
+  list-style-type: none;
+
+  padding-left: 0;
+}
+
+#terms  li {
+  counter-increment: cnt;
+}
+
+#terms  li::before {
+  content: '('counter(cnt) ') ';
+}
+
+#terms h5 {
+  margin: 20px 8px 0 8px;
 }
 
 #accept {

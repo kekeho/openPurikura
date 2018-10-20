@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/cd300.js"></script>
+
     <script type="text/javascript" src="./assets/js/draw.js"></script>
     <script type="text/javascript" src="./assets/js/ptext.js"></script>
     <script type="text/javascript" src="./assets/js/stamp.js"></script>
@@ -14,7 +15,7 @@
   <body onload="init()" oncontextmenu="return false;">
     <!-- header -->
     <div id="header">
-      <div id="end">END</div>
+      <div id="end" onclick="savePictures()">END</div>
       <div id="timer"></div>
       <img id="logo" src="./assets/src/logo.png">
     </div>
@@ -31,42 +32,42 @@
               <td onclick="tool(1); changeLineWidth(10)"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
-              <td><img onclick="back()"src="./assets/src/undo.png"></td>
-              <td><img src="./assets/src/rotate-reverseclock.png"></td>
-              <td><img src="./assets/src/rotate-clock.png"></td>
-              <td><img onclick="next()" src="./assets/src/redo.png"></td>
+              <td><img onclick="back()" src="./assets/src/undo.png" ></td>
+              <td><img onclick="next()" src="./assets/src/redo.png" ></td>
+              <td><img onclick="" src="./assets/src/rotate-reverseclock.png" ></td>
+              <td><img onclick="" src="./assets/src/rotate-clock.png" ></td>
             </tr>
           </table>
           <table id="pallet">
             <tr>
-              <td><div id="color-deepred" onclick="changeColor(1)"></div></td>
-              <td><div id="color-purple" onclick="changeColor(5)"></div></td>
-              <td><div id="color-green" onclick="changeColor(11)"></div></td>
-              <td><div id="color-vividgreen" onclick="changeColor(16)"></div></td>
+              <td><div id="color-deepred"     onclick="changeColor(1); stRecolor(1)"  ></div></td>
+              <td><div id="color-purple"      onclick="changeColor(6); stRecolor(6)"  ></div></td>
+              <td><div id="color-green"       onclick="changeColor(11)" ></div></td>
+              <td><div id="color-vividgreen"  onclick="changeColor(16)" ></div></td>
             </tr>
             <tr>
-              <td><div id="color-red" onclick="changeColor(2)"></div></td>
-              <td><div id="color-blue" onclick="changeColor(7)"></div></td>
-              <td><div id="color-yellow" onclick="changeColor(12)"></div></td>
-              <td><div id="color-darkgreen" onclick="changeColor(17)"></div></td>
+              <td><div id="color-red"         onclick="changeColor(2)"  ></div></td>
+              <td><div id="color-blue"        onclick="changeColor(7)"  ></div></td>
+              <td><div id="color-yellow"      onclick="changeColor(12)" ></div></td>
+              <td><div id="color-darkgreen"   onclick="changeColor(17)" ></div></td>
             </tr>
             <tr>
-              <td><div id="color-salmonpink" onclick="changeColor(3)"></div></td>
-              <td><div id="color-deepblue" onclick="changeColor(8)"></div></td>
-              <td><div id="color-vividorange" onclick="changeColor(13)"></div></td>
-              <td><div id="color-gray" onclick="changeColor(18)"></div></td>
+              <td><div id="color-salmonpink"  onclick="changeColor(3)"  ></div></td>
+              <td><div id="color-deepblue"    onclick="changeColor(8)"  ></div></td>
+              <td><div id="color-vividorange" onclick="changeColor(13)" ></div></td>
+              <td><div id="color-gray"        onclick="changeColor(18)" ></div></td>
             </tr>
             <tr>
-              <td><div id="color-hotpink" onclick="changeColor(4)"></div></td>
-              <td><div id="color-lightblue" onclick="changeColor(9)"></div></td>
-              <td><div id="color-orange" onclick="changeColor(14)"></div></td>
-              <td><div id="color-black" onclick="changeColor(19)"></div></td>
+              <td><div id="color-hotpink"     onclick="changeColor(4)"  ></div></td>
+              <td><div id="color-lightblue"   onclick="changeColor(9)"  ></div></td>
+              <td><div id="color-orange"      onclick="changeColor(14)" ></div></td>
+              <td><div id="color-black"       onclick="changeColor(19)" ></div></td>
             </tr>
             <tr>
-              <td><div id="color-pink" onclick="changeColor(5)"></div></td>
-              <td><div id="color-vividblue" onclick="changeColor(10)"></div></td>
-              <td><div id="color-beige" onclick="changeColor(15)"></div></td>
-              <td><div id="color-white" onclick="changeColor(20)"></div></td>
+              <td><div id="color-pink"        onclick="changeColor(5)"  ></div></td>
+              <td><div id="color-vividblue"   onclick="changeColor(10)" ></div></td>
+              <td><div id="color-beige"       onclick="changeColor(15)" ></div></td>
+              <td><div id="color-white"       onclick="changeColor(20)" ></div></td>
             </tr>
           </table>
         </div>
@@ -76,7 +77,7 @@
           <canvas id="eventCanvas" width=466 height=466></canvas>
         </div>
         <div id="zoom">
-          <div id="zoom-in">
+          <div id="zoom-in" onclick="resizeObj(1.1)">
             <div class="row">
               <div class="col"></div>
               <div class="col"></div>
@@ -86,7 +87,7 @@
               <div class="col"></div>
             </div>
           </div>
-          <div id="zoom-out">
+          <div id="zoom-out" onclick="resizeObj(0.9)">
             <div class="row">
               <div class="col"></div>
             </div>
@@ -117,35 +118,35 @@
           <input id="tab-1-1" type="radio" name="tab-tab-1" checked="checked">
           <label for="tab-1-1">日本語スタンプ</label>
           <div>
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
+            <img onclick="loadStamp('JP', 1)" src="./assets/stamp/JP/1/1-Black.png">
+            <img onclick="loadStamp('JP', 2)" src="./assets/stamp/JP/2/2-Black.png">
+            <img onclick="loadStamp('JP', 3)" src="./assets/stamp/JP/3/3-Black.png">
+            <img onclick="loadStamp('JP', 4)" src="./assets/stamp/JP/4/4-Black.png">
+            <img onclick="loadStamp('JP', 5)" src="./assets/stamp/JP/5/5-Black.png">
+            <img onclick="loadStamp('JP', 6)" src="./assets/stamp/JP/6/6-Black.png">
+            <img onclick="loadStamp('JP', 7)" src="./assets/stamp/JP/7/7-Black.png">
           </div>
           <input id="tab-1-2" type="radio" name="tab-tab-1">
           <label for="tab-1-2">英語スタンプ</label>
           <div>
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
+            <img onclick="loadStamp('EN', 1)" src="./assets/stamp/EN/1/1-Black.png">
+            <img onclick="loadStamp('EN', 2)" src="./assets/stamp/EN/2/2-Black.png">
+            <img onclick="loadStamp('EN', 3)" src="./assets/stamp/EN/3/3-Black.png">
+            <img onclick="loadStamp('EN', 4)" src="./assets/stamp/EN/4/4-Black.png">
+            <img onclick="loadStamp('EN', 5)" src="./assets/stamp/EN/5/5-Black.png">
+            <img onclick="loadStamp('EN', 6)" src="./assets/stamp/EN/6/6-Black.png">
+            <img onclick="loadStamp('EN', 7)" src="./assets/stamp/EN/7/7-Black.png">
           </div>
           <input id="tab-1-3" type="radio" name="tab-tab-1">
           <label for="tab-1-3">韓国語スタンプ</label>
           <div>
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
+            <img onclick="loadStamp('KR', 1)" src="./assets/stamp/KR/1/1-Black.png">
+            <img onclick="loadStamp('KR', 2)" src="./assets/stamp/KR/2/2-Black.png">
+            <img onclick="loadStamp('KR', 3)" src="./assets/stamp/KR/3/3-Black.png">
+            <img onclick="loadStamp('KR', 4)" src="./assets/stamp/KR/4/4-Black.png">
+            <img onclick="loadStamp('KR', 5)" src="./assets/stamp/KR/5/5-Black.png">
+            <img onclick="loadStamp('KR', 6)" src="./assets/stamp/KR/6/6-Black.png">
+            <img onclick="loadStamp('KR', 7)" src="./assets/stamp/KR/7/7-Black.png">
           </div>
         </div>
         <input id="tab-2" type="radio" name="tab">
@@ -154,24 +155,19 @@
           <input id="tab-2-1" type="radio" name="tab-tab-2" checked="checked">
           <label for="tab-2-1">絵文字</label>
           <div>
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
+            <img onclick="loadStamp('EM', 1)" src="./assets/stamp/EM/1/1-Black.png">
+            <img onclick="loadStamp('EM', 2)" src="./assets/stamp/EM/2/2-Black.png">
+            <img onclick="loadStamp('EM', 3)" src="./assets/stamp/EM/3/3-Black.png">
+            <img onclick="loadStamp('EM', 4)" src="./assets/stamp/EM/4/4-Black.png">
+            <img onclick="loadStamp('EM', 5)" src="./assets/stamp/EM/5/5-Black.png">
           </div>
           <input id="tab-2-2" type="radio" name="tab-tab-2">
           <label for="tab-2-2">動物スタンプ</label>
           <div>
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
-            <img src="./assets/src/square.png">
+            <img onclick="loadStamp('AN', 1)" src="./assets/stamp/AN/1/1-Black.png">
+            <img onclick="loadStamp('AN', 2)" src="./assets/stamp/AN/2/2-Black.png">
+            <img onclick="loadStamp('AN', 3)" src="./assets/stamp/AN/3/3-Black.png">
+            <img onclick="loadStamp('AN', 4)" src="./assets/stamp/AN/4/4-Black.png">
           </div>
         </div>
         <input id="tab-3" type="radio" name="tab">
@@ -180,12 +176,12 @@
           <input id="i_text" type="text" placeholder="入力...">
           <table>
             <tr>
-              <td id="font-weight-2" onclick="putText(20)">あ</td>
-              <td id="font-weight-4" onclick="putText(20)">あ</td>
+              <td id="font-weight-2" onclick="putText(200)">あ</td>
+              <td id="font-weight-4" onclick="putText(400)">あ</td>
             </tr>
             <tr>
-              <td id="font-weight-6" onclick="putText(20)">あ</td>
-              <td id="font-weight-8" onclick="putText(20)">あ</td>
+              <td id="font-weight-6" onclick="putText(600)">あ</td>
+              <td id="font-weight-8" onclick="putText(800)">あ</td>
             </tr>
           </table>
         </div>
@@ -194,19 +190,19 @@
         <div>
           <table id="pen">
             <tr>
-              <td><img src=""></td>
-              <td><img src=""></td>
-              <td><img src=""></td>
-              <td><img src=""></td>
-              <td><img src=""></td>
+              <td>透明度</td>
+              <td onclick="alpha(0)">0%</td>
+              <td onclick="alpha(0.25)">25%</td>
+              <td onclick="alpha(0.5)">50%</td>
+              <td onclick="alpha(0.75)">75%</td>
             </tr>
           </table>
           <table id="pen-weight">
             <tr>
-              <td><img src=""></td>
-              <td onclick="tool(0); changeLineWidth(20)"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="tool(0); changeLineWidth(20)"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="tool(0); changeLineWidth(20)"><img src="./assets/src/pen-small.png"></td>
+              <td><img src="./assets/src/pen.png"></td>
+              <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
             </tr>
           </table>
         </div>

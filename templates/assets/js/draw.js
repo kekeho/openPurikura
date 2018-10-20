@@ -72,6 +72,8 @@ let y;
 // ペンの色と太さ
 let pColor;
 let pWidth;
+//ペンの透明度
+let pAlpha;
 
 // 作業モード初期値はペン
 let workMode;
@@ -92,6 +94,11 @@ let pictures;
 // 編集中の画像の添字
 let pic_num;
 
+//右に表示されている3枚
+let pic1;
+let pic2;
+let pic3;
+
 //書き中か
 let drawingFlag;
 
@@ -105,6 +112,12 @@ let tc;
 //出来上がった写真たちが保存される配列
 let completedPictures;
 
+// 現在選択されているカラー
+var currentColor = penColor.black;
+
+// スタンプ
+var stamp = null;
+
 // onloadにより実行 
 function init() {
   canvasInit();
@@ -113,7 +126,6 @@ function init() {
   buttonInit();
 
   eventInit();
-  loadStamp();
 }
 
 function buttonInit() {
@@ -151,6 +163,8 @@ function userInit() {
   pWidth = penWidth.w3;
 
   drawingFlag = false;
+
+
 }
 
 // キャンバスについて、編集する画像の初期化関数
@@ -167,11 +181,11 @@ function canvasInit() {
   // 使用する3枚の画像
   pictures = [];
   pictures[0] = new Image();
-  pictures[0].src = "./assets/src/square.png";
+  pictures[0].src = "./assets/photos/draw_0.png";
   pictures[1] = new Image();
-  pictures[1].src = "./assets/src/square.png";
+  pictures[1].src = "./assets/photos/draw_1.png";
   pictures[2] = new Image();
-  pictures[2].src = "./assets/src/square.png";
+  pictures[2].src = "./assets/photos/draw_2.png";
 
   img = pictures[pic_num];
   img.onload = function() {
@@ -207,8 +221,6 @@ function back() {
   if (workMode == modeName.txediting)
     return;
 
-  back_button.className = "active";
-
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "source-over";
 
@@ -219,7 +231,6 @@ function back() {
     ctx.globalCompositeOperation = "destination-out";
 
   setTimeout(function(){
-    back_button.className = "";
   }, 150);
 }
 
@@ -233,8 +244,6 @@ function next() {
 
   if (workMode == modeName.txediting)
     return;
-
-  next_button.className = "active";
     
   if (workMode == modeName.erasering)
     ctx.globalCompositeOperation = "source-over";
@@ -246,8 +255,11 @@ function next() {
     ctx.globalCompositeOperation = "destination-out";
 
   setTimeout(function(){
-    next_button.className = "";
   }, 150);
+}
+
+function switchPen(){
+
 }
 
 // ペンがキャンバスの外に出たとき、浮いたときに線をやめて
@@ -291,7 +303,32 @@ function createCache() {
 
 // 編集する画像を切り替える
 function switchPic(num) {
-  createCache();
+  switch (workMode) {
+    case modeName.stediting:
+      stamp.apply();
+      createCache();
+      stamp = null;
+      break;
+    case modeName.txediting:
+      text.apply();
+      createCache();
+      text = null;
+      break;
+    case modeName.stamping:
+      stamp.cancel();
+      stamp = null;
+      break;
+    case modeName.erasering:
+      tool(0);
+      createCache();
+      break;
+  
+    default:
+      console.log("mko");
+      createCache();
+      break;
+  }
+  
   canvasLog[pic_num].top--;
   canvasLog[pic_num].current--;
 
@@ -331,10 +368,17 @@ function onClick(e) {
       break;
 
     case modeName.stamping:
-      stamp = new Stamp(stampImg, x, y, 1);
+      if (stamp != null) {
+        stamp.apply();
+        stamp = null;
+        createCache();
+      }
+      stamp = new Stamp(stampImg, x, y, 1, stamp_type, stamp_num);
+      stamp.resize(0.1);
       break;
 
     case modeName.stediting:
+      console.log('TEST');
       stamp.move(x, y);
       break;
 
@@ -344,9 +388,33 @@ function onClick(e) {
   }
 }
 
-function putText(size) {
-  if (loadText())
-    text = new Text(input_text, x, y, size);
+function putText(weight) {
+  //二つ以上連続で作成ボタンを押された時
+  if (workMode == modeName.txediting) {
+    text.canvas.id = "editCanvas" + weight;
+    text.fontsize = weight/5 + "px serif";
+    text.move(text.x, text.y);
+    console.log("asdf");
+    return;
+  }
+
+  if (workMode == modeName.stediting) {
+    stamp.apply();
+    stamp = null;
+    createCache();
+  }
+
+  if (workMode == modeName.stediting) {
+    stamp.cancel();
+    stamp = null;
+  }
+
+  if (loadText()!="")
+    text = new Text(input_text, x, y, 50, weight);
+    text.fontsize = weight/5 + "px serif";
+    text.move(text.x, text.y);
+    text.canvas.id = "editCanvas" + weight;
+    console.log("asdf");
 }
 
 // ペンモードでドラッグ
@@ -417,12 +485,19 @@ function changeLineWidth(lineWidth) {
 function tool(toolNum) {
   if (workMode == modeName.stediting) {
     stamp.apply();
-    delete stamp;
+    stamp = null;
+    createCache();
   }
 
   if (workMode == modeName.txediting) {
     text.apply();
-    delete text;
+    text = null;
+    createCache();
+  }
+
+  if (workMode == modeName.stamping) {
+    stamp.cancel();
+    stamp = null;
   }
 
   switch (toolNum) {
@@ -446,105 +521,128 @@ function tool(toolNum) {
 // 色を変える関数
 function changeColor(colorID) {
   switch (colorID) {
-    case penColor.red:
-      pColor.r = 255;
-      pColor.b = 0;
-      pColor.g = 0;
-      break;
-    case penColor.blue:
-      pColor.r = 0;
-      pColor.g = 0;
-      pColor.b = 255;
-      break;
-    case penColor.green:
-      pColor.r = 0;
-      pColor.g = 255;
-      pColor.b = 0;
-      break;
-    case penColor.black:
-      pColor.r = 20;
-      pColor.g = 20;
-      pColor.b = 20;
-      break;
-    case penColor.white:
-      pColor.r = 255;
-      pColor.g = 255;
-      pColor.b = 255;
-      break;
-    case penColor.deepblue:
-      pColor.r = 0;
-      pColor.g = 113;
-      pColor.b = 176;
-      break;
     case penColor.deepred:
       pColor.r = 193;
       pColor.g = 39;
       pColor.b = 45;
+      color = pColor.deepred;
       break;
-    case penColor.gray:
-      pColor.r = 128;
-      pColor.g = 128;
-      pColor.b = 128;
-      break;
-    case penColor.vividblue:
-      pColor.r = 0;
-      pColor.g = 255;
-      pColor.b = 255;
-      break;
-    case penColor.lightblue:
-      pColor.r = 50;
-      pColor.g = 200;
-      pColor.b = 255;
-      break;
-    case penColor.vividgreen:
-      pColor.r = 217;
-      pColor.g = 224;
-      pColor.b = 33;
-      break;
-    case penColor.darkgreen:
-      pColor.r = 85;
-      pColor.g = 107;
-      pColor.b = 47;
-      break;
-    case penColor.orange:
-      pColor.r = 247;
-      pColor.g = 147;
-      pColor.b = 30;
-      break;
-    case penColor.beige:
-      pColor.r = 198;
-      pColor.g = 156;
-      pColor.b = 109;
-      break;
-    case penColor.pink:
+    case penColor.red:
       pColor.r = 255;
-      pColor.g = 192;
-      pColor.b = 203;
+      pColor.b = 0;
+      pColor.g = 0;
+      color = pColor.red;
       break;
     case penColor.salmonpink:
       pColor.r = 237;
       pColor.g = 30;
       pColor.b = 121;
-      break;
-    case penColor.vividorange:
-      pColor.r = 251;
-      pColor.g = 176;
-      pColor.b = 59;
-      break;
-    case penColor.yellow:
-      pColor.r = 255;
-      pColor.g = 255;
-      pColor.b = 0;
-      break;
-    case penColor.purple:
-      pColor.r = 160;
-      pColor.g = 0;
-      pColor.b = 160;
+      color = pColor.salmonpink;
       break;
     case penColor.hotpink:
       pColor.r = 255;
       pColor.g = 105;
       pColor.b = 180;
+      color = pColor.hotpink;
+      break;
+    case penColor.pink:
+      pColor.r = 255;
+      pColor.g = 192;
+      pColor.b = 203;
+      color = pColor.pink;
+      break;
+    
+    case penColor.purple:
+      pColor.r = 160;
+      pColor.g = 0;
+      pColor.b = 160;
+      color = pColor.purple;
+      break;
+    case penColor.blue:
+      pColor.r = 0;
+      pColor.g = 0;
+      pColor.b = 255;
+      color = pColor.blue;
+      break;
+    case penColor.deepblue:
+      pColor.r = 0;
+      pColor.g = 113;
+      pColor.b = 176;
+      color = pColor.deepblue;
+      break;
+    case penColor.lightblue:
+      pColor.r = 50;
+      pColor.g = 200;
+      pColor.b = 255;
+      color = pColor.lightblue;
+      break;
+    case penColor.vividblue:
+      pColor.r = 0;
+      pColor.g = 255;
+      pColor.b = 255;
+      color = pColor.vividblue;
+      break;
+    
+    case penColor.green:
+      pColor.r = 0;
+      pColor.g = 255;
+      pColor.b = 0;
+      color = pColor.green;
+      break;
+    case penColor.yellow:
+      pColor.r = 255;
+      pColor.g = 255;
+      pColor.b = 0;
+      color = pColor.yellow;
+      break;
+      case penColor.vividorange:
+      pColor.r = 251;
+      pColor.g = 176;
+      pColor.b = 59;
+      color = pColor.vividorange;
+      break;
+    case penColor.orange:
+      pColor.r = 247;
+      pColor.g = 147;
+      pColor.b = 30;
+      color = pColor.orange;
+      break;
+    case penColor.beige:
+      pColor.r = 198;
+      pColor.g = 156;
+      pColor.b = 109;beige
+      color = pColor.red;
+      break;
+    
+    case penColor.vividgreen:
+      pColor.r = 217;
+      pColor.g = 224;
+      pColor.b = 33;
+      color = pColor.vividgreen;
+      break;
+    case penColor.darkgreen:
+      pColor.r = 85;
+      pColor.g = 107;
+      pColor.b = 47;
+      color = pColor.darkgreen;
+      break;
+    case penColor.gray:
+      pColor.r = 128;
+      pColor.g = 128;
+      pColor.b = 128;
+      color = pColor.gray;
+      break;
+    case penColor.black:
+      pColor.r = 20;
+      pColor.g = 20;
+      pColor.b = 20;
+      color = pColor.black;
+      break;
+    case penColor.white:
+      pColor.r = 255;
+      pColor.g = 255;
+      pColor.b = 255;
+      color = pColor.white;
       break;
     default:
   }
@@ -555,14 +653,55 @@ function changeColor(colorID) {
 
 // 最後の完成写真を合成して保存する関数
 function savePictures() {
-  for(let i = 0; i<3; i++){
-    let compPNG = canvasLog.log[i].toDataURL();
-    completedPictures[i] = compPNG;
+  if (workMode == modeName.stediting) {
+    stamp.apply();
+    stamp = null;
+    createCache();
+  } else if (workMode == modeName.txediting) {
+    text.apply();
+    text = null;
+    createCache();
   }
+
+  for(let i = 0; i < 3; i++){
+    let backCanvas = document.createElement('canvas')
+    backCanvas.width = pictures[i].width;
+    backCanvas.height = pictures[i].height;
+
+    let bctx = backCanvas.getContext("2d");
+    bctx.drawImage(pictures[i], 0, 0, backCanvas.width, backCanvas.height);
+
+    let toImgCanvas = canvasLog[i].log[canvasLog[i].current];
+    bctx.drawImage(toImgCanvas, 0, 0, backCanvas.width, backCanvas.height);
+
+    let base64 = backCanvas.toDataURL('image/png');
+    $.ajax({
+      type: 'POST',
+      url: '/draw',
+      data: {
+        cnt: i + 1,
+        img: base64
+      },
+      async: false
+    });
+  }
+
+  location.href = '/mail';
 }
 
 function PenColor(red, green, blue) {
   this.r = red;
   this.g = green;
   this.b = blue;
+}
+
+function resizeObj(_scale) {
+  switch (workMode) {
+    case modeName.stediting:
+      stResize(_scale);
+      break;
+    case modeName.txediting:
+      txResize(_scale);
+      break;
+  }
 }

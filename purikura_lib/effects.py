@@ -56,8 +56,8 @@ def chromakey_green(image):
     """
     # Green
     # why I should divide by 2...f**k
-    lower_color = np.array([65 / 2, 50, 50])
-    upper_color = np.array([155 / 2, 255, 255])
+    lower_color = np.array([120 / 2, 50, 100])
+    upper_color = np.array([180 / 2, 255, 255])
 
     # convert image to hsv
     hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -75,8 +75,8 @@ def chromakey_blue(image):
     """
     # Green
     # why I should divide by 2...f**k
-    lower_color = np.array([65 / 2, 50, 50])
-    upper_color = np.array([155 / 2, 255, 255])
+    lower_color = np.array([160 / 2, 50, 100])
+    upper_color = np.array([220 / 2, 255, 255])
 
     # convert image to hsv
     hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -87,7 +87,7 @@ def chromakey_blue(image):
     return return_img
 
 
-def merge(image1, image2, x=0, y=0, per=100):
+def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
     """Put image2 on image 1
     Args:
         image1: base image
@@ -106,10 +106,9 @@ def merge(image1, image2, x=0, y=0, per=100):
     image1 = Image.fromarray(image1).convert('RGBA')
     image2 = Image.fromarray(image2).convert('RGBA')
 
-    result = Image.alpha_composite(image1, image2)
-    #image1.paste(image2, box=(x, y), mask=image2)
+    image1.paste(image2, box=(x, y), mask=image2.split()[3])
 
-    return np.asarray(result)
+    return np.asarray(image1)
 
 
 def skin_beautify(image, rate=10):
@@ -154,6 +153,7 @@ def distort(image, from_points, to_points, roi_points):
     affin.estimate(to_points, from_points)
     image_array = transform.warp(image, affin)
     image_array = np.array(image_array * 255, dtype='uint8')
+
 
     if image_array.shape[2] == 1:
         image_array = image_array.reshape(

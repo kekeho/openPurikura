@@ -1,17 +1,98 @@
+var stamp_type = "";
+var stamp_num = 1;
+
 // スタンプ読み込み
-function loadStamp() {
+function loadStamp(_type, _num) {
+  if (workMode == modeName.txediting) {
+    text.apply();
+  }
+
+  type = _type;
+  num = _num;
   stampImg = new Image();
-  stampImg.src = "./assets/stamp/stamp.png";
+
+  let colorName = "";
+
+  switch (currentColor) {
+    case penColor.deepred:
+      colorName = "DeepRed";
+      break;
+    case penColor.red:
+      break;
+    case penColor.salmonpink:
+      colorName = "Red";
+      break;
+    case penColor.hotpink:
+        colorName = "HotPink";
+      break;
+    case penColor.pink:
+      colorName = "Pink";
+      break;
+    
+    case penColor.purple:
+      colorName = "Purple";
+      break;
+    case penColor.blue:
+      colorName = "Blue";
+      break;
+    case penColor.deepblue:
+      colorName = "DeepBlue";
+      break;
+    case penColor.lightblue:
+      colorName = "LightBlue";
+      break;
+    case penColor.vividblue:
+      colorName = "VividBlue";
+      break;
+    
+    case penColor.green:
+      colorName = "Green";
+      break;
+    case penColor.yellow:
+      colorName = "Yellow";
+      break;
+    case penColor.vividorange:
+      colorName = "VividOrange";
+      break;
+    case penColor.orange:
+      colorName = "Orange";
+      break;
+    case penColor.beige:
+      colorName = "Beige";
+      break;
+    
+    case penColor.vividgreen:
+      colorName = "VividGreen";
+      break;
+    case penColor.darkgreen:
+      colorName = "DarkGreen";
+      break;
+    case penColor.gray:
+      colorName = "Gray";
+      break;
+    case penColor.black:
+      colorName = "Black";
+      break;
+    case penColor.white:
+      colorName = "White";
+      break;
+  }
+
+  stampImg.src = "./assets/stamp/" + type + "/" + num + "/" + num + "-" + colorName +  ".png";
+
+  workMode = modeName.stamping;
 }
 
 // スタンプを表すオブジェクト
-function Stamp(img, x, y, scale) {
+function Stamp(img, x, y, scale, type, num) {
   this.img = img;
   this.x = x;
   this.y = y;
-  this.w = img.width;
-  this.h = img.height;
   this.scale = scale;
+  this.w = this.img.width * this.scale;
+  this.h = this.img.height * this.scale;
+  this.type = type;
+  this.num = num;
 
   // 編集用キャンバス作成
   this.canvas = document.createElement("canvas");
@@ -26,9 +107,6 @@ function Stamp(img, x, y, scale) {
   this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
 
   // モード変更
-  pen_button.className = '';
-  era_button.className = '';
-  sta_button.className = 'active';
   workMode = modeName.stediting;
 
   // 移動
@@ -37,6 +115,7 @@ function Stamp(img, x, y, scale) {
     this.y = y;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.resize(this.scale);
     this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
   }
 
@@ -57,9 +136,84 @@ function Stamp(img, x, y, scale) {
     this.ctx.drawImage(temp, this.x - this.w / 2, this.y - this.h / 2);
   }
 
+  // 色変更
+  this.recolor = function(id){
+    let colorName = "";
+    switch (id) {
+      case penColor.deepred:
+        colorName = "DeepRed";
+        break;
+      case penColor.red:
+        break;
+      case penColor.salmonpink:
+        colorName = "Red";
+        break;
+      case penColor.hotpink:
+          colorName = "HotPink";
+        break;
+      case penColor.pink:
+        colorName = "Pink";
+        break;
+      
+      case penColor.purple:
+        colorName = "Purple";
+        break;
+      case penColor.blue:
+        colorName = "Blue";
+        break;
+      case penColor.deepblue:
+        colorName = "DeepBlue";
+        break;
+      case penColor.lightblue:
+        colorName = "LightBlue";
+        break;
+      case penColor.vividblue:
+        colorName = "VividBlue";
+        break;
+      
+      case penColor.green:
+        colorName = "Green";
+        break;
+      case penColor.yellow:
+        colorName = "Yellow";
+        break;
+      case penColor.vividorange:
+        colorName = "VividOrange";
+        break;
+      case penColor.orange:
+        colorName = "Orange";
+        break;
+      case penColor.beige:
+        colorName = "Beige";
+        break;
+      
+      case penColor.vividgreen:
+        colorName = "VividGreen";
+        break;
+      case penColor.darkgreen:
+        colorName = "DarkGreen";
+        break;
+      case penColor.gray:
+        colorName = "Gray";
+        break;
+      case penColor.black:
+        colorName = "Black";
+        break;
+      case penColor.white:
+        colorName = "White";
+        break;
+    }
+  
+    _img = new Image();
+    _img.src = "./assets/stamp/" + this.type + "/" +this. num + "/" + this.num + "-" + colorName +  ".png";
+    this.img = _img;
+  }
+
   // 配置キャンセル
   this.cancel = function() {
     this.stampBox.removeChild(this.canvas);
+    workMode = modeName.drawing;
+    stamp = null;
   }
 
   // 配置決定
@@ -68,4 +222,15 @@ function Stamp(img, x, y, scale) {
     createCache();
     this.cancel();
   }
+}
+
+// onclickで呼ばれる スタンプをリサイズ
+function stResize(_scale){
+  stamp.resize(stamp.scale * _scale);
+}
+
+// onclickで呼ばれる スタンプをリカラー
+function stRecolor(_id){
+  stamp.recolor(_id);
+  //stamp.move(stamp.x, stamp.y);
 }
