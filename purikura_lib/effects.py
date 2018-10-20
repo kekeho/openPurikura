@@ -87,7 +87,7 @@ def chromakey_blue(image):
     return return_img
 
 
-def merge(image1, image2, x=0, y=0, per=100):
+def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
     """Put image2 on image 1
     Args:
         image1: base image
@@ -104,9 +104,9 @@ def merge(image1, image2, x=0, y=0, per=100):
 
     # Convert opencv array to PIL data
     image1 = Image.fromarray(image1)
-    #image2 = Image.fromarray(image2)
+    image2 = Image.fromarray(image2)
 
-    #image1.paste(image2, box=(x, y), mask=image2.convert('RGBA'))
+    image1.paste(image2, box=(x, y), mask=image2.convert("RGBA").split()[3])
 
     return np.asarray(image1)
 

@@ -663,18 +663,17 @@ function savePictures() {
   //   downloader.click();
   // }
 
-  var base64 = canvasLog[0].log[canvasLog[0].current].toDataURL('image/png');
-  var request = {
+  let base64 = canvasLog[0].log[canvasLog[0].current].toDataURL('image/png');
+  let fData = new FormData();
+  fData.append('image', base64);
+  $.ajax({
+    type: 'POST',
     url: '/draw',
-    method: 'POST',
-    params: {
-        image: base64.replace(/^.*,/, '')
-    },
-    success: function (response) {
-        console.log(response.responseText);
+    data: { img: base64 },
+    success: function (data) {
+        console.log(data);
     }
-  };
-  Ext.Ajax.request(request);
+  });
 }
 
 function PenColor(red, green, blue) {
