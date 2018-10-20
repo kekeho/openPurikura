@@ -306,13 +306,17 @@ function switchPic(num) {
   switch (workMode) {
     case modeName.stediting:
       stamp.apply();
-      delete stamp;
+      createCache();
+      stamp = null;
       break;
     case modeName.txediting:
       text.apply();
+      createCache();
+      text = null;
       break;
     case modeName.stamping:
       stamp.cancel();
+      stamp = null;
       break;
     case modeName.erasering:
       tool(0);
@@ -366,6 +370,8 @@ function onClick(e) {
     case modeName.stamping:
       if (stamp != null) {
         stamp.apply();
+        stamp = null;
+        createCache();
       }
       stamp = new Stamp(stampImg, x, y, 1, stamp_type, stamp_num);
       stamp.resize(0.1);
@@ -394,12 +400,13 @@ function putText(weight) {
 
   if (workMode == modeName.stediting) {
     stamp.apply();
-    return;
+    stamp = null;
+    createCache();
   }
 
   if (workMode == modeName.stediting) {
     stamp.cancel();
-    return;
+    stamp = null;
   }
 
   if (loadText()!="")
@@ -488,17 +495,19 @@ function changeLineWidth(lineWidth) {
 function tool(toolNum) {
   if (workMode == modeName.stediting) {
     stamp.apply();
-    delete stamp;
+    stamp = null;
+    createCache();
   }
 
   if (workMode == modeName.txediting) {
     text.apply();
-    delete text;
+    text = null;
+    createCache();
   }
 
   if (workMode == modeName.stamping) {
     stamp.cancel();
-    delete stamp;
+    stamp = null;
   }
 
   switch (toolNum) {
@@ -656,8 +665,12 @@ function changeColor(colorID) {
 function savePictures() {
   if (workMode == modeName.stediting) {
     stamp.apply();
+    stamp = null;
+    createCache();
   } else if (workMode == modeName.txediting) {
     text.apply();
+    text = null;
+    createCache();
   }
 
   for(let i = 0; i < 3; i++){

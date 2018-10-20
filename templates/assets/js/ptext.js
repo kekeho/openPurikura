@@ -71,7 +71,6 @@ function Text(text, x, y, fontsize, fontWeight){
   this.cancel = function(){
     this.textBox.removeChild(this.canvas);
     workMode = modeName.drawing;
-    text = null;
   }
 
   //配置決定
