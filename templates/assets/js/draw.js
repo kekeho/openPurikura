@@ -353,6 +353,7 @@ function onClick(e) {
   switch (workMode) {
     case modeName.drawing:
     case modeName.erasering:
+      console.log('TEST');
       drawLine(before_x, before_y);
       break;
 
@@ -362,7 +363,6 @@ function onClick(e) {
       break;
 
     case modeName.stediting:
-      console.log('TEST');
       stamp.move(x, y);
       break;
 
@@ -441,13 +441,22 @@ function textResize(size){
 // 線を引く関数。ペンで描くときの
 function drawLine(X, Y) {
   ctx.lineCap = "round";
-  ctx.strokeStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
+  //ctx.strokeStyle = "rgba("  + pColor.r + "," + pColor.g + "," + pColor.b + "," + pColor.a + ")";
+  ctx.strokeStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b  + ")";
   ctx.lineWidth = pWidth;
+  
+
 
   ctx.beginPath();
   if (penX == null) {
+    ctx.globalCompositeOperation = "xor";
+    ctx.arc(X, Y, ctx.lineWidth / 6, 0, Math.PI*2, false);
+    ctx.globalCompositeOperation = "source-over";
     ctx.moveTo(X, Y);
   } else {
+    ctx.globalCompositeOperation = "xor";
+    ctx.arc(penX, penY, ctx.lineWidth / 6, 0, Math.PI*2, false);
+    ctx.globalCompositeOperation = "source-over";
     ctx.moveTo(penX, penY);
   }
 
@@ -478,7 +487,7 @@ function tool(toolNum) {
 
   switch (toolNum) {
     case 0: // ペンモード
-      ctx.globalCompositeOperation = "source-over";
+      // ctx.globalCompositeOperation = "xor";
       workMode = modeName.drawing;
       break;
 
@@ -672,4 +681,14 @@ function PenColor(red, green, blue) {
   this.r = red;
   this.g = green;
   this.b = blue;
+  this.a = 1;
+}
+
+function alpha(a){
+  debug();
+  pColor.a = 1 - a;
+}
+
+function debug(){
+  console.log('DEBUG');
 }

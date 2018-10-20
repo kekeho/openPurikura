@@ -76,7 +76,7 @@
           <canvas id="eventCanvas" width=466 height=466></canvas>
         </div>
         <div id="zoom">
-          <div id="zoom-in" onclick="text.resize(1)">
+          <div id="zoom-in" onclick="stResize(1.1)">
             <div class="row">
               <div class="col"></div>
               <div class="col"></div>
@@ -86,7 +86,7 @@
               <div class="col"></div>
             </div>
           </div>
-          <div id="zoom-out" onclick="text.resize(-1)">
+          <div id="zoom-out" onclick="stResize(0.9)">
             <div class="row">
               <div class="col"></div>
             </div>
@@ -189,16 +189,16 @@
         <div>
           <table id="pen">
             <tr>
-              <td><img src=""></td>
-              <td><img src=""></td>
-              <td><img src=""></td>
-              <td><img src=""></td>
-              <td><img src=""></td>
+              <td>透明度</td>
+              <td onclick="alpha(0)">0%</td>
+              <td onclick="alpha(0.25)">25%</td>
+              <td onclick="alpha(0.5)">50%</td>
+              <td onclick="alpha(0.75)">75%</td>
             </tr>
           </table>
           <table id="pen-weight">
             <tr>
-              <td><img src=""></td>
+              <td><img src="./assets/src/pen.png"></td>
               <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
               <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
               <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
