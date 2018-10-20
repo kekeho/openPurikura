@@ -28,9 +28,8 @@ SELECT_FM = 1
 
 ###
 
-
-require 'mail'
-require 'sqlite3'
+require '/var/lib/gems/2.5.0/gems/mail-2.7.1/lib/mail.rb'
+require '/var/lib/gems/2.5.0/gems/sqlite3-1.3.13/lib/sqlite3.rb'
 
 #IDの指定がない場合、終了
 if ARGV[0] == nil then
