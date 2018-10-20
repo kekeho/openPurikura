@@ -137,10 +137,3 @@ function Stamp(img, x, y, scale) {
     this.cancel();
   }
 }
-
-// onclickで呼ばれる スタンプをリサイズ
-function stResize(_scale){
-  if (workMode == modeName.stediting) {
-    stamp.resize(stamp.scale * _scale);
-  }
-}
