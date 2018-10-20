@@ -69,7 +69,7 @@ function loadStamp(type, num) {
       break;
   }
 
-  stampImg.src = "./assets/stamp/" + type + "/" + num + "-" + colorName +  ".png";
+  stampImg.src = "./assets/stamp/" + type + "/" + num + "/" + num + "-" + colorName +  ".png";
 }
 
 // スタンプを表すオブジェクト
