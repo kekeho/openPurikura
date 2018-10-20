@@ -392,7 +392,7 @@ function putText(weight) {
   //二つ以上連続で作成ボタンを押された時
   if (workMode == modeName.txediting) {
     text.canvas.id = "editCanvas" + weight;
-    text.fontsize = weight/5 + "px serif";
+    text.fontsize = weight/5;
     text.move(text.x, text.y);
     console.log("asdf");
     return;
@@ -411,7 +411,7 @@ function putText(weight) {
 
   if (loadText()!="")
     text = new Text(input_text, x, y, 50, weight);
-    text.fontsize = weight/5 + "px serif";
+    text.fontsize = weight/5;
     text.move(text.x, text.y);
     text.canvas.id = "editCanvas" + weight;
     console.log("asdf");
