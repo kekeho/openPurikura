@@ -40,8 +40,9 @@ taken = 0
 # Web camera
 cam = None
 
-# Current ID
+# User
 curid = 0
+email = ""
 
 
 @app.route('/')
@@ -58,13 +59,17 @@ def register():
 
         global session
         global curid
+        global email
 
         session = Session()
         new_curid = CurId()
         curid = session.query(CurId.id).first().id
 
         session.query(User).filter_by(id=curid).delete()
-        new_user = User(id=curid, name=request.form['name'], email=request.form['email'])
+        name = request.form['name']
+        email = request.form['email']
+        
+        new_user = User(id=curid, name=name, email=email)
         session.add(new_user)
         session.commit()
 
@@ -200,9 +205,18 @@ def draw():
 def mail():
     global id_pack
     global curid
+    global email
 
     if request.method == 'GET':
-        return render_template('mail.html')
+        print('email={}'.format(email))
+        if (email == ""):
+            session = Session()
+            curid = session.query(CurId).first().id = curid + 1
+            session.commit()
+            return redirect('/end')
+
+        else:
+            return render_template('mail.html')
 
     else:
         subprocess.call(['ruby', 'database/mail.rb', str(curid)])
