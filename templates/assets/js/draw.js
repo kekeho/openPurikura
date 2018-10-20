@@ -669,10 +669,10 @@ function savePictures() {
     backCanvas.height = pictures[i].height;
 
     let bctx = backCanvas.getContext("2d");
-    bctx.drawImage(pictures[i], 0, 0);
+    bctx.drawImage(pictures[i], 0, 0, backCanvas.width, backCanvas.height);
 
     let toImgCanvas = canvasLog[i].log[canvasLog[i].current];
-    bctx.drawImage(toImgCanvas, 0, 0);
+    bctx.drawImage(toImgCanvas, 0, 0, backCanvas.width, backCanvas.height);
 
     let base64 = backCanvas.toDataURL('image/png');
     $.ajax({
