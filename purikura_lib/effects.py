@@ -49,7 +49,26 @@ def delete_pixel(image, mask):
     return return_img
 
 
-def chromakey(image):
+def chromakey_green(image):
+    """transpare green pixels
+    Return:
+        image which includes alpha channel: np.ndarray
+    """
+    # Green
+    # why I should divide by 2...f**k
+    lower_color = np.array([65 / 2, 50, 50])
+    upper_color = np.array([155 / 2, 255, 255])
+
+    # convert image to hsv
+    hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    # transparent mask
+    mask = cv2.inRange(hsv_img, lower_color, upper_color)
+    return_img = delete_pixel(image, mask)
+
+    return return_img
+
+
+def chromakey_blue(image):
     """transpare green pixels
     Return:
         image which includes alpha channel: np.ndarray
