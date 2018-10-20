@@ -314,7 +314,7 @@
   display: block;
   text-align: center;
 
-  width: calc(100% / 4);
+  width: calc(100% / 3);
   height: 4vh;
   
   margin: 0 auto;
@@ -325,7 +325,7 @@
   border-radius: 0 0 0 20px / 0 0 0 10px;
 }
 
-#bottom > label[for="tab-4"] {
+#bottom > label[for="tab-3"] {
   border-radius: 0 0 20px 0 / 0 0 10px 0;
 }
 
@@ -339,10 +339,6 @@
 
 #bottom > input:checked + label[for="tab-3"] {
   background: linear-gradient(white, #ed217b);
-}
-
-#bottom > input:checked + label[for="tab-4"] {
-  background: linear-gradient(white, #0f9850);
 }
 
 #bottom > input:not(:checked) + label + div {
@@ -363,12 +359,8 @@
   margin: 0.5vh auto;
 }
 
-#bottom > label[for="tab-3"] + div,
-#bottom > label[for="tab-4"] + div
-{
+#bottom > label[for="tab-3"] + div {
   align-items: center;
-
-  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
 }
 
 #bottom > label[for="tab-4"] + div {
