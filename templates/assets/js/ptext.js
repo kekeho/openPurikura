@@ -70,6 +70,7 @@ function Text(text, x, y, fontsize, fontWeight){
   //配置キャンセル
   this.cancel = function(){
     this.textBox.removeChild(this.canvas);
+    workMode = modeName.drawing;
     text = null;
   }
 
@@ -78,7 +79,6 @@ function Text(text, x, y, fontsize, fontWeight){
     ctx.drawImage(this.canvas, 0, 0);
     createCache();
     this.cancel();
-    workMode = modeName.drawing;
   }
 
 }

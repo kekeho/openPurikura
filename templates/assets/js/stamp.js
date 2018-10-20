@@ -208,6 +208,7 @@ function Stamp(img, x, y, scale, type, num) {
   // 配置キャンセル
   this.cancel = function() {
     this.stampBox.removeChild(this.canvas);
+    workMode = modeName.drawing;
   }
 
   // 配置決定
