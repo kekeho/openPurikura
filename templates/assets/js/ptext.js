@@ -29,7 +29,6 @@ function Text(text, x, y, fontsize, fontWeight){
   //モード変更
   workMode = modeName.txediting;
 
-  console.log("aaa");
   //リサイズ
   this.resize = function (newSize){
     this.fontsize = newSize;
@@ -52,20 +51,20 @@ function Text(text, x, y, fontsize, fontWeight){
   }
 
   //回転操作　wayに応じて回転方向を変える
-  this.spin = function(way) {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.rotate(1 * 10 * Math.PI/180);
-    this.ctx.translate(1, 1);
-    this.ctx.font = this.fontsize + " 'ヒラギノ角ゴシック','Hiragino Sans'";
-    this.ctx.strokeStyle = "blue";
-    this.ctx.strokeRect(-25, -25, 50, 50);
-    // this.ctx.fillText(this.text, 0, 0);
-    // this.ctx.rotate(-(this.angle) * 10 * Math.PI/180);
-    // this.ctx.translate(-this.x, -this.y);
+  // this.spin = function(way) {
+  //   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  //   this.ctx.rotate(1 * 10 * Math.PI/180);
+  //   this.ctx.translate(1, 1);
+  //   this.ctx.font = this.fontsize + " 'ヒラギノ角ゴシック','Hiragino Sans'";
+  //   this.ctx.strokeStyle = "blue";
+  //   this.ctx.strokeRect(-25, -25, 50, 50);
+  //   // this.ctx.fillText(this.text, 0, 0);
+  //   // this.ctx.rotate(-(this.angle) * 10 * Math.PI/180);
+  //   // this.ctx.translate(-this.x, -this.y);
     
-    console.log(this.angle);
-    createCache();
-  }
+  //   console.log(this.angle);
+  //   createCache();
+  // }
 
   //配置キャンセル
   this.cancel = function(){
