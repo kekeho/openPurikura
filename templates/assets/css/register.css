@@ -17,7 +17,7 @@
   border-radius: 5px;
   box-shadow: 0 0 10px 3px #b0b0b0;
 
-  font: 2vh 'TsukuARdGothic-Regular';
+  font-size: 2vh;
 }
 
 #terms  p, #terms  ol {
@@ -51,7 +51,7 @@ label[for="accept"] {
   
   margin: 6vh auto;
   padding-left: 5vh;
-  font: 2vh 'TsukuARdGothic-Regular';
+  font-size: 2vh;
 }
 
 label[for="accept"]::before {
@@ -89,7 +89,7 @@ label[for="accept"]::before {
 #note {
   margin: 5px 0;
   
-  font: 2vh 'TsukuARdGothic-Regular';
+  font-size: 2vh;
   color: #ed1e79;
 }
 
@@ -98,7 +98,7 @@ input[name="email"], input[name="name"] {
   
   padding: 0 7px;
   
-  font: 3vh 'Yu Gothic';
+  font-size: 3vh;
   
   border: 2px solid #a0a0a0;
   border-radius: 5px;
