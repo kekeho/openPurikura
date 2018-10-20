@@ -637,42 +637,35 @@ function changeColor(colorID) {
 
 // 最後の完成写真を合成して保存する関数
 function savePictures() {
-  // let toImgCanvas;
-  // let data;
-  // let bin;
-  // let buffer;
+  let toImgCanvas;
+  let data;
+  let bin;
+  let buffer;
 
+  for(let i = 0; i < 3; i++){
+    let backCanvas = document.createElement('canvas')
+    backCanvas.width = pictures[i].width;
+    backCanvas.width = pictures[i].height;
 
-  // for(let i = 0; i<3; i++){
-  //   toImgCanvas = canvasLog[i].log[canvasLog[i].current];
-  //   data   = toImgCanvas.toDataURL('img/png');
-  //   bin    = atob(data.split(',')[1]);
-  //   buffer = new Uint8Array(bin.length);
+    let bctx = backCanvas.getContext("2d");
+    bctx.drawImage(pictures[i], 0, 0);
 
-  //   for (var j = 0; j < bin.length; j++) {
-  //     buffer[j] = bin.charCodeAt(j);
-  //   }
-  //   let blob = new Blob([buffer.buffer], {type: 'img/png'});
-  //   let url = window.URL.createObjectURL(blob);
+    let toImgCanvas = canvasLog[i].log[canvasLog[i].current];
+    bctx.drawImage(toImgCanvas, 0, 0);
 
-  //   let downloader = $('#download');
-  //   downloader.attr('href', url);
-  //   downloader.attr('download', i+'-compic.png');
+    let base64 = toImgCanvas.toDataURL('image/png');
+    $.ajax({
+      type: 'POST',
+      url: '/draw',
+      data: {
+        cnt: i + 1,
+        img: base64
+      },
+      async: false
+    });
+  }
 
-  //   downloader.click();
-  // }
-
-  let base64 = canvasLog[0].log[canvasLog[0].current].toDataURL('image/png');
-  let fData = new FormData();
-  fData.append('image', base64);
-  $.ajax({
-    type: 'POST',
-    url: '/draw',
-    data: { img: base64 },
-    success: function (data) {
-        console.log(data);
-    }
-  });
+  location.href = '/mail';
 }
 
 function PenColor(red, green, blue) {

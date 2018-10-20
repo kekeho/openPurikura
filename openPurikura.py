@@ -190,10 +190,11 @@ def draw():
     else:
         #print(request.form)
         print(request.form)
+        img_cnt  = request.form['cnt']
         enc_data  = request.form['img']
         dec_data = base64.b64decode(enc_data.split(',')[1])
         dec_img  = Image.open(BytesIO(dec_data))
-        dec_img.save('images/{}_1.png'.format(curid))
+        dec_img.save('images/{}_{}.png'.format(curid, img_cnt))
         return render_template('draw.html')
 
 
