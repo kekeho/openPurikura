@@ -25,19 +25,11 @@ function Text(text, x, y, fontsize, fontWeight){
   this.ctx = this.canvas.getContext('2d');
   this.ctx.font = 'ヒラギノ角ゴシック','Hiragino Sans';
 //  this.ctx.font = this.fontWeight + " 'ヒラギノ角ゴシック'",this.fontWeight + " "'Hiragino Sans'";
-
-  this.ctx.font = this.fontsize + "px serif";
-  this.ctx.textAlign = "center";
-  this.ctx.fillText(this.text, this.x, this.y);
-
-  //色の変更
-  this.ctx.fillStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
   
   //モード変更
   workMode = modeName.txediting;
 
   console.log("aaa");
-
   //リサイズ
   this.resize = function (way){
     this.fontsize += 5*way;
@@ -52,6 +44,7 @@ function Text(text, x, y, fontsize, fontWeight){
     this.ctx.fillStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.font = 'ヒラギノ角ゴシック','Hiragino Sans';
+    this.ctx.textAlign = "center";
     this.ctx.font = this.fontsize + "px serif";
 
     //this.ctx.translate(this.x, this.y);
@@ -77,6 +70,7 @@ function Text(text, x, y, fontsize, fontWeight){
   //配置キャンセル
   this.cancel = function(){
     this.textBox.removeChild(this.canvas);
+    text = null;
   }
 
   //配置決定
@@ -84,6 +78,7 @@ function Text(text, x, y, fontsize, fontWeight){
     ctx.drawImage(this.canvas, 0, 0);
     createCache();
     this.cancel();
+    workMode = modeName.drawing;
   }
 
 }

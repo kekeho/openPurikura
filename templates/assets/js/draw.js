@@ -123,7 +123,6 @@ function init() {
   buttonInit();
 
   eventInit();
-  loadStamp();
 }
 
 function buttonInit() {
@@ -299,7 +298,13 @@ function createCache() {
 
 // 編集する画像を切り替える
 function switchPic(num) {
-  createCache();
+  if (workMode == modeName.txediting) {
+    text.apply();
+    createCache();
+  }else {
+    console.log("mko");
+    createCache();
+  }
   canvasLog[pic_num].top--;
   canvasLog[pic_num].current--;
 
@@ -354,19 +359,20 @@ function onClick(e) {
   }
 }
 
-
 function putText(weight) {
   //二つ以上連続で作成ボタンを押された時
   if (workMode == modeName.txediting) {
     text.canvas.id = "editCanvas" + weight;
-    text.fontsize = weight/4 + "px serif";
+    text.fontsize = weight/5 + "px serif";
     text.move(text.x, text.y);
     console.log("asdf");
     return;
   }
 
-  if (loadText())
+  if (loadText()!="")
     text = new Text(input_text, x, y, 50, weight);
+    text.fontsize = weight/5 + "px serif";
+    text.move(text.x, text.y);
     text.canvas.id = "editCanvas" + weight;
     console.log("asdf");
 }
@@ -411,6 +417,9 @@ function onMove(e) {
 
 function textResize(size){
   if(!text)
+    return;
+  
+  if(workMode!=modeName.txediting)
     return;
 
   text.resize(size);
@@ -616,30 +625,43 @@ function changeColor(colorID) {
 
 // 最後の完成写真を合成して保存する関数
 function savePictures() {
-  let toImgCanvas;
-  let data;
-  let bin;
-  let buffer;
+  // let toImgCanvas;
+  // let data;
+  // let bin;
+  // let buffer;
 
 
-  for(let i = 0; i<3; i++){
-    toImgCanvas = canvasLog[i].log[canvasLog[i].current];
-    data   = toImgCanvas.toDataURL('img/png');
-    bin    = atob(data.split(',')[1]);
-    buffer = new Uint8Array(bin.length);
+  // for(let i = 0; i<3; i++){
+  //   toImgCanvas = canvasLog[i].log[canvasLog[i].current];
+  //   data   = toImgCanvas.toDataURL('img/png');
+  //   bin    = atob(data.split(',')[1]);
+  //   buffer = new Uint8Array(bin.length);
 
-    for (var j = 0; j < bin.length; j++) {
-      buffer[j] = bin.charCodeAt(j);
+  //   for (var j = 0; j < bin.length; j++) {
+  //     buffer[j] = bin.charCodeAt(j);
+  //   }
+  //   let blob = new Blob([buffer.buffer], {type: 'img/png'});
+  //   let url = window.URL.createObjectURL(blob);
+
+  //   let downloader = $('#download');
+  //   downloader.attr('href', url);
+  //   downloader.attr('download', i+'-compic.png');
+
+  //   downloader.click();
+  // }
+
+var base64 = canvasLog[0].log[canvasLog[0].current].toDataURL('image/png');
+var request = {
+    url: 'http://localhost:4567/base64',
+    method: 'POST',
+    params: {
+        image: base64.replace(/^.*,/, '')
+    },
+    success: function (response) {
+        console.log(response.responseText);
     }
-    let blob = new Blob([buffer.buffer], {type: 'img/png'});
-    let url = window.URL.createObjectURL(blob);
-
-    let downloader = $('#download');
-    downloader.attr('href', url);
-    downloader.attr('download', i+'-compic.png');
-
-    downloader.click();
-  }
+};
+Ext.Ajax.request(request);
   
 }
 
