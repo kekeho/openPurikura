@@ -104,9 +104,9 @@ def merge(image1, image2, x=0, y=0, per=100):
 
     # Convert opencv array to PIL data
     image1 = Image.fromarray(image1)
-    image2 = Image.fromarray(image2)
+    #image2 = Image.fromarray(image2)
 
-    image1.paste(image2, box=(x, y), mask=image2)
+    #image1.paste(image2, box=(x, y), mask=image2.convert('RGBA'))
 
     return np.asarray(image1)
 
@@ -153,6 +153,7 @@ def distort(image, from_points, to_points, roi_points):
     affin.estimate(to_points, from_points)
     image_array = transform.warp(image, affin)
     image_array = np.array(image_array * 255, dtype='uint8')
+
 
     if image_array.shape[2] == 1:
         image_array = image_array.reshape(

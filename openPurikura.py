@@ -142,9 +142,11 @@ def retouching():
             #image = pl.effects.skin_beautify(image, rate=2)
             print("f")
             image = pl.effects.color_correction(image)
+            print("g")
             image = pl.effects.chromakey_green(image)
-
+            print("h")
             background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
+            print("i")
             image = pl.effects.merge(background, image)
 
             #if (i == 4):
