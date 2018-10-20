@@ -4,7 +4,7 @@ function loadStamp(type, num) {
 
   let colorName = "";
 
-  switch (color) {
+  switch (currentColor) {
     case penColor.deepred:
       colorName = "DeepRed";
       break;
