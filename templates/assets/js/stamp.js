@@ -1,7 +1,75 @@
 // スタンプ読み込み
-function loadStamp() {
+function loadStamp(type, num) {
   stampImg = new Image();
-  stampImg.src = "./assets/stamp/stamp.png";
+
+  let colorName = "";
+
+  switch (color) {
+    case penColor.deepred:
+      colorName = "DeepRed";
+      break;
+    case penColor.red:
+      break;
+    case penColor.salmonpink:
+      colorName = "Red";
+      break;
+    case penColor.hotpink:
+        colorName = "HotPink";
+      break;
+    case penColor.pink:
+      colorName = "Pink";
+      break;
+    
+    case penColor.purple:
+      colorName = "Purple";
+      break;
+    case penColor.blue:
+      colorName = "Blue";
+      break;
+    case penColor.deepblue:
+      colorName = "DeepBlue";
+      break;
+    case penColor.lightblue:
+      colorName = "LightBlue";
+      break;
+    case penColor.vividblue:
+      colorName = "VividBlue";
+      break;
+    
+    case penColor.green:
+      colorName = "Green";
+      break;
+    case penColor.yellow:
+      colorName = "Yellow";
+      break;
+    case penColor.vividorange:
+      colorName = "VividOrange";
+      break;
+    case penColor.orange:
+      colorName = "Orange";
+      break;
+    case penColor.beige:
+      colorName = "Beige";
+      break;
+    
+    case penColor.vividgreen:
+      colorName = "VividGreen";
+      break;
+    case penColor.darkgreen:
+      colorName = "DarkGreen";
+      break;
+    case penColor.gray:
+      colorName = "Gray";
+      break;
+    case penColor.black:
+      colorName = "Black";
+      break;
+    case penColor.white:
+      colorName = "White";
+      break;
+  }
+
+  stampImg.src = "./assets/stamp/" + type + "/" + num + "-" + colorName +  ".png";
 }
 
 // スタンプを表すオブジェクト

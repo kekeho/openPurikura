@@ -513,6 +513,8 @@
   height: 90%;
 
   border-radius: 10px;
+
+  background-color: white;
 }
 
 #bottom > div > div > img:first-child {
