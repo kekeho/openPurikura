@@ -663,9 +663,9 @@ function savePictures() {
   //   downloader.click();
   // }
 
-var base64 = canvasLog[0].log[canvasLog[0].current].toDataURL('image/png');
-var request = {
-    url: 'http://localhost:4567/base64',
+  var base64 = canvasLog[0].log[canvasLog[0].current].toDataURL('image/png');
+  var request = {
+    url: '/draw',
     method: 'POST',
     params: {
         image: base64.replace(/^.*,/, '')
@@ -673,7 +673,7 @@ var request = {
     success: function (response) {
         console.log(response.responseText);
     }
-};
+  };
   
 }
 
