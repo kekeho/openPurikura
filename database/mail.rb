@@ -28,9 +28,8 @@ SELECT_FM = 1
 
 ###
 
-
-require 'mail'
-require 'sqlite3'
+require '/var/lib/gems/2.5.0/gems/mail-2.7.1/lib/mail.rb'
+require '/var/lib/gems/2.5.0/gems/sqlite3-1.3.13/lib/sqlite3.rb'
 
 #IDの指定がない場合、終了
 if ARGV[0] == nil then
@@ -51,7 +50,7 @@ tdb.execute("select * from users where id = '#{ARGV[0]}'") do |row|
 
   	fdb.execute("select * from FromMail where id = #{SELECT_FM}") do |row2|
 
-  		print "#{row2[1]}から送信されます。\n"
+  		print "FromMail:#{row2[1]}\n"
 
 		mail = Mail.new
 		options =
@@ -68,7 +67,7 @@ tdb.execute("select * from users where id = '#{ARGV[0]}'") do |row|
 		mail.from "#{row2[1]}"								#送信元メールアドレス
 		mail.to "#{row[2]}"   								#送信先メールアドレス
 		mail.subject "3Jクラス企画プリクラ"						#メールタイトル
-		mail.body "#{row[1]}さん。\nご利用ありがとうございました。\n撮影したプリクラを添付します。\n" #メール本文
+		mail.body "#{row[1]}さん。\n\n工嶺祭3J企画「HUGっと!プリクラ」で作成した写真が完成しました！\nよろしければ、3Jにクラス企画投票をお願いします！\n\n※このメールは自動送信です。返信には対応しておりません。\n\nご意見はこちらのアドレスへ\n→ 3j.main@gmail.com" #メール本文
 		for num in 1..3.to_i do
 			mail.add_file "./images/#{ARGV[0]}_#{num}.png"	#添付画像
 		end

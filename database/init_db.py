@@ -26,6 +26,15 @@ class User(Base):
         return '<User(id=\'{}\', name=\'{}\', email=\'{}\')>'.format(self.id, self.name, self.email)
 
 
+class CurId(Base):
+    __tablename__ = 'curid'
+
+    id = Column(Integer, primary_key=True)
+
+    def __repr__(self):
+        return '<User(id=\'{}\')>'.format(self.id)
+
+
 def init():
     Base.metadata.create_all(engine)
 
