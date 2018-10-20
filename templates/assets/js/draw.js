@@ -105,6 +105,9 @@ let tc;
 //出来上がった写真たちが保存される配列
 let completedPictures;
 
+// 現在選択されているカラー
+var currentColor = penColor.black;
+
 // onloadにより実行 
 function init() {
   canvasInit();
@@ -459,105 +462,128 @@ function tool(toolNum) {
 // 色を変える関数
 function changeColor(colorID) {
   switch (colorID) {
-    case penColor.red:
-      pColor.r = 255;
-      pColor.b = 0;
-      pColor.g = 0;
-      break;
-    case penColor.blue:
-      pColor.r = 0;
-      pColor.g = 0;
-      pColor.b = 255;
-      break;
-    case penColor.green:
-      pColor.r = 0;
-      pColor.g = 255;
-      pColor.b = 0;
-      break;
-    case penColor.black:
-      pColor.r = 20;
-      pColor.g = 20;
-      pColor.b = 20;
-      break;
-    case penColor.white:
-      pColor.r = 255;
-      pColor.g = 255;
-      pColor.b = 255;
-      break;
-    case penColor.deepblue:
-      pColor.r = 0;
-      pColor.g = 113;
-      pColor.b = 176;
-      break;
     case penColor.deepred:
       pColor.r = 193;
       pColor.g = 39;
       pColor.b = 45;
+      color = pColor.deepred;
       break;
-    case penColor.gray:
-      pColor.r = 128;
-      pColor.g = 128;
-      pColor.b = 128;
-      break;
-    case penColor.vividblue:
-      pColor.r = 0;
-      pColor.g = 255;
-      pColor.b = 255;
-      break;
-    case penColor.lightblue:
-      pColor.r = 50;
-      pColor.g = 200;
-      pColor.b = 255;
-      break;
-    case penColor.vividgreen:
-      pColor.r = 217;
-      pColor.g = 224;
-      pColor.b = 33;
-      break;
-    case penColor.darkgreen:
-      pColor.r = 85;
-      pColor.g = 107;
-      pColor.b = 47;
-      break;
-    case penColor.orange:
-      pColor.r = 247;
-      pColor.g = 147;
-      pColor.b = 30;
-      break;
-    case penColor.beige:
-      pColor.r = 198;
-      pColor.g = 156;
-      pColor.b = 109;
-      break;
-    case penColor.pink:
+    case penColor.red:
       pColor.r = 255;
-      pColor.g = 192;
-      pColor.b = 203;
+      pColor.b = 0;
+      pColor.g = 0;
+      color = pColor.red;
       break;
     case penColor.salmonpink:
       pColor.r = 237;
       pColor.g = 30;
       pColor.b = 121;
-      break;
-    case penColor.vividorange:
-      pColor.r = 251;
-      pColor.g = 176;
-      pColor.b = 59;
-      break;
-    case penColor.yellow:
-      pColor.r = 255;
-      pColor.g = 255;
-      pColor.b = 0;
-      break;
-    case penColor.purple:
-      pColor.r = 160;
-      pColor.g = 0;
-      pColor.b = 160;
+      color = pColor.salmonpink;
       break;
     case penColor.hotpink:
       pColor.r = 255;
       pColor.g = 105;
       pColor.b = 180;
+      color = pColor.hotpink;
+      break;
+    case penColor.pink:
+      pColor.r = 255;
+      pColor.g = 192;
+      pColor.b = 203;
+      color = pColor.pink;
+      break;
+    
+    case penColor.purple:
+      pColor.r = 160;
+      pColor.g = 0;
+      pColor.b = 160;
+      color = pColor.purple;
+      break;
+    case penColor.blue:
+      pColor.r = 0;
+      pColor.g = 0;
+      pColor.b = 255;
+      color = pColor.blue;
+      break;
+    case penColor.deepblue:
+      pColor.r = 0;
+      pColor.g = 113;
+      pColor.b = 176;
+      color = pColor.deepblue;
+      break;
+    case penColor.lightblue:
+      pColor.r = 50;
+      pColor.g = 200;
+      pColor.b = 255;
+      color = pColor.lightblue;
+      break;
+    case penColor.vividblue:
+      pColor.r = 0;
+      pColor.g = 255;
+      pColor.b = 255;
+      color = pColor.vividblue;
+      break;
+    
+    case penColor.green:
+      pColor.r = 0;
+      pColor.g = 255;
+      pColor.b = 0;
+      color = pColor.green;
+      break;
+    case penColor.yellow:
+      pColor.r = 255;
+      pColor.g = 255;
+      pColor.b = 0;
+      color = pColor.yellow;
+      break;
+      case penColor.vividorange:
+      pColor.r = 251;
+      pColor.g = 176;
+      pColor.b = 59;
+      color = pColor.vividorange;
+      break;
+    case penColor.orange:
+      pColor.r = 247;
+      pColor.g = 147;
+      pColor.b = 30;
+      color = pColor.orange;
+      break;
+    case penColor.beige:
+      pColor.r = 198;
+      pColor.g = 156;
+      pColor.b = 109;beige
+      color = pColor.red;
+      break;
+    
+    case penColor.vividgreen:
+      pColor.r = 217;
+      pColor.g = 224;
+      pColor.b = 33;
+      color = pColor.vividgreen;
+      break;
+    case penColor.darkgreen:
+      pColor.r = 85;
+      pColor.g = 107;
+      pColor.b = 47;
+      color = pColor.darkgreen;
+      break;
+    case penColor.gray:
+      pColor.r = 128;
+      pColor.g = 128;
+      pColor.b = 128;
+      color = pColor.gray;
+      break;
+    case penColor.black:
+      pColor.r = 20;
+      pColor.g = 20;
+      pColor.b = 20;
+      color = pColor.black;
+      break;
+    case penColor.white:
+      pColor.r = 255;
+      pColor.g = 255;
+      pColor.b = 255;
+      color = pColor.white;
       break;
     default:
   }
