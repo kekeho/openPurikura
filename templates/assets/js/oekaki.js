@@ -440,25 +440,16 @@ function tool(toolNum) {
   switch (toolNum) {
     case 0: // ペンモード
       ctx.globalCompositeOperation = "source-over";
-      pen_button.className = "active";
-      era_button.className = "";
-      sta_button.className = "";
       workMode = modeName.drawing;
       break;
 
     case 1: // 消しゴムモード
       ctx.globalCompositeOperation = "destination-out";
-      pen_button.className = "";
-      era_button.className = "active";
-      sta_button.className = "";
       workMode = modeName.erasering;
       break;
 
-    case 2: // スタンプモード, テキストモード
+    case 2: // スタンプモード
       ctx.globalCompositeOperation = "source-over";
-      pen_button.className = "";
-      era_button.className = "";
-      sta_button.className = "active";
       workMode = modeName.stamping;
       break;
   }

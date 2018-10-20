@@ -78,15 +78,6 @@ let pAlpha;
 // 作業モード初期値はペン
 let workMode;
 
-// 作業モードボタンのDOM
-let pen_button;
-let era_button;
-let sta_button;
-
-// 戻る、進むボタンのDOM
-let back_button;
-let next_button;
-
 // 編集する画像
 let img;
 // 画像三昧の配列
@@ -106,8 +97,6 @@ let drawingFlag;
 let textField;
 //入力されたテキスト
 let input_text;
-//キャンバスのid被らないためのk
-let tc;
 
 //出来上がった写真たちが保存される配列
 let completedPictures;
@@ -129,13 +118,6 @@ function init() {
 }
 
 function buttonInit() {
-  // drawingモード中の作業モードボタン
-  pen_button = document.getElementById("pencil");
-  era_button = document.getElementById("eraser");
-  sta_button = document.getElementById("stamp");
-
-  back_button = document.getElementById("back_butt");
-  next_button = document.getElementById("next_butt");
 
   textField = document.getElementById("i_text");
   // セーブボタン
@@ -211,14 +193,20 @@ function logStart() {
 }
 
 function back() {
+  //テキスト編集中は一度キャッシュしてbackする
+  if (workMode == modeName.txediting){
+    text.apply();
+    text = null;
+  }
+
+  //スタンプ編集中も
+  if (workMode == modeName.stediting){
+    stamp.apply();
+    stamp = null;
+  }
+
   // これ以上戻れない
   if (canvasLog[pic_num].current <= 0)
-    return;
-
-  if (workMode == modeName.stediting)
-    return;
-
-  if (workMode == modeName.txediting)
     return;
 
   if (workMode == modeName.erasering)
@@ -378,7 +366,8 @@ function onClick(e) {
       break;
 
     case modeName.stediting:
-      console.log('TEST');
+      if (stamp == null)
+        break;
       stamp.move(x, y);
       break;
 
@@ -404,7 +393,7 @@ function putText(weight) {
     createCache();
   }
 
-  if (workMode == modeName.stediting) {
+  if (workMode == modeName.stamping) {
     stamp.cancel();
     stamp = null;
   }
@@ -610,8 +599,8 @@ function changeColor(colorID) {
     case penColor.beige:
       pColor.r = 198;
       pColor.g = 156;
-      pColor.b = 109;beige
-      color = pColor.red;
+      pColor.b = 109;
+      color = pColor.beige;
       break;
     
     case penColor.vividgreen:
@@ -648,6 +637,13 @@ function changeColor(colorID) {
   }
   if (workMode == modeName.erasering) {
     tool(0);
+  }
+
+  if (workMode == modeName.stediting) {
+    stRecolor(colorID);
+    //stamp.move(x, y);
+  }else if (workMode == modeName.txediting) {
+    text.move(text.x, text.y);
   }
 }
 
@@ -702,6 +698,17 @@ function resizeObj(_scale) {
       break;
     case modeName.txediting:
       txResize(_scale);
+      break;
+  }
+}
+
+function spinObj(direction){
+  switch (workMode) {
+    case modeName.txediting:
+      text.spin(direction);
+      break;
+    case modeName.stediting:
+      stamp.spin(direction);
       break;
   }
 }

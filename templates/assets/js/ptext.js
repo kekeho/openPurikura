@@ -40,31 +40,30 @@ function Text(text, x, y, fontsize, fontWeight){
     this.x = x;
     this.y = y;
 
+    this.ctx.save();
     this.ctx.fillStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.font = 'ヒラギノ角ゴシック','Hiragino Sans';
+    this.canvas.id = "editCanvas" + fontWeight;
     this.ctx.textAlign = "center";
     this.ctx.font = this.fontsize + "px serif";
+    console.log(this.text.trim().length);
+
+    this.ctx.translate(this.x, this.y);
+    this.ctx.rotate(this.angle * (Math.PI/180));
+    this.ctx.translate(-this.x, -this.y);
 
     //this.ctx.translate(this.x, this.y);
     this.ctx.fillText(this.text, this.x, this.y);
+    this.ctx.restore();
   }
 
   //回転操作　wayに応じて回転方向を変える
-  // this.spin = function(way) {
-  //   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  //   this.ctx.rotate(1 * 10 * Math.PI/180);
-  //   this.ctx.translate(1, 1);
-  //   this.ctx.font = this.fontsize + " 'ヒラギノ角ゴシック','Hiragino Sans'";
-  //   this.ctx.strokeStyle = "blue";
-  //   this.ctx.strokeRect(-25, -25, 50, 50);
-  //   // this.ctx.fillText(this.text, 0, 0);
-  //   // this.ctx.rotate(-(this.angle) * 10 * Math.PI/180);
-  //   // this.ctx.translate(-this.x, -this.y);
-    
-  //   console.log(this.angle);
-  //   createCache();
-  // }
+  this.spin = function(dir) {
+    //dirの向きにだけ3度回転させる
+    this.angle += dir * 3;
+    this.move(this.x, this.y);
+  }
 
   //配置キャンセル
   this.cancel = function(){

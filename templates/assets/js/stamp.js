@@ -5,10 +5,12 @@ var stamp_num = 1;
 function loadStamp(_type, _num) {
   if (workMode == modeName.txediting) {
     text.apply();
+    createCache();
+    text = null;
   }
 
-  type = _type;
-  num = _num;
+  stamp_type = _type;
+  stamp_num = _num;
   stampImg = new Image();
 
   let colorName = "";
@@ -78,7 +80,7 @@ function loadStamp(_type, _num) {
       break;
   }
 
-  stampImg.src = "./assets/stamp/" + type + "/" + num + "/" + num + "-" + colorName +  ".png";
+  stampImg.src = "./assets/stamp/" + stamp_type + "/" + stamp_num + "/" + stamp_num + "-" + colorName +  ".png";
 
   workMode = modeName.stamping;
 }
@@ -93,6 +95,7 @@ function Stamp(img, x, y, scale, type, num) {
   this.h = this.img.height * this.scale;
   this.type = type;
   this.num = num;
+  this.angle = 0;
 
   // 編集用キャンバス作成
   this.canvas = document.createElement("canvas");
@@ -114,9 +117,16 @@ function Stamp(img, x, y, scale, type, num) {
     this.x = x;
     this.y = y;
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.save();
+
+    this.ctx.translate(this.x , this.y );
+    this.ctx.rotate(this.angle * (Math.PI/180));
+    this.ctx.translate(-this.x, -this.y);
+
     this.resize(this.scale);
     this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
+    this.ctx.restore();
   }
 
   // リサイズ
@@ -209,6 +219,12 @@ function Stamp(img, x, y, scale, type, num) {
     this.img = _img;
   }
 
+  this.spin = function(dir) {
+    //dirの向きにだけ3度回転させる
+    this.angle += dir * 3;
+    this.move(this.x, this.y);
+  }
+
   // 配置キャンセル
   this.cancel = function() {
     this.stampBox.removeChild(this.canvas);
@@ -231,6 +247,7 @@ function stResize(_scale){
 
 // onclickで呼ばれる スタンプをリカラー
 function stRecolor(_id){
+  // loadStamp(stamp.type, stamp.num);
   stamp.recolor(_id);
   //stamp.move(stamp.x, stamp.y);
 }
