@@ -94,9 +94,6 @@ function Stamp(img, x, y, scale) {
   this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
 
   // モード変更
-  pen_button.className = '';
-  era_button.className = '';
-  sta_button.className = 'active';
   workMode = modeName.stediting;
 
   // 移動
