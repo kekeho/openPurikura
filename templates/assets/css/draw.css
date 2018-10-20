@@ -171,31 +171,6 @@
 
 #editCanvas {
   z-index: 3;
-  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
-}
-
-#editCanvas200 {
-  z-index: 3;
-  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
-  font-weight: 200;
-}
-
-#editCanvas400 {
-  z-index: 3;
-  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
-  font-weight: 400;
-}
-
-#editCanvas600 {
-  z-index: 3;
-  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
-  font-weight: 600;
-}
-
-#editCanvas800 {
-  z-index: 3;
-  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
-  font-weight: 800;
 }
 
 #zoom {
@@ -380,6 +355,10 @@
   font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
 }
 
+#bottom > label[for="tab-4"] + div {
+  justify-content: space-around;
+}
+
 #bottom > label[for="tab-3"] + div > input {
   width: 70%;
   height: 8vh;
@@ -429,18 +408,14 @@
   font-weight: 800;
 }
 
-#bottom > div > #pen {
-  border-spacing: 3vw;
-}
-
 #bottom > div > #pen td {
+  text-align: center;
+  
   width: 8vh;
   height: 8vh;
-  
-  margin: 1vh;
-  border: 1px solid black;
-  border-radius: 10%;
-  box-shadow: 0 0 3px 1px black;
+
+  color: white;
+  background-color: #444444;
 }
 
 #bottom > div >  #pen img {
