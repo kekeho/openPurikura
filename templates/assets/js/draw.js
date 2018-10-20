@@ -645,7 +645,7 @@ function savePictures() {
   for(let i = 0; i < 3; i++){
     let backCanvas = document.createElement('canvas')
     backCanvas.width = pictures[i].width;
-    backCanvas.width = pictures[i].height;
+    backCanvas.height = pictures[i].height;
 
     let bctx = backCanvas.getContext("2d");
     bctx.drawImage(pictures[i], 0, 0);
@@ -653,7 +653,7 @@ function savePictures() {
     let toImgCanvas = canvasLog[i].log[canvasLog[i].current];
     bctx.drawImage(toImgCanvas, 0, 0);
 
-    let base64 = toImgCanvas.toDataURL('image/png');
+    let base64 = backCanvas.toDataURL('image/png');
     $.ajax({
       type: 'POST',
       url: '/draw',
