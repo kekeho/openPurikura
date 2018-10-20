@@ -455,16 +455,6 @@ function onMove(e) {
     }
 }
 
-function textResize(size){
-  if(!text)
-    return;
-  
-  if(workMode!=modeName.txediting)
-    return;
-
-  text.resize(size);
-}
-
 // 線を引く関数。ペンで描くときの
 function drawLine(X, Y) {
   ctx.lineCap = "round";
@@ -703,4 +693,15 @@ function PenColor(red, green, blue) {
   this.r = red;
   this.g = green;
   this.b = blue;
+}
+
+function resizeObj(_scale) {
+  switch (workMode) {
+    case modeName.stediting:
+      stResize(_scale);
+      break;
+    case modeName.txediting:
+      txResize(_scale);
+      break;
+  }
 }

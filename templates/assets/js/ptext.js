@@ -31,8 +31,8 @@ function Text(text, x, y, fontsize, fontWeight){
 
   console.log("aaa");
   //リサイズ
-  this.resize = function (way){
-    this.fontsize += 5*way;
+  this.resize = function (newSize){
+    this.fontsize = newSize;
     this.move(this.x, this.y);
   }
   
@@ -80,4 +80,8 @@ function Text(text, x, y, fontsize, fontWeight){
     this.cancel();
   }
 
+}
+
+function txResize(_scale) {
+  text.resize(text.fontsize * _scale);
 }

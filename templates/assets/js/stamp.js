@@ -226,9 +226,7 @@ function Stamp(img, x, y, scale, type, num) {
 
 // onclickで呼ばれる スタンプをリサイズ
 function stResize(_scale){
-  if (workMode == modeName.stediting) {
-    stamp.resize(stamp.scale * _scale);
-  }
+  stamp.resize(stamp.scale * _scale);
 }
 
 // onclickで呼ばれる スタンプをリカラー
