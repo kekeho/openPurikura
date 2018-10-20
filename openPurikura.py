@@ -104,8 +104,8 @@ def take():
                 shutil.copyfile(ASSETS_DIR + '/src/white.png', ASSETS_DIR + '/photos/{}_before.png'.format(i))
             return render_template('take.html')
 
-        elif (taken == 4):
-            return render_template('take.html', pack=str(id_pack))
+        #elif (taken == 4):
+        #    return render_template('take.html', pack=str(id_pack))
 
         else:
             return render_template('take.html')
@@ -192,9 +192,10 @@ def draw():
         return render_template('draw.html')
 
     else:
-        #print(request.form)
         img_cnt  = request.form['cnt']
+        print(imgs)
         imgs[img_cnt] = request.form['img']
+        print(imgs)
         return render_template('draw.html')
 
 
@@ -210,11 +211,12 @@ def mail():
     else:
         global imgs
 
-        for i in range(3)
-            enc_data = imgs[i]
-            dec_data = base64.b64decode(enc_data.split(',')[1])
-            dec_img  = Image.open(BytesIO(dec_data))
-            dec_img.save('images/{}_{}.png'.format(i, img_cnt))
+        print(imgs)
+        #for i in range(3):
+        #    enc_data = imgs[i]
+        #    dec_data = base64.b64decode(enc_data.split(',')[1])
+        #    dec_img  = Image.open(BytesIO(dec_data))
+        #    dec_img.save('images/{}_{}.png'.format(curid, i + 1))
 
         subprocess.call(['ruby', 'database/mail.rb', str(curid)])
 
