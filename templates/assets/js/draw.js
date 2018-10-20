@@ -72,6 +72,8 @@ let y;
 // ペンの色と太さ
 let pColor;
 let pWidth;
+//ペンの透明度
+let pAlpha;
 
 // 作業モード初期値はペン
 let workMode;
@@ -91,6 +93,11 @@ let img;
 let pictures;
 // 編集中の画像の添字
 let pic_num;
+
+//右に表示されている3枚
+let pic1;
+let pic2;
+let pic3;
 
 //書き中か
 let drawingFlag;
@@ -170,11 +177,11 @@ function canvasInit() {
   // 使用する3枚の画像
   pictures = [];
   pictures[0] = new Image();
-  pictures[0].src = "./assets/src/square.png";
+  pictures[0].src = "./assets/photos/draw_0.png";
   pictures[1] = new Image();
-  pictures[1].src = "./assets/src/square.png";
+  pictures[1].src = "./assets/photos/draw_1.png";
   pictures[2] = new Image();
-  pictures[2].src = "./assets/src/square.png";
+  pictures[2].src = "./assets/photos/draw_2.png";
 
   img = pictures[pic_num];
   img.onload = function() {
@@ -245,6 +252,10 @@ function next() {
 
   setTimeout(function(){
   }, 150);
+}
+
+function switchPen(){
+
 }
 
 // ペンがキャンバスの外に出たとき、浮いたときに線をやめて

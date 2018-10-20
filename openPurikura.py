@@ -127,24 +127,31 @@ def retouching():
             image = cv2.imread(ASSETS_DIR + '/photos/{}_before.png'.format(i))
             gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             face_landmarks = pl.find.facemark(gray_img)
-
+            print("a")
             #image = pl.dist.distortion(image)
             image = pl.effects.nose_shape_beautify(image, face_landmarks)
-            image = pl.effects.eye_bags(image, face_landmarks)
+            print("b")
+            #image = pl.effects.eye_bags(image, face_landmarks)
             #image = pl.effects.lips_correction(image, face_landmarks)
+            print("c")
             image = pl.effects.eyes_shape_beautify(image, face_landmarks)
             #image = pl.effects.eyes_add_highlight(image, face_landmarks)
+            print("d")
             image = pl.effects.chin_shape_beautify(image, face_landmarks)
-            image = pl.effects.skin_beautify(image, rate=5)
+            print("e")
+            #image = pl.effects.skin_beautify(image, rate=2)
+            print("f")
             image = pl.effects.color_correction(image)
+            print("g")
             image = pl.effects.chromakey_green(image)
-
+            print("h")
             background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
+            print("i")
             image = pl.effects.merge(background, image)
 
-            if (i == 4):
-                teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
-                image = pl.effects.merge(image, teacher)
+            #if (i == 4):
+                #teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
+                #image = pl.effects.merge(image, teacher)
 
             cv2.imwrite(ASSETS_DIR + '/photos/{}_after.png'.format(i), image)
 

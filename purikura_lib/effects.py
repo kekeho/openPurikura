@@ -49,7 +49,26 @@ def delete_pixel(image, mask):
     return return_img
 
 
-def chromakey(image):
+def chromakey_green(image):
+    """transpare green pixels
+    Return:
+        image which includes alpha channel: np.ndarray
+    """
+    # Green
+    # why I should divide by 2...f**k
+    lower_color = np.array([65 / 2, 50, 50])
+    upper_color = np.array([155 / 2, 255, 255])
+
+    # convert image to hsv
+    hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    # transparent mask
+    mask = cv2.inRange(hsv_img, lower_color, upper_color)
+    return_img = delete_pixel(image, mask)
+
+    return return_img
+
+
+def chromakey_blue(image):
     """transpare green pixels
     Return:
         image which includes alpha channel: np.ndarray
@@ -85,9 +104,9 @@ def merge(image1, image2, x=0, y=0, per=100):
 
     # Convert opencv array to PIL data
     image1 = Image.fromarray(image1)
-    image2 = Image.fromarray(image2)
+    #image2 = Image.fromarray(image2)
 
-    image1.paste(image2, box=(x, y), mask=image2)
+    #image1.paste(image2, box=(x, y), mask=image2.convert('RGBA'))
 
     return np.asarray(image1)
 
@@ -134,6 +153,7 @@ def distort(image, from_points, to_points, roi_points):
     affin.estimate(to_points, from_points)
     image_array = transform.warp(image, affin)
     image_array = np.array(image_array * 255, dtype='uint8')
+
 
     if image_array.shape[2] == 1:
         image_array = image_array.reshape(
