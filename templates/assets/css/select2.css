@@ -93,7 +93,7 @@ label[for="select-4"] {
   
   margin: 0 auto;
   
-  font: 5vh 'TsukuARdGothic-Regular';
+  font-size: 5vh;
 }
 
 #footer > label[for="next"] {

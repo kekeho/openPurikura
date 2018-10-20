@@ -3,7 +3,7 @@ body > div {
 }
 
 .canvas {
-  margin: 0 auto;
+  margin: 10vh auto 0 auto;
 }
 
 #message {
@@ -11,5 +11,5 @@ body > div {
 
   margin-top: 10vh;
 
-  font: 3vh 'TsukuARdGothic-Regular';
+  font-size: 3vh ;
 }
