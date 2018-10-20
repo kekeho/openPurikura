@@ -604,8 +604,8 @@ function changeColor(colorID) {
       break;
     
     case penColor.vividgreen:
-      pColor.r = 217;
-      pColor.g = 224;
+      pColor.r = 127;
+      pColor.g = 200;
       pColor.b = 33;
       color = pColor.vividgreen;
       break;
@@ -675,7 +675,7 @@ function savePictures() {
       type: 'POST',
       url: '/draw',
       data: {
-        cnt: i,
+        cnt: i + 1,
         img: base64
       },
       async: false

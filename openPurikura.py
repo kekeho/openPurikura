@@ -43,9 +43,6 @@ cam = None
 # Current ID
 curid = 0
 
-# Send images
-imgs = []
-
 
 @app.route('/')
 def index():
@@ -65,12 +62,14 @@ def register():
         session = Session()
         new_curid = CurId()
         curid = session.query(CurId.id).first().id
-        print(curid)
 
+        session.query(User).filter_by(id=curid).delete()
         new_user = User(id=curid, name=request.form['name'], email=request.form['email'])
         session.add(new_user)
         session.commit()
-        return redirect('/select1')  # debug
+
+        return redirect('/select1')
+
     else:
         return render_template('register.html')
 
@@ -134,28 +133,25 @@ def retouching():
             gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             face_landmarks = pl.find.facemark(gray_img)
 
-            image = pl.effects.chromakey_green(image)
-            print("h")
-            background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
-            print("i")
-            image = pl.effects.merge(background, image)
-
             print("a")
+            image = pl.effects.chromakey_green(image)
+            print("b")
+            background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
+            image = pl.effects.merge(background, image)
+            print("c")
+
             #image = pl.dist.distortion(image)
             image = pl.effects.nose_shape_beautify(image, face_landmarks)
-            print("b")
+            print("d")
             #image = pl.effects.eye_bags(image, face_landmarks)
             #image = pl.effects.lips_correction(image, face_landmarks)
-            print("c")
             image = pl.effects.eyes_shape_beautify(image, face_landmarks)
-            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
-            print("d")
-            image = pl.effects.chin_shape_beautify(image, face_landmarks)
             print("e")
-            #image = pl.effects.skin_beautify(image, rate=2)
+            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
+            image = pl.effects.chin_shape_beautify(image, face_landmarks)
             print("f")
+            #image = pl.effects.skin_beautify(image, rate=2)
             image = pl.effects.color_correction(image)
-            print("g")
 
             #if (i == 4):
             #    teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
@@ -186,16 +182,16 @@ def select2():
 @app.route('/draw', methods=['GET', 'POST'])
 def draw():
     global curid
-    global imgs
 
     if request.method == 'GET':
         return render_template('draw.html')
 
     else:
         img_cnt  = request.form['cnt']
-        print(imgs)
-        imgs[img_cnt] = request.form['img']
-        print(imgs)
+        enc_data = request.form['img']
+        dec_data = base64.b64decode(enc_data.split(',')[1])
+        dec_img  = Image.open(BytesIO(dec_data))
+        dec_img.save('images/{}_{}.png'.format(curid, img_cnt))
         return render_template('draw.html')
 
 
@@ -209,15 +205,6 @@ def mail():
         return render_template('mail.html')
 
     else:
-        global imgs
-
-        print(imgs)
-        #for i in range(3):
-        #    enc_data = imgs[i]
-        #    dec_data = base64.b64decode(enc_data.split(',')[1])
-        #    dec_img  = Image.open(BytesIO(dec_data))
-        #    dec_img.save('images/{}_{}.png'.format(curid, i + 1))
-
         subprocess.call(['ruby', 'database/mail.rb', str(curid)])
 
         session = Session()

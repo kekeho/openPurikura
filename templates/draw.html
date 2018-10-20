@@ -32,10 +32,16 @@
               <td onclick="tool(1); changeLineWidth(10)"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
-              <td><img onclick="back()" src="./assets/src/undo.png"></td>
-              <td><img onclick="next()" src="./assets/src/redo.png"></td>
-              <td><img onclick="spinObj(-1)" src="./assets/src/rotate-reverseclock.png"></td>
-              <td><img onclick="spinObj(1)" src="./assets/src/rotate-clock.png"></td>
+              <td><img src="./assets/src/pen.png"></td>
+              <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
+            </tr>
+            <tr>
+              <td><img onclick="back()" src="./assets/src/undo.png" ></td>
+              <td><img onclick="next()" src="./assets/src/redo.png" ></td>
+              <td><img onclick="spinObj(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
+              <td><img onclick="spinObj(1)" src="./assets/src/rotate-clock.png" ></td>
             </tr>
           </table>
           <table id="pallet">
@@ -182,27 +188,6 @@
             <tr>
               <td id="font-weight-6" onclick="putText(600)">あ</td>
               <td id="font-weight-8" onclick="putText(800)">あ</td>
-            </tr>
-          </table>
-        </div>
-        <input id="tab-4" type="radio" name="tab">
-        <label for="tab-4">お絵かき</label>
-        <div>
-          <table id="pen">
-            <tr>
-              <td>透明度</td>
-              <td onclick="alpha(0)">0%</td>
-              <td onclick="alpha(0.25)">25%</td>
-              <td onclick="alpha(0.5)">50%</td>
-              <td onclick="alpha(0.75)">75%</td>
-            </tr>
-          </table>
-          <table id="pen-weight">
-            <tr>
-              <td><img src="./assets/src/pen.png"></td>
-              <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
             </tr>
           </table>
         </div>

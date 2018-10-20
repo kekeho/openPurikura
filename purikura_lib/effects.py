@@ -56,8 +56,8 @@ def chromakey_green(image):
     """
     # Green
     # why I should divide by 2...f**k
-    lower_color = np.array([65 / 2, 50, 50])
-    upper_color = np.array([155 / 2, 255, 255])
+    lower_color = np.array([140 / 2, 50, 100])
+    upper_color = np.array([200 / 2, 255, 255])
 
     # convert image to hsv
     hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -75,8 +75,8 @@ def chromakey_blue(image):
     """
     # Green
     # why I should divide by 2...f**k
-    lower_color = np.array([65 / 2, 50, 50])
-    upper_color = np.array([155 / 2, 255, 255])
+    lower_color = np.array([160 / 2, 50, 100])
+    upper_color = np.array([220 / 2, 255, 255])
 
     # convert image to hsv
     hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -103,10 +103,10 @@ def merge(image1: np.ndarray, image2: np.ndarray, x=0, y=0, per=100):
         image2, (int(image2.shape[1] * (per / 100)), int(image2.shape[0] * (per / 100))))
 
     # Convert opencv array to PIL data
-    image1 = Image.fromarray(image1)
-    image2 = Image.fromarray(image2)
+    image1 = Image.fromarray(image1).convert('RGBA')
+    image2 = Image.fromarray(image2).convert('RGBA')
 
-    image1.paste(image2, box=(x, y), mask=image2.convert("RGBA").split()[3])
+    image1.paste(image2, box=(x, y), mask=image2.split()[3])
 
     return np.asarray(image1)
 
