@@ -62,12 +62,14 @@ def register():
         session = Session()
         new_curid = CurId()
         curid = session.query(CurId.id).first().id
-        print(curid)
 
+        session.query(User).filter_by(id=curid).delete()
         new_user = User(id=curid, name=request.form['name'], email=request.form['email'])
         session.add(new_user)
         session.commit()
-        return redirect('/select1')  # debug
+
+        return redirect('/select1')
+
     else:
         return render_template('register.html')
 
@@ -131,28 +133,25 @@ def retouching():
             gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             face_landmarks = pl.find.facemark(gray_img)
 
-            image = pl.effects.chromakey_green(image)
-            print("h")
-            background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
-            print("i")
-            image = pl.effects.merge(background, image)
-
             print("a")
+            image = pl.effects.chromakey_green(image)
+            print("b")
+            background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
+            image = pl.effects.merge(background, image)
+            print("c")
+
             #image = pl.dist.distortion(image)
             image = pl.effects.nose_shape_beautify(image, face_landmarks)
-            print("b")
+            print("d")
             #image = pl.effects.eye_bags(image, face_landmarks)
             #image = pl.effects.lips_correction(image, face_landmarks)
-            print("c")
             image = pl.effects.eyes_shape_beautify(image, face_landmarks)
-            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
-            print("d")
-            image = pl.effects.chin_shape_beautify(image, face_landmarks)
             print("e")
-            #image = pl.effects.skin_beautify(image, rate=2)
+            #image = pl.effects.eyes_add_highlight(image, face_landmarks)
+            image = pl.effects.chin_shape_beautify(image, face_landmarks)
             print("f")
+            #image = pl.effects.skin_beautify(image, rate=2)
             image = pl.effects.color_correction(image)
-            print("g")
 
             #if (i == 4):
             #    teacher = cv2.imread(ASSETS_DIR + '/background/pack-{}/teacher.png'.format(id_pack))
