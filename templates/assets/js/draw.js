@@ -115,6 +115,9 @@ let completedPictures;
 // 現在選択されているカラー
 var currentColor = penColor.black;
 
+// スタンプ
+var stamp = null;
+
 // onloadにより実行 
 function init() {
   canvasInit();
@@ -160,6 +163,8 @@ function userInit() {
   pWidth = penWidth.w3;
 
   drawingFlag = false;
+
+
 }
 
 // キャンバスについて、編集する画像の初期化関数
@@ -353,16 +358,19 @@ function onClick(e) {
   switch (workMode) {
     case modeName.drawing:
     case modeName.erasering:
-      console.log('TEST');
       drawLine(before_x, before_y);
       break;
 
     case modeName.stamping:
-      stamp = new Stamp(stampImg, x, y, 1);
+      if (stamp != null) {
+        stamp.apply();
+      }
+      stamp = new Stamp(stampImg, x, y, 1, stamp_type, stamp_num);
       stamp.resize(0.1);
       break;
 
     case modeName.stediting:
+      console.log('TEST');
       stamp.move(x, y);
       break;
 
@@ -441,22 +449,13 @@ function textResize(size){
 // 線を引く関数。ペンで描くときの
 function drawLine(X, Y) {
   ctx.lineCap = "round";
-  //ctx.strokeStyle = "rgba("  + pColor.r + "," + pColor.g + "," + pColor.b + "," + pColor.a + ")";
-  ctx.strokeStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b  + ")";
+  ctx.strokeStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
   ctx.lineWidth = pWidth;
-  
-
 
   ctx.beginPath();
   if (penX == null) {
-    ctx.globalCompositeOperation = "xor";
-    ctx.arc(X, Y, ctx.lineWidth / 6, 0, Math.PI*2, false);
-    ctx.globalCompositeOperation = "source-over";
     ctx.moveTo(X, Y);
   } else {
-    ctx.globalCompositeOperation = "xor";
-    ctx.arc(penX, penY, ctx.lineWidth / 6, 0, Math.PI*2, false);
-    ctx.globalCompositeOperation = "source-over";
     ctx.moveTo(penX, penY);
   }
 
@@ -487,7 +486,7 @@ function tool(toolNum) {
 
   switch (toolNum) {
     case 0: // ペンモード
-      // ctx.globalCompositeOperation = "xor";
+      ctx.globalCompositeOperation = "source-over";
       workMode = modeName.drawing;
       break;
 
@@ -680,14 +679,4 @@ function PenColor(red, green, blue) {
   this.r = red;
   this.g = green;
   this.b = blue;
-  this.a = 1;
-}
-
-function alpha(a){
-  debug();
-  pColor.a = 1 - a;
-}
-
-function debug(){
-  console.log('DEBUG');
 }
