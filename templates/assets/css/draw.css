@@ -173,6 +173,22 @@
   z-index: 3;
 }
 
+#editCanvas200 {
+  z-index: 3;
+}
+
+#editCanvas400 {
+  z-index: 3;
+}
+
+#editCanvas600 {
+  z-index: 3;
+}
+
+#editCanvas800 {
+  z-index: 3;
+}
+
 #zoom {
   width: 10vw;
 }

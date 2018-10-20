@@ -306,14 +306,16 @@ function switchPic(num) {
   switch (workMode) {
     case modeName.stediting:
       stamp.apply();
-      createCache();
+      delete stamp;
       break;
     case modeName.txediting:
       text.apply();
-      createCache();
       break;
     case modeName.stamping:
       stamp.cancel();
+      break;
+    case modeName.erasering:
+      tool(0);
       createCache();
       break;
   
@@ -387,6 +389,16 @@ function putText(weight) {
     text.fontsize = weight/5 + "px serif";
     text.move(text.x, text.y);
     console.log("asdf");
+    return;
+  }
+
+  if (workMode == modeName.stediting) {
+    stamp.apply();
+    return;
+  }
+
+  if (workMode == modeName.stediting) {
+    stamp.cancel();
     return;
   }
 
@@ -642,10 +654,11 @@ function changeColor(colorID) {
 
 // 最後の完成写真を合成して保存する関数
 function savePictures() {
-  let toImgCanvas;
-  let data;
-  let bin;
-  let buffer;
+  if (workMode == modeName.stediting) {
+    stamp.apply();
+  } else if (workMode == modeName.txediting) {
+    text.apply();
+  }
 
   for(let i = 0; i < 3; i++){
     let backCanvas = document.createElement('canvas')

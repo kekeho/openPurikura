@@ -3,6 +3,10 @@ var stamp_num = 1;
 
 // スタンプ読み込み
 function loadStamp(_type, _num) {
+  if (workMode == modeName.txediting) {
+    text.apply();
+  }
+
   type = _type;
   num = _num;
   stampImg = new Image();
@@ -209,6 +213,7 @@ function Stamp(img, x, y, scale, type, num) {
   this.cancel = function() {
     this.stampBox.removeChild(this.canvas);
     workMode = modeName.drawing;
+    stamp = null;
   }
 
   // 配置決定
