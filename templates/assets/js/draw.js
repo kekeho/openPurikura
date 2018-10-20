@@ -484,7 +484,7 @@ function tool(toolNum) {
     delete text;
   }
 
-  if (workMode == modeNmae.stamping) {
+  if (workMode == modeName.stamping) {
     stamp.cancel();
     delete stamp;
   }
