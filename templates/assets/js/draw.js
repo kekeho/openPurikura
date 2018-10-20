@@ -484,6 +484,11 @@ function tool(toolNum) {
     delete text;
   }
 
+  if (workMode == modeNmae.stamping) {
+    stamp.cancel();
+    delete stamp;
+  }
+
   switch (toolNum) {
     case 0: // ペンモード
       ctx.globalCompositeOperation = "source-over";
