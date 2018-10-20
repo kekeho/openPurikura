@@ -76,7 +76,7 @@
           <canvas id="eventCanvas" width=466 height=466></canvas>
         </div>
         <div id="zoom">
-          <div id="zoom-in">
+          <div id="zoom-in" onclick="text.resize(1)">
             <div class="row">
               <div class="col"></div>
               <div class="col"></div>
@@ -86,7 +86,7 @@
               <div class="col"></div>
             </div>
           </div>
-          <div id="zoom-out">
+          <div id="zoom-out" onclick="text.resize(-1)">
             <div class="row">
               <div class="col"></div>
             </div>
@@ -175,12 +175,12 @@
           <input id="i_text" type="text" placeholder="入力...">
           <table>
             <tr>
-              <td id="font-weight-2" onclick="putText(10)">あ</td>
-              <td id="font-weight-4" onclick="putText(15)">あ</td>
+              <td id="font-weight-2" onclick="putText(200)">あ</td>
+              <td id="font-weight-4" onclick="putText(400)">あ</td>
             </tr>
             <tr>
-              <td id="font-weight-6" onclick="putText(20)">あ</td>
-              <td id="font-weight-8" onclick="putText(25)">あ</td>
+              <td id="font-weight-6" onclick="putText(600)">あ</td>
+              <td id="font-weight-8" onclick="putText(800)">あ</td>
             </tr>
           </table>
         </div>

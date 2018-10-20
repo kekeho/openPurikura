@@ -3,13 +3,14 @@ function loadText(){
   return input_text = textField.value;
 }
 
-function Text(text, x, y, fontsize){
+function Text(text, x, y, fontsize, fontWeight){
   this.text = text;
   this.x = x;
   this.y = y;
   this.angle = 0;
   this.count = tc++;
   this.fontsize = fontsize;
+  this.fontWeight = fontWeight;
 
   //編集用のキャンバス
   this.canvas = document.createElement("canvas");
@@ -22,22 +23,37 @@ function Text(text, x, y, fontsize){
   this.textBox.appendChild(this.canvas);
   
   this.ctx = this.canvas.getContext('2d');
-  this.ctx.font = fontsize + "px serif";
+  this.ctx.font = 'ヒラギノ角ゴシック','Hiragino Sans';
+//  this.ctx.font = this.fontWeight + " 'ヒラギノ角ゴシック'",this.fontWeight + " "'Hiragino Sans'";
+
+  this.ctx.font = this.fontsize + "px serif";
   this.ctx.textAlign = "center";
   this.ctx.fillText(this.text, this.x, this.y);
+
+  //色の変更
+  this.ctx.fillStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
   
   //モード変更
   workMode = modeName.txediting;
 
   console.log("aaa");
 
-  //伊藤...リサイズも含む
+  //リサイズ
+  this.resize = function (way){
+    this.fontsize += 5*way;
+    this.move(this.x, this.y);
+  }
+  
+  //伊藤...
   this.move = function(x, y) {
     this.x = x;
     this.y = y;
 
+    this.ctx.fillStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.font = 'ヒラギノ角ゴシック','Hiragino Sans';
     this.ctx.font = this.fontsize + "px serif";
+
     //this.ctx.translate(this.x, this.y);
     this.ctx.fillText(this.text, this.x, this.y);
   }
@@ -46,10 +62,10 @@ function Text(text, x, y, fontsize){
   this.spin = function(way) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.rotate(1 * 10 * Math.PI/180);
-    this.ctx.translate(10, 10);
-    this.ctx.font = this.fontsize + "px serif";
+    this.ctx.translate(1, 1);
+    this.ctx.font = this.fontsize + " 'ヒラギノ角ゴシック','Hiragino Sans'";
     this.ctx.strokeStyle = "blue";
-    this.ctx.strokeRect(-5, -5, 10, 10);
+    this.ctx.strokeRect(-25, -25, 50, 50);
     // this.ctx.fillText(this.text, 0, 0);
     // this.ctx.rotate(-(this.angle) * 10 * Math.PI/180);
     // this.ctx.translate(-this.x, -this.y);

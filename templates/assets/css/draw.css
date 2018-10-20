@@ -171,6 +171,31 @@
 
 #editCanvas {
   z-index: 3;
+  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
+}
+
+#editCanvas200 {
+  z-index: 3;
+  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
+  font-weight: 200;
+}
+
+#editCanvas400 {
+  z-index: 3;
+  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
+  font-weight: 400;
+}
+
+#editCanvas600 {
+  z-index: 3;
+  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
+  font-weight: 600;
+}
+
+#editCanvas800 {
+  z-index: 3;
+  font-family: 'ヒラギノ角ゴシック','Hiragino Sans';
+  font-weight: 800;
 }
 
 #zoom {

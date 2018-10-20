@@ -338,16 +338,21 @@ function onClick(e) {
   }
 }
 
-function putText(size) {
+
+function putText(weight) {
   //二つ以上連続で作成ボタンを押された時
   if (workMode == modeName.txediting) {
-    text.fontsize = size;
+    text.canvas.id = "editCanvas" + weight;
+    text.fontsize = weight/4 + "px serif";
     text.move(text.x, text.y);
+    console.log("asdf");
     return;
   }
 
   if (loadText())
-    text = new Text(input_text, x, y, size);
+    text = new Text(input_text, x, y, 50, weight);
+    text.canvas.id = "editCanvas" + weight;
+    console.log("asdf");
 }
 
 // ペンモードでドラッグ
@@ -386,6 +391,13 @@ function onMove(e) {
       text.move(x, y);
       break;
     }
+}
+
+function textResize(size){
+  if(!text)
+    return;
+
+  text.resize(size);
 }
 
 // 線を引く関数。ペンで描くときの
@@ -560,6 +572,7 @@ function savePictures() {
   let data;
   let bin;
   let buffer;
+
 
   for(let i = 0; i<3; i++){
     toImgCanvas = canvasLog[i].log[canvasLog[i].current];
