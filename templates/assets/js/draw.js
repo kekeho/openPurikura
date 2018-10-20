@@ -674,7 +674,7 @@ function savePictures() {
         console.log(response.responseText);
     }
   };
-  
+  Ext.Ajax.request(request);
 }
 
 function PenColor(red, green, blue) {
