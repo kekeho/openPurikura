@@ -345,7 +345,7 @@ function onClick(e) {
       break;
 
     case modeName.stamping:
-      stamp = new Stamp(stampImg, x, y, 1);
+      stamp = new Stamp(stampImg, x, y, 1, type, num);
       stamp.resize(0.1);
       break;
 
