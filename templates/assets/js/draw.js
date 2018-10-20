@@ -345,9 +345,11 @@ function onClick(e) {
 
     case modeName.stamping:
       stamp = new Stamp(stampImg, x, y, 1);
+      stamp.resize(0.1);
       break;
 
     case modeName.stediting:
+      console.log('TEST');
       stamp.move(x, y);
       break;
 

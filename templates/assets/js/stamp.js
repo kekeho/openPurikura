@@ -70,6 +70,8 @@ function loadStamp(type, num) {
   }
 
   stampImg.src = "./assets/stamp/" + type + "/" + num + "/" + num + "-" + colorName +  ".png";
+
+  workMode = modeName.stamping;
 }
 
 // スタンプを表すオブジェクト
@@ -77,9 +79,9 @@ function Stamp(img, x, y, scale) {
   this.img = img;
   this.x = x;
   this.y = y;
-  this.w = img.width;
-  this.h = img.height;
   this.scale = scale;
+  this.w = this.img.width * this.scale;
+  this.h = this.img.height * this.scale;
 
   // 編集用キャンバス作成
   this.canvas = document.createElement("canvas");
@@ -102,6 +104,7 @@ function Stamp(img, x, y, scale) {
     this.y = y;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.resize(this.scale);
     this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
   }
 
