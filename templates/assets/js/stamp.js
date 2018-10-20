@@ -1,5 +1,5 @@
-var type = "";
-var num = 1;
+var stamp_type = "";
+var stamp_num = 1;
 
 // スタンプ読み込み
 function loadStamp(_type, _num) {
@@ -229,4 +229,5 @@ function stResize(_scale){
 // onclickで呼ばれる スタンプをリカラー
 function stRecolor(_id){
   stamp.recolor(_id);
+  //stamp.move(stamp.x, stamp.y);
 }
