@@ -75,8 +75,8 @@ def chromakey_blue(image):
     """
     # Green
     # why I should divide by 2...f**k
-    lower_color = np.array([160 / 2, 50, 100])
-    upper_color = np.array([220 / 2, 255, 255])
+    lower_color = np.array([180 / 2, 50, 100])
+    upper_color = np.array([240 / 2, 255, 255])
 
     # convert image to hsv
     hsv_img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
