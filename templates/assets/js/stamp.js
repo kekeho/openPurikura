@@ -223,7 +223,7 @@ function Stamp(img, x, y, scale, type, num) {
 
   this.spin = function(dir) {
     //dirの向きにだけ3度回転させる
-    this.angle += dir * 3;
+    this.angle += dir * 10;
     this.move(this.x, this.y);
   }
 

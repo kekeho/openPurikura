@@ -61,7 +61,7 @@ function Text(text, x, y, fontsize, fontWeight){
   //回転操作　wayに応じて回転方向を変える
   this.spin = function(dir) {
     //dirの向きにだけ3度回転させる
-    this.angle += dir * 3;
+    this.angle += dir * 10;
     this.move(this.x, this.y);
   }
 
