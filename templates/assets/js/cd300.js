@@ -1,5 +1,5 @@
 $(function(){
-  let time = 10;
+  let time = 300;
   
   setInterval(function(){
     
