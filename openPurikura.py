@@ -44,6 +44,9 @@ cam = None
 curid = 0
 email = ""
 
+# Camera Setting
+subprocess.call(['bash', 'v4l2-setting.sh'])
+
 
 @app.route('/')
 def index():
@@ -139,7 +142,7 @@ def retouching():
             face_landmarks = pl.find.facemark(gray_img)
 
             print("a")
-            image = pl.effects.chromakey_green(image)
+            image = pl.effects.chromakey_blue(image)
             print("b")
             background = cv2.imread(ASSETS_DIR + '/background/pack-{}/bg-{}.png'.format(id_pack, i))
             image = pl.effects.merge(background, image)
