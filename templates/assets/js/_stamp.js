@@ -100,6 +100,7 @@ function Stamp(_x, _y, _size, _type, _num){
     _img = loadImage(this.type, this.num, pColor.id);
     this.ctx.drawImage(_img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
     console.log("x:" + this.x + " / y:" + this.y + " / size:" + this.size);
+    console.log("x:" + (this.x - this.size / 2) + " / y:" + (this.y - this.size / 2) + " / size:" + this.size);
     this.ctx.restore();
   }
 

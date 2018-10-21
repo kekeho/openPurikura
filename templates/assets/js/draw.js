@@ -143,20 +143,24 @@ function userInit() {
 
   drawingFlag = false;
 
-  // 強引に読み込ませようとしたが失敗
+  // 強引に読み込ませる 意味なかった
+  // HTML側で読み込んだものはバグらない
+  // src変えただけじゃあ意味がないってことかも
+  // 最終手段は desplay: none の <img> を作りまくること
   /*
   for(_num = 1; _num <= 7; _num++){
-    for(_id = 1; _id <= 20; _id++)
-    _img = new Image();
-    _img.src = "./assets/stamp/JP/" + _num + "/" + _num + "-" + colorName(_id);
-    _img.src = "./assets/stamp/EN/" + _num + "/" + _num + "-" + colorName(_id);
-    _img.src = "./assets/stamp/KR/" + _num + "/" + _num + "-" + colorName(_id);
-    if (_num <= 5) {
-      _img.src = "./assets/stamp/EM/" + _num + "/" + _num + "-" + colorName(_id);
-    }
+    for(_id = 1; _id <= 20; _id++){
+      _img = new Image();
+      _img.src = "./assets/stamp/JP/" + _num + "/" + _num + "-" + colorName(_id) + ".png";
+      _img.src = "./assets/stamp/EN/" + _num + "/" + _num + "-" + colorName(_id) + ".png";
+      _img.src = "./assets/stamp/KR/" + _num + "/" + _num + "-" + colorName(_id) + ".png";
+      if (_num <= 5) {
+        _img.src = "./assets/stamp/EM/" + _num + "/" + _num + "-" + colorName(_id) + ".png";
+      }
 
-    if (_num <= 4) {
-      _img.src = "./assets/stamp/AN/" + _num + "/" + _num + "-" + colorName(_id);
+      if (_num <= 4) {
+        _img.src = "./assets/stamp/AN/" + _num + "/" + _num + "-" + colorName(_id) + ".png";
+      }
     }
   }
   */
@@ -381,22 +385,13 @@ function onClick(e) {
 function putText() {
   //二つ以上連続で作成ボタンを押された時
   if (workMode == modeName.txediting) {
-    text.canvas.id = "editCanvas";
-    text.fontsize = 100;
-    text.move(text.x, text.y);
-    console.log("asdf");
-    return;
+    text.apply();
   }
 
   if (workMode == modeName.stediting) {
     stamp.apply();
     stamp = null;
     createCache();
-  }
-
-  if (workMode == modeName.stamping) {
-    stamp.cancel();
-    stamp = null;
   }
 
   if (loadText()!=""){
@@ -650,7 +645,7 @@ function changeColor(colorID) {
 
   if (workMode == modeName.stediting) {
     stamp.move(x, y);
-  }else if (workMode == modeName.txediting) {
+  } else if (workMode == modeName.txediting) {
     text.move(text.x, text.y);
   }
 }
