@@ -66,8 +66,8 @@ let penX;
 let penY;
 
 // 現在の座標
-let x;
-let y;
+let x = 466/2;
+let y = 466/2;
 
 // ペンの色と太さ
 let pColor;
@@ -103,9 +103,6 @@ let completedPictures;
 
 // 現在選択されているカラー
 var currentColor = penColor.black;
-
-// スタンプ
-var stamp = null;
 
 // onloadにより実行 
 function init() {
@@ -146,7 +143,23 @@ function userInit() {
 
   drawingFlag = false;
 
+  // 強引に読み込ませようとしたが失敗
+  /*
+  for(_num = 1; _num <= 7; _num++){
+    for(_id = 1; _id <= 20; _id++)
+    _img = new Image();
+    _img.src = "./assets/stamp/JP/" + _num + "/" + _num + "-" + colorName(_id);
+    _img.src = "./assets/stamp/EN/" + _num + "/" + _num + "-" + colorName(_id);
+    _img.src = "./assets/stamp/KR/" + _num + "/" + _num + "-" + colorName(_id);
+    if (_num <= 5) {
+      _img.src = "./assets/stamp/EM/" + _num + "/" + _num + "-" + colorName(_id);
+    }
 
+    if (_num <= 4) {
+      _img.src = "./assets/stamp/AN/" + _num + "/" + _num + "-" + colorName(_id);
+    }
+  }
+  */
 }
 
 // キャンバスについて、編集する画像の初期化関数
@@ -355,19 +368,7 @@ function onClick(e) {
       drawLine(before_x, before_y);
       break;
 
-    case modeName.stamping:
-      if (stamp != null) {
-        stamp.apply();
-        stamp = null;
-        createCache();
-      }
-      stamp = new Stamp(stampImg, x, y, 1, stamp_type, stamp_num);
-      stamp.resize(0.1);
-      break;
-
     case modeName.stediting:
-      if (stamp == null)
-        break;
       stamp.move(x, y);
       break;
 
@@ -377,11 +378,11 @@ function onClick(e) {
   }
 }
 
-function putText(weight) {
+function putText() {
   //二つ以上連続で作成ボタンを押された時
   if (workMode == modeName.txediting) {
-    text.canvas.id = "editCanvas" + weight;
-    text.fontsize = weight/5;
+    text.canvas.id = "editCanvas";
+    text.fontsize = 100;
     text.move(text.x, text.y);
     console.log("asdf");
     return;
@@ -398,12 +399,37 @@ function putText(weight) {
     stamp = null;
   }
 
-  if (loadText()!="")
-    text = new Text(input_text, x, y, 50, weight);
-    text.fontsize = weight/5;
+  if (loadText()!=""){
+    text = new Text(x, y, 100, input_text);
+    text.fontsize = 100;
     text.move(text.x, text.y);
-    text.canvas.id = "editCanvas" + weight;
-    console.log("asdf");
+    text.canvas.id = "editCanvas";
+    console.log("!asdf!");
+  }
+}
+
+function putStamp(_type, _num) {
+  //二つ以上連続で作成ボタンを押された時
+  if (workMode == modeName.stediting) {
+    stamp.apply();
+    /*
+    stamp.canvas.id = "editCanvas";
+    stamp.move(stamp.x, stamp.y);
+    console.log("TEST");
+    return;
+    */
+  }
+
+  if (workMode == modeName.txediting) {
+    text.apply();
+    text = null;
+    createCache();
+  }
+
+  stamp = new Stamp(x, y, 200, _type, _num);
+  stamp.move(x, y);
+  stamp.canvas.id = "editCanvas";
+  console.log("!TEST!");
 }
 
 // ペンモードでドラッグ
@@ -502,7 +528,7 @@ function tool(toolNum) {
 
     case 2: // スタンプモード, テキストモード
       ctx.globalCompositeOperation = "source-over";
-      workMode = modeName.stamping;
+      workMode = modeName.stediting;
       break;
   }
 }
@@ -514,134 +540,116 @@ function changeColor(colorID) {
       pColor.r = 193;
       pColor.g = 39;
       pColor.b = 45;
-      color = pColor.deepred;
       break;
     case penColor.red:
       pColor.r = 255;
       pColor.b = 0;
       pColor.g = 0;
-      color = pColor.red;
       break;
     case penColor.salmonpink:
       pColor.r = 237;
       pColor.g = 30;
       pColor.b = 121;
-      color = pColor.salmonpink;
       break;
     case penColor.hotpink:
       pColor.r = 255;
       pColor.g = 105;
       pColor.b = 180;
-      color = pColor.hotpink;
       break;
     case penColor.pink:
       pColor.r = 255;
       pColor.g = 192;
       pColor.b = 203;
-      color = pColor.pink;
       break;
     
     case penColor.purple:
       pColor.r = 160;
       pColor.g = 0;
       pColor.b = 160;
-      color = pColor.purple;
       break;
     case penColor.blue:
       pColor.r = 0;
       pColor.g = 0;
       pColor.b = 255;
-      color = pColor.blue;
       break;
     case penColor.deepblue:
       pColor.r = 0;
       pColor.g = 113;
       pColor.b = 176;
-      color = pColor.deepblue;
       break;
     case penColor.lightblue:
       pColor.r = 50;
       pColor.g = 200;
       pColor.b = 255;
-      color = pColor.lightblue;
       break;
     case penColor.vividblue:
       pColor.r = 0;
       pColor.g = 255;
       pColor.b = 255;
-      color = pColor.vividblue;
       break;
     
     case penColor.green:
       pColor.r = 0;
       pColor.g = 255;
       pColor.b = 0;
-      color = pColor.green;
       break;
     case penColor.yellow:
       pColor.r = 255;
       pColor.g = 255;
       pColor.b = 0;
-      color = pColor.yellow;
       break;
       case penColor.vividorange:
       pColor.r = 251;
       pColor.g = 176;
       pColor.b = 59;
-      color = pColor.vividorange;
       break;
     case penColor.orange:
       pColor.r = 247;
       pColor.g = 147;
       pColor.b = 30;
-      color = pColor.orange;
       break;
     case penColor.beige:
       pColor.r = 198;
       pColor.g = 156;
       pColor.b = 109;
-      color = pColor.beige;
       break;
     
     case penColor.vividgreen:
       pColor.r = 127;
       pColor.g = 200;
       pColor.b = 33;
-      color = pColor.vividgreen;
       break;
     case penColor.darkgreen:
       pColor.r = 85;
       pColor.g = 107;
       pColor.b = 47;
-      color = pColor.darkgreen;
       break;
     case penColor.gray:
       pColor.r = 128;
       pColor.g = 128;
       pColor.b = 128;
-      color = pColor.gray;
       break;
     case penColor.black:
       pColor.r = 20;
       pColor.g = 20;
       pColor.b = 20;
-      color = pColor.black;
       break;
     case penColor.white:
       pColor.r = 255;
       pColor.g = 255;
       pColor.b = 255;
-      color = pColor.white;
       break;
     default:
   }
+
+  pColor.id = colorID;
+
   if (workMode == modeName.erasering) {
     tool(0);
   }
 
   if (workMode == modeName.stediting) {
-    stRecolor(colorID);
-    //stamp.move(x, y);
+    stamp.move(x, y);
   }else if (workMode == modeName.txediting) {
     text.move(text.x, text.y);
   }
@@ -685,16 +693,19 @@ function savePictures() {
   location.href = '/mail';
 }
 
-function PenColor(red, green, blue) {
+function PenColor(red, green, blue, id) {
   this.r = red;
   this.g = green;
   this.b = blue;
+  this.id = id;
 }
 
 function resizeObj(_scale) {
   switch (workMode) {
     case modeName.stediting:
-      stResize(_scale);
+      if (stamp.size + (_scale - 1) * 1000 > 100) {
+        stResize((_scale - 1) * 1000);
+      }
       break;
     case modeName.txediting:
       txResize(_scale);
