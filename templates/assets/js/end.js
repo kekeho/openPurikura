@@ -1,5 +1,5 @@
 $(function(){
-  setTimeout(function(){
-    $('#redirect')[0].click();
+  setTimeout(function() {
+    location.href = '/';
   }, 10000);
 });

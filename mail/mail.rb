@@ -24,7 +24,7 @@ row2[6]：送信設定password
 =end
 
 #送信元のメールアドレスを指定(現状1~7までデータベースに存在)
-SELECT_FM = 1
+SELECT_FM = 2
 
 ###
 

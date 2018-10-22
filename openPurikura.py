@@ -214,7 +214,7 @@ def mail():
         print('email={}'.format(email))
         if (email == ""):
             session = Session()
-            curid = session.query(CurId).first().id = curid + 1
+            session.query(CurId).first().id = curid + 1
             session.commit()
             return redirect('/end')
 
@@ -225,7 +225,7 @@ def mail():
         subprocess.call(['ruby', 'database/mail.rb', str(curid)])
 
         session = Session()
-        curid = session.query(CurId).first().id = curid + 1
+        session.query(CurId).first().id = curid + 1
         session.commit()
 
         time.sleep(3)
