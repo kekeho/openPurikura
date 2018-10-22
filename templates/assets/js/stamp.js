@@ -1,102 +1,67 @@
-var stamp_type = "";
-var stamp_num = 1;
-
-// スタンプ読み込み
-function loadStamp(_type, _num) {
-  if (workMode == modeName.txediting) {
-    text.apply();
-    createCache();
-    text = null;
-  }
-
-  stamp_type = _type;
-  stamp_num = _num;
-  stampImg = new Image();
-
-  let colorName = "";
-
-  switch (currentColor) {
+// idをカラーネームに変更
+function colorName(_id){
+  switch (_id) {
     case penColor.deepred:
-      colorName = "DeepRed";
-      break;
+      return "DeepRed";
     case penColor.red:
-      colorName = "Red";
-      break;
+      return "Red";
     case penColor.salmonpink:
-      colorName = "SalmonPink";
-      break;
+      return "SalmonPink";
     case penColor.hotpink:
-        colorName = "HotPink";
-      break;
+        return "HotPink";
     case penColor.pink:
-      colorName = "Pink";
-      break;
+      return "Pink";
     
     case penColor.purple:
-      colorName = "Purple";
-      break;
+      return "Purple";
     case penColor.blue:
-      colorName = "Blue";
-      break;
+      return "Blue";
     case penColor.deepblue:
-      colorName = "DeepBlue";
-      break;
+      return "DeepBlue";
     case penColor.lightblue:
-      colorName = "LightBlue";
-      break;
+      return "LightBlue";
     case penColor.vividblue:
-      colorName = "VividBlue";
-      break;
+      return "VividBlue";
     
     case penColor.green:
-      colorName = "Green";
-      break;
+      return "Green";
     case penColor.yellow:
-      colorName = "Yellow";
-      break;
+      return "Yellow";
     case penColor.vividorange:
-      colorName = "VividOrange";
-      break;
+      return "VividOrange";
     case penColor.orange:
-      colorName = "Orange";
-      break;
+      return "Orange";
     case penColor.beige:
-      colorName = "Beige";
-      break;
+      return "Beige";
     
     case penColor.vividgreen:
-      colorName = "VividGreen";
-      break;
+      return "VividGreen";
     case penColor.darkgreen:
-      colorName = "DarkGreen";
-      break;
+      return "DarkGreen";
     case penColor.gray:
-      colorName = "Gray";
-      break;
+      return "Gray";
     case penColor.black:
-      colorName = "Black";
-      break;
+      return "Black";
     case penColor.white:
-      colorName = "White";
-      break;
+      return "White";
   }
-
-  stampImg.src = "./assets/stamp/" + stamp_type + "/" + stamp_num + "/" + stamp_num + "-" + colorName +  ".png";
-
-  workMode = modeName.stamping;
 }
 
-// スタンプを表すオブジェクト
-function Stamp(img, x, y, scale, type, num) {
-  this.img = img;
-  this.x = x;
-  this.y = y;
-  this.scale = scale;
-  this.w = this.img.width * this.scale;
-  this.h = this.img.height * this.scale;
-  this.type = type;
-  this.num = num;
+// imageを読み込む
+function loadImage(_type, _num, _id){
+  _img = new Image();
+  _img.src = "./assets/stamp/" + _type + "/" + _num + "/" + _num + "-" + colorName(_id) +  ".png";
+  return _img;
+}
+
+function Stamp(_x, _y, _size, _type, _num){
+  this.x = _x;
+  this.y = _y;
   this.angle = 0;
+  this.size = _size;
+
+  this.type = _type;
+  this.num = _num;
 
   // 編集用キャンバス作成
   this.canvas = document.createElement("canvas");
@@ -104,139 +69,62 @@ function Stamp(img, x, y, scale, type, num) {
   this.canvas.width = canvas.width;
   this.canvas.height = canvas.height;
 
+  // キャンバスをスクリーン上に追加
   this.stampBox = document.getElementById("canvas-box");
   this.stampBox.appendChild(this.canvas);
 
   this.ctx = this.canvas.getContext("2d");
-  this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
 
   // モード変更
   workMode = modeName.stediting;
 
-  // 移動
-  this.move = function(x, y) {
-    this.x = x;
-    this.y = y;
-
-    //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.save();
-
-    this.ctx.translate(this.x , this.y );
-    this.ctx.rotate(this.angle * (Math.PI/180));
-    this.ctx.translate(-this.x, -this.y);
-
-    this.resize(this.size);
-    this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
-    this.ctx.restore();
-  }
-
-  // リサイズ
-  this.resize = function(scale) {
-    this.scale = scale;
-    this.w = this.img.width * this.scale;
-    this.h = this.img.height * this.scale;
-
-    let temp = document.createElement("canvas"); 
-    temp.width = this.w;
-    temp.height = this.h;
-    let tctx = temp.getContext("2d");
-    tctx.scale(this.scale, this.scale);
-    tctx.drawImage(this.img, 0, 0);
-
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(temp, this.x - this.w / 2, this.y - this.h / 2);
-  }
-
-  // 色変更
-  this.recolor = function(id){
-    let colorName = "";
-    switch (id) {
-      case penColor.deepred:
-        colorName = "DeepRed";
-        break;
-      case penColor.red:
-        colorName = "Red";
-        break;
-      case penColor.salmonpink:
-        colorName = "SalmonPink";
-        break;
-      case penColor.hotpink:
-          colorName = "HotPink";
-        break;
-      case penColor.pink:
-        colorName = "Pink";
-        break;
-      
-      case penColor.purple:
-        colorName = "Purple";
-        break;
-      case penColor.blue:
-        colorName = "Blue";
-        break;
-      case penColor.deepblue:
-        colorName = "DeepBlue";
-        break;
-      case penColor.lightblue:
-        colorName = "LightBlue";
-        break;
-      case penColor.vividblue:
-        colorName = "VividBlue";
-        break;
-      
-      case penColor.green:
-        colorName = "Green";
-        break;
-      case penColor.yellow:
-        colorName = "Yellow";
-        break;
-      case penColor.vividorange:
-        colorName = "VividOrange";
-        break;
-      case penColor.orange:
-        colorName = "Orange";
-        break;
-      case penColor.beige:
-        colorName = "Beige";
-        break;
-      
-      case penColor.vividgreen:
-        colorName = "VividGreen";
-        break;
-      case penColor.darkgreen:
-        colorName = "DarkGreen";
-        break;
-      case penColor.gray:
-        colorName = "Gray";
-        break;
-      case penColor.black:
-        colorName = "Black";
-        break;
-      case penColor.white:
-        colorName = "White";
-        break;
-    }
-  
-    _img = new Image();
-    _img.src = "./assets/stamp/" + this.type + "/" +this. num + "/" + this.num + "-" + colorName +  ".png";
-    this.img = _img;
-  }
-
-  this.spin = function(dir) {
-    //dirの向きにだけ3度回転させる
-    this.angle += dir * 10;
+  //リサイズ
+  this.resize = function (_size){
+    this.size = _size;
     this.move(this.x, this.y);
   }
 
+  // 描画
+  this.move = function(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+
+    this.ctx.save();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.canvas.id = "editCanvas";
+    
+    this.ctx.translate(this.x, this.y);
+    this.ctx.rotate(this.angle * (Math.PI/180));
+    this.ctx.translate(-this.x, -this.y);
+    
+    _img = loadImage(this.type, this.num, pColor.id);
+    this.ctx.drawImage(_img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+    console.log("x:" + this.x + " / y:" + this.y + " / size:" + this.size);
+    console.log("x:" + (this.x - this.size / 2) + " / y:" + (this.y - this.size / 2) + " / size:" + this.size);
+    this.ctx.restore();
+  }
+
+  //回転操作　wayに応じて回転方向を変える
+  this.spin = function(dir) {
+    //dirの向きにだけ3度回転させる
+    this.angle += dir * 3;
+    this.move(this.x, this.y);
+  }
+
+  // 配置キャンセル
+  this.cancel = function() {
+    this.stampBox.removeChild(this.canvas);
+    workMode = modeName.drawing;
+  }
+
+  // 配置決定
+  this.apply = function() {
+    ctx.drawImage(this.canvas, 0, 0);
+    createCache();
+    this.cancel();
+  }
 }
 
-// onclickで呼ばれる スタンプをリサイズ
-function stResize(_scale){
-  stamp.resize(stamp.scale * _scale);
-}
-
-// onclickで呼ばれる スタンプをリカラー
-function stRecolor(_id){
-  // loadStamp(stamp.type, stamp.num);
-  stamp.recolor(_id);
-  //stamp.move(stamp.x, stamp.y);
+function stResize(_plus){
+  stamp.resize(stamp.size + _plus);
 }
