@@ -62,7 +62,7 @@ class TestEffects(unittest.TestCase):
         transmitted_img = cv2.imread(
             CURRENT_DIRNAME + '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
 
-        green_img = purikura_lib.effects.chromakey(green_img)
+        green_img = purikura_lib.effects.chromakey_green(green_img)
 
         np.testing.assert_array_equal(green_img, transmitted_img)
 
