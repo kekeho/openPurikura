@@ -125,7 +125,7 @@ function Stamp(img, x, y, scale, type, num) {
     this.ctx.rotate(this.angle * (Math.PI/180));
     this.ctx.translate(-this.x, -this.y);
 
-    this.resize(this.scale);
+    this.resize(this.size);
     this.ctx.drawImage(this.img, this.x - this.w / 2, this.y - this.h / 2);
     this.ctx.restore();
   }
@@ -227,19 +227,6 @@ function Stamp(img, x, y, scale, type, num) {
     this.move(this.x, this.y);
   }
 
-  // 配置キャンセル
-  this.cancel = function() {
-    this.stampBox.removeChild(this.canvas);
-    workMode = modeName.drawing;
-    stamp = null;
-  }
-
-  // 配置決定
-  this.apply = function() {
-    ctx.drawImage(this.canvas, 0, 0);
-    createCache();
-    this.cancel();
-  }
 }
 
 // onclickで呼ばれる スタンプをリサイズ

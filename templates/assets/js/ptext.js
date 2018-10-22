@@ -3,14 +3,12 @@ function loadText(){
   return input_text = textField.value;
 }
 
-function Text(text, x, y, fontsize, fontWeight){
-  this.text = text;
+function Text(x, y, fontsize, text){
   this.x = x;
   this.y = y;
   this.angle = 0;
-  this.count = tc++;
   this.fontsize = fontsize;
-  this.fontWeight = fontWeight;
+  this.text = text;
 
   //編集用のキャンバス
   this.canvas = document.createElement("canvas");
@@ -44,7 +42,7 @@ function Text(text, x, y, fontsize, fontWeight){
     this.ctx.fillStyle = "rgb("  + pColor.r + "," + pColor.g + "," + pColor.b + ")";
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.font = 'ヒラギノ角ゴシック','Hiragino Sans';
-    this.canvas.id = "editCanvas" + fontWeight;
+    this.canvas.id = "editCanvas";
     this.ctx.textAlign = "center";
     this.ctx.font = this.fontsize + "px serif";
     console.log(this.text.trim().length);

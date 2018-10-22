@@ -59,83 +59,83 @@
   box-shadow: -1px 1px 0px black;
 }
 
-#color-deepred {
+#color-DeepRed {
   background-color: #c1272d;
 }
 
-#color-purple {
+#color-Purple {
   background-color: #a000a0;
 }
 
-#color-green {
+#color-Green {
   background-color: #00ff00;
 }
 
-#color-vividgreen {
+#color-VividGreen {
   background-color: #7fe021;
 }
 
-#color-red {
+#color-Red {
   background-color: #ff0000;
 }
 
-#color-blue {
+#color-Blue {
   background-color: #0000ff;
 }
 
-#color-yellow {
+#color-Yellow {
   background-color: #ffff00;
 }
 
-#color-darkgreen {
+#color-DarkGreen {
   background-color: #556b2f;
 }
 
-#color-salmonpink {
+#color-SalmonPink {
   background-color: #ed1e79;
 }
 
-#color-deepblue {
+#color-DeepBlue {
   background-color: #0071b0;
 }
 
-#color-vividorange {
+#color-VividOrange {
   background-color: #fbb03b;
 }
 
-#color-gray {
+#color-Gray {
   background-color: #808080;
 }
 
-#color-hotpink {
+#color-HotPink {
   background-color: #ff69b4;
 }
 
-#color-lightblue {
+#color-LightBlue {
   background-color: #32c8ff;
 }
 
-#color-orange {
+#color-Orange {
   background-color: #f7931e;
 }
 
-#color-black {
+#color-Black {
   background-color: #141414;
 }
 
-#color-pink {
+#color-Pink {
   background-color: #ffc0cb;
 }
 
-#color-vividblue {
+#color-VividBlue {
   background-color: #32c8ff;
 }
 
-#color-beige {
+#color-Beige {
   background-color: #c69c6d;
 }
 
-#color-white {
+#color-White {
   background-color: #ffffff;
 }
 
@@ -385,59 +385,19 @@
   font-weight: 400;
 }
 
-#bottom > label[for="tab-3"] + div > table {
-  border-spacing: 1vh;
-}
-
-#bottom > label[for="tab-3"] + div > table td {
+#bottom > label[for="tab-3"] + div > #i_text-input {
   text-align: center;
 
-  width: 8vh;
   height: 8vh;
   
   margin: 1vh;
   border: 1px solid black;
   border-radius: 10%;
   box-shadow: 0 0 3px 1px black;
+  padding: 0 1vh;
 
-  font-size: 5vh;
-  line-height: 5vh;
-}
-
-#bottom > label[for="tab-3"] + div > table #font-weight-2 {
-  font-weight: 200;
-}
-
-#bottom > label[for="tab-3"] + div #font-weight-4 {
-  font-weight: 400;
-}
-
-#bottom > label[for="tab-3"] + div #font-weight-6 {
-  font-weight: 600;
-}
-
-#bottom > label[for="tab-3"] + div #font-weight-8 {
-  font-weight: 800;
-}
-
-#bottom > div > #pen td {
-  text-align: center;
-  
-  width: 8vh;
-  height: 8vh;
-
-  color: white;
-  background-color: #444444;
-}
-
-#bottom > div >  #pen img {
-  width: 8vh;
-  height: 8vh;
-}
-
-#bottom > div > #pen-weight img {
-  width: 7vh;
-  height: 7vh;
+  font-size: 3vh;
+  line-height: 8.5vh;
 }
 
 #bottom > div > label {
