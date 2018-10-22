@@ -1,0 +1,499 @@
+#header > #end {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+  
+  width :9vh;
+  height: 4vh;
+  
+  border-radius: 0 20% 100% 50% / 0 50% 100% 20%;
+  padding: 4vh 2vh;
+  
+  font: 4vh /4vh '';
+  color: white;
+  
+  background-color: #666666;
+}
+
+#top {
+  display: flex;
+  align-items: center;
+}
+
+#tool {
+  width: 25vw;
+}
+
+#tool-top {
+  margin: 0 auto;
+}
+
+#tool-top img {
+  width: 7vh;
+  height: 7vh;
+}
+
+#pallet {
+  margin: 3vh auto;
+  border: 2px solid #666666;
+  border-radius: 10px 10px 10px 10px;
+  
+  box-shadow: 0 0 3px #cacaca;
+}
+
+#pallet td {
+  width: 7vh;
+  height: 5vh;
+  
+  background-color: #f2f2f2;
+}
+
+#pallet div {
+  width: 3.5vh;
+  height: 3.5vh;
+  
+  margin: 0 auto;
+  border-radius: 50%;
+  
+  box-shadow: -1px 1px 0px black;
+}
+
+#color-DeepRed {
+  background-color: #c1272d;
+}
+
+#color-Purple {
+  background-color: #a000a0;
+}
+
+#color-Green {
+  background-color: #00ff00;
+}
+
+#color-VividGreen {
+  background-color: #7fe021;
+}
+
+#color-Red {
+  background-color: #ff0000;
+}
+
+#color-Blue {
+  background-color: #0000ff;
+}
+
+#color-Yellow {
+  background-color: #ffff00;
+}
+
+#color-DarkGreen {
+  background-color: #556b2f;
+}
+
+#color-SalmonPink {
+  background-color: #ed1e79;
+}
+
+#color-DeepBlue {
+  background-color: #0071b0;
+}
+
+#color-VividOrange {
+  background-color: #fbb03b;
+}
+
+#color-Gray {
+  background-color: #808080;
+}
+
+#color-HotPink {
+  background-color: #ff69b4;
+}
+
+#color-LightBlue {
+  background-color: #32c8ff;
+}
+
+#color-Orange {
+  background-color: #f7931e;
+}
+
+#color-Black {
+  background-color: #141414;
+}
+
+#color-Pink {
+  background-color: #ffc0cb;
+}
+
+#color-VividBlue {
+  background-color: #32c8ff;
+}
+
+#color-Beige {
+  background-color: #c69c6d;
+}
+
+#color-White {
+  background-color: #ffffff;
+}
+
+#canvas-box {
+  position: relative;
+  width: 50vw;
+}
+
+#canvas-box  canvas {
+  display: block;
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  margin: auto;
+  border: 2px solid black;
+}
+
+#imageCanvas {
+  z-index: 1;
+}
+
+#canvas {
+  z-index: 2;
+}
+
+#eventCanvas {
+  z-index: 5;
+}
+
+#editCanvas {
+  z-index: 3;
+}
+
+#editCanvas200 {
+  z-index: 3;
+  font-weight: 200;
+}
+
+#editCanvas400 {
+  z-index: 3;
+  font-weight: 400;
+}
+
+#editCanvas600 {
+  z-index: 3;
+  font-weight: 600;
+}
+
+#editCanvas800 {
+  z-index: 3;
+  font-weight: 800;
+}
+
+#zoom {
+  width: 10vw;
+}
+
+#zoom-in, #zoom-out {
+  display: table;
+  
+  margin: 3vh auto;
+}
+
+.row {
+  display: table-row;
+}
+
+.col {
+  display: table-cell;
+  box-sizing: border-box;
+
+  height: 3vh;
+  
+  border: 1px solid white;
+  
+  background-color: #666666;
+}
+
+#zoom-in .col {
+  width: 3vh;
+}
+
+#zoom-out .col {
+  width: 6vh;
+}
+
+#picture {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+
+  width: 15vw;
+  height: 60vh;
+  
+  border-top: 2px solid #666666;
+  border-bottom: 2px solid #666666;
+  border-left: 2px solid #666666;
+  
+  border-radius: 50px 0 0 50px;
+}
+
+#picture > input {
+  display: none;
+}
+
+#picture > label {
+  display: block;
+  position: relative;
+
+  width: 15vh;
+  height: 15vh;
+
+  margin: 3px 10px 3px 0;
+  border: 2px solid #2eade2;
+  box-shadow: 0 0 10px 5px #a8d7ec;
+}
+
+#picture > input:checked + label {
+  height: calc(15vh + 5px);
+  
+  margin: 0 7px 0 0;
+  border-top: 5px solid #fbad16;
+  border-right: 5px solid #fbad16;
+  border-bottom: 0;
+  border-left: 5px solid #8048da;
+  box-shadow: none;
+}
+
+#picture > input:checked + label::after {
+  content: '';
+  display: block;
+  position: absolute;
+  
+  bottom: 0;
+
+  width: calc(100% + 10px);
+  height: 5px;
+  
+  margin-left: -5px;
+  
+  background: linear-gradient(45deg, #8048da, #fbad16);
+}
+
+#picture > label > img {
+  display: block;
+
+  width: 15vh;
+  height: 15vh;
+}
+
+#bottom {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+
+  width: 90%;
+  height: 24vh;
+
+  margin: 2vh auto;
+  border: 2px solid black;
+  border-radius: 0 0 25px 25px;
+
+  font-family: 'TsukuARdGothic-Regular';
+}
+
+#bottom * {
+  box-sizing: border-box;
+}
+
+#bottom input[type="radio"] {
+  display: none;
+}
+
+#bottom > label {
+  display: block;
+  text-align: center;
+
+  width: calc(100% / 3);
+  height: 4vh;
+  
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+#bottom > label[for="tab-1"] {
+  border-radius: 0 0 0 20px / 0 0 0 10px;
+}
+
+#bottom > label[for="tab-3"] {
+  border-radius: 0 0 20px 0 / 0 0 10px 0;
+}
+
+#bottom > input:checked + label[for="tab-1"] {
+  background: linear-gradient(white, #3abbd1);
+}
+
+#bottom > input:checked + label[for="tab-2"] {
+  background: linear-gradient(white, #ffff00);
+}
+
+#bottom > input:checked + label[for="tab-3"] {
+  background: linear-gradient(white, #ed217b);
+}
+
+#bottom > input:not(:checked) + label + div {
+  display: none;
+}
+
+#bottom > input:checked + label + div {
+  display: flex;
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 90%;
+  height: 18vh;
+
+  margin: 0.5vh auto;
+}
+
+#bottom > label[for="tab-3"] + div {
+  align-items: center;
+}
+
+#bottom > label[for="tab-4"] + div {
+  justify-content: space-around;
+}
+
+#bottom > label[for="tab-3"] + div > input {
+  width: 70%;
+  height: 8vh;
+
+  margin-right: 2vw;
+  border: 2px solid #cacaca;
+  border-radius: 0.5vh;
+  box-shadow: 0 0 3px 1px #cacaca;
+  padding-left: 1vw;
+
+  font-size: 3vh;
+  font-weight: 400;
+}
+
+#bottom > label[for="tab-3"] + div > #i_text-input {
+  text-align: center;
+
+  height: 8vh;
+  
+  margin: 1vh;
+  border: 1px solid black;
+  border-radius: 10%;
+  box-shadow: 0 0 3px 1px black;
+  padding: 0 1vh;
+
+  font-size: 3vh;
+  line-height: 8.5vh;
+}
+
+#bottom > div > label {
+  text-align: center;
+
+  width: calc(100% / 6);
+  height: calc(100% / 5);
+
+  border-radius: 10px 10px 0 0;
+}
+
+#bottom > div > label[for="tab-1-1"] {
+  border: 3px solid #ff0000;
+}
+
+#bottom > div > label[for="tab-1-2"] {
+  border: 3px solid #ffff00;
+}
+
+#bottom > div > label[for="tab-1-3"] {
+  border: 3px solid #0000ff;
+}
+
+#bottom > div > label[for="tab-2-1"] {
+  border: 3px solid #93278f;
+}
+
+#bottom > div > label[for="tab-2-2"] {
+  border: 3px solid #00ff00;
+}
+
+#bottom > input:checked + label + div > input:not(:checked) + label + div {
+  display: none;
+}
+
+#bottom > input:checked + label + div > input:checked + label + div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: calc(100% / 5 * 4);
+
+  margin: 0 auto;
+
+  border-radius: 0 10px 10px 10px;
+}
+
+#bottom > div > input:checked + label[for="tab-1-1"],
+#bottom > div > label[for="tab-1-1"] + div 
+{
+  background-color: #ffd6d7;
+}
+
+#bottom > div > input:checked + label[for="tab-1-2"],
+#bottom > div > label[for="tab-1-2"] + div 
+{
+  background-color: #fffda9;
+}
+
+#bottom > div > input:checked + label[for="tab-1-3"],
+#bottom > div > label[for="tab-1-3"] + div 
+{
+  background-color: #a9a9ff;
+}
+
+#bottom > div > input:checked + label[for="tab-2-1"],
+#bottom > div > label[for="tab-2-1"] + div 
+{
+  background-color: #ffa6ff;
+}
+
+#bottom > div > input:checked + label[for="tab-2-2"],
+#bottom > div > label[for="tab-2-2"] + div 
+{
+  background-color: #a4ffcd;
+}
+
+#bottom > div > div > img {
+  height: 90%;
+
+  border-radius: 10px;
+
+  background-color: white;
+}
+
+#bottom > div > div > img:first-child {
+  margin-left: 1vw;
+}
+
+#bottom > div > div > img:last-child {
+  margin-right: 1vw;
+}
+

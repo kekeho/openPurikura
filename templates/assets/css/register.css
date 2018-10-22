@@ -1,0 +1,110 @@
+#content{
+  display: flex;
+  flex-flow: column nowrap;
+  
+  width: 50vw;
+  
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#terms {
+  overflow: auto;
+  
+  height: 30vh;
+  
+  border: 5px solid #a0a0a0;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 3px #b0b0b0;
+
+  font-size: 2vh;
+}
+
+#terms  p, #terms  ol {
+  margin: 8px 8px;
+}
+
+#terms ol {
+  list-style-type: none;
+
+  padding-left: 0;
+}
+
+#terms  li {
+  counter-increment: cnt;
+}
+
+#terms  li::before {
+  content: '('counter(cnt) ') ';
+}
+
+#terms h5 {
+  margin: 20px 8px 0 8px;
+}
+
+#accept {
+  display: none;
+}
+
+label[for="accept"] {
+  position: relative;
+  
+  margin: 6vh auto;
+  padding-left: 5vh;
+  font-size: 2vh;
+}
+
+label[for="accept"]::before {
+  content: '';
+  display: block;
+  position: absolute;
+  
+  top: calc(50% - 1.2vh);
+  left: 0;
+  
+  width: 2vh;
+  height: 2vh;
+  
+  border: 2px solid #a0a0a0;
+  border-radius: 5px;
+}
+
+#accept:checked + label[for="accept"]::after {
+  content: '';
+  display: block;
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+  
+  width: 2vh;
+  height: 1.2vh;
+  
+  border-left: 2px solid #ed1e79;
+  border-bottom: 2px solid #ed1e79;
+  
+  transform: rotate(-45deg);
+}
+
+#note {
+  margin: 5px 0;
+  
+  font-size: 2vh;
+  color: #ed1e79;
+}
+
+input[name="email"], input[name="name"] {
+  height: 6vh;
+  
+  padding: 0 7px;
+  
+  font-size: 3vh;
+  
+  border: 2px solid #a0a0a0;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 1px #b0b0b0;
+}
+
+input[name="email"] {
+  margin: 0 0 4vh 0;
+}

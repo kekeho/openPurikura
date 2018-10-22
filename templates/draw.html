@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="./assets/js/cd300.js"></script>
+
+    <script type="text/javascript" src="./assets/js/draw.js"></script>
+    <script type="text/javascript" src="./assets/js/ptext.js"></script>
+    <script type="text/javascript" src="./assets/js/_stamp.js"></script>
+  </head>
+  <body onload="init()" oncontextmenu="return false;">
+    <!-- header -->
+    <div id="header">
+      <div id="end" onclick="savePictures()">END</div>
+      <div id="timer"></div>
+      <img id="logo" src="./assets/src/logo.png">
+    </div>
+    
+    <!-- content -->
+    <div id="content-nofooter">
+      <div id="top">
+        <div id="tool">
+          <table id="tool-top">
+            <tr>
+              <td><img src="./assets/src/eraser.png"></td>
+              <td onclick="tool(1); changeLineWidth(20)"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="tool(1); changeLineWidth(15)"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="tool(1); changeLineWidth(10)"><img src="./assets/src/pen-small.png"></td>
+            </tr>
+            <tr>
+              <td><img src="./assets/src/pen.png"></td>
+              <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
+            </tr>
+            <tr>
+              <td><img onclick="back()" src="./assets/src/undo.png" ></td>
+              <td><img onclick="next()" src="./assets/src/redo.png" ></td>
+              <td><img onclick="spinObj(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
+              <td><img onclick="spinObj(1)" src="./assets/src/rotate-clock.png" ></td>
+            </tr>
+          </table>
+          <table id="pallet">
+            <tr>
+              <td><div id="color-DeepRed"     onclick="changeColor(1)"></div></td>
+              <td><div id="color-Purple"      onclick="changeColor(6)"></div></td>
+              <td><div id="color-Green"       onclick="changeColor(11)"></div></td>
+              <td><div id="color-VividGreen"  onclick="changeColor(16)"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-Red"         onclick="changeColor(2)"></div></td>
+              <td><div id="color-Blue"        onclick="changeColor(7)"></div></td>
+              <td><div id="color-Yellow"      onclick="changeColor(12)"></div></td>
+              <td><div id="color-DarkGreen"   onclick="changeColor(17)"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-SalmonPink"  onclick="changeColor(3)"></div></td>
+              <td><div id="color-DeepBlue"    onclick="changeColor(8)"></div></td>
+              <td><div id="color-VividOrange" onclick="changeColor(13)"></div></td>
+              <td><div id="color-Gray"        onclick="changeColor(18)"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-HotPink"     onclick="changeColor(4)"></div></td>
+              <td><div id="color-LightBlue"   onclick="changeColor(9)"></div></td>
+              <td><div id="color-Orange"      onclick="changeColor(14)"></div></td>
+              <td><div id="color-Black"       onclick="changeColor(19)"></div></td>
+            </tr>
+            <tr>
+              <td><div id="color-Pink"        onclick="changeColor(5)"></div></td>
+              <td><div id="color-VividBlue"   onclick="changeColor(10)"></div></td>
+              <td><div id="color-Beige"       onclick="changeColor(15)"></div></td>
+              <td><div id="color-White"       onclick="changeColor(20)"></div></td>
+            </tr>
+          </table>
+        </div>
+        <div id="canvas-box">
+          <canvas id="imageCanvas" width=466 height=466></canvas>
+          <canvas id="canvas" width=466 height=466></canvas>
+          <canvas id="eventCanvas" width=466 height=466></canvas>
+        </div>
+        <div id="zoom">
+          <div id="zoom-in" onclick="resizeObj(1.1)">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <div id="zoom-out" onclick="resizeObj(0.9)">
+            <div class="row">
+              <div class="col"></div>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+            </div>
+          </div>
+        </div>
+        <div id="picture">
+          <input id="picture-1" type="radio" name="picture" checked="checked">
+          <label for="picture-1">
+            <img onclick="switchPic(1)" src="./assets/photos/draw_0.png">
+          </label>
+          <input id="picture-2" type="radio" name="picture">
+          <label for="picture-2">
+            <img onclick="switchPic(2)" src="./assets/photos/draw_1.png">
+          </label>
+          <input id="picture-3" type="radio" name="picture">
+          <label for="picture-3">
+            <img onclick="switchPic(3)" src="./assets/photos/draw_2.png">
+          </label>
+        </div>
+      </div>
+      <div id="bottom">
+        <input id="tab-1" type="radio" name="tab" checked="checked">
+        <label for="tab-1">スタンプ1</label>
+        <div>
+          <input id="tab-1-1" type="radio" name="tab-tab-1" checked="checked">
+          <label for="tab-1-1">日本語スタンプ</label>
+          <div>
+            <img onclick="putStamp('JP', 1)" src="./assets/stamp/JP/1/1-Black.png">
+            <img onclick="putStamp('JP', 2)" src="./assets/stamp/JP/2/2-Black.png">
+            <img onclick="putStamp('JP', 3)" src="./assets/stamp/JP/3/3-Black.png">
+            <img onclick="putStamp('JP', 4)" src="./assets/stamp/JP/4/4-Black.png">
+            <img onclick="putStamp('JP', 5)" src="./assets/stamp/JP/5/5-Black.png">
+            <img onclick="putStamp('JP', 6)" src="./assets/stamp/JP/6/6-Black.png">
+            <img onclick="putStamp('JP', 7)" src="./assets/stamp/JP/7/7-Black.png">
+          </div>
+          <input id="tab-1-2" type="radio" name="tab-tab-1">
+          <label for="tab-1-2">英語スタンプ</label>
+          <div>
+            <img onclick="putStamp('EN', 1)" src="./assets/stamp/EN/1/1-Black.png">
+            <img onclick="putStamp('EN', 2)" src="./assets/stamp/EN/2/2-Black.png">
+            <img onclick="putStamp('EN', 3)" src="./assets/stamp/EN/3/3-Black.png">
+            <img onclick="putStamp('EN', 4)" src="./assets/stamp/EN/4/4-Black.png">
+            <img onclick="putStamp('EN', 5)" src="./assets/stamp/EN/5/5-Black.png">
+            <img onclick="putStamp('EN', 6)" src="./assets/stamp/EN/6/6-Black.png">
+            <img onclick="putStamp('EN', 7)" src="./assets/stamp/EN/7/7-Black.png">
+          </div>
+          <input id="tab-1-3" type="radio" name="tab-tab-1">
+          <label for="tab-1-3">韓国語スタンプ</label>
+          <div>
+            <img onclick="putStamp('KR', 1)" src="./assets/stamp/KR/1/1-Black.png">
+            <img onclick="putStamp('KR', 2)" src="./assets/stamp/KR/2/2-Black.png">
+            <img onclick="putStamp('KR', 3)" src="./assets/stamp/KR/3/3-Black.png">
+            <img onclick="putStamp('KR', 4)" src="./assets/stamp/KR/4/4-Black.png">
+            <img onclick="putStamp('KR', 5)" src="./assets/stamp/KR/5/5-Black.png">
+            <img onclick="putStamp('KR', 6)" src="./assets/stamp/KR/6/6-Black.png">
+            <img onclick="putStamp('KR', 7)" src="./assets/stamp/KR/7/7-Black.png">
+          </div>
+        </div>
+        <input id="tab-2" type="radio" name="tab">
+        <label for="tab-2">スタンプ2</label>
+        <div>
+          <input id="tab-2-1" type="radio" name="tab-tab-2" checked="checked">
+          <label for="tab-2-1">絵文字</label>
+          <div>
+            <img onclick="putStamp('EM', 1)" src="./assets/stamp/EM/1/1-Black.png">
+            <img onclick="putStamp('EM', 2)" src="./assets/stamp/EM/2/2-Black.png">
+            <img onclick="putStamp('EM', 3)" src="./assets/stamp/EM/3/3-Black.png">
+            <img onclick="putStamp('EM', 4)" src="./assets/stamp/EM/4/4-Black.png">
+            <img onclick="putStamp('EM', 5)" src="./assets/stamp/EM/5/5-Black.png">
+          </div>
+          <input id="tab-2-2" type="radio" name="tab-tab-2">
+          <label for="tab-2-2">動物スタンプ</label>
+          <div>
+            <img onclick="putStamp('AN', 1)" src="./assets/stamp/AN/1/1-Black.png">
+            <img onclick="putStamp('AN', 2)" src="./assets/stamp/AN/2/2-Black.png">
+            <img onclick="putStamp('AN', 3)" src="./assets/stamp/AN/3/3-Black.png">
+            <img onclick="putStamp('AN', 4)" src="./assets/stamp/AN/4/4-Black.png">
+          </div>
+        </div>
+        <input id="tab-3" type="radio" name="tab">
+        <label for="tab-3">文字入力</label>
+        <div>
+          <input id="i_text" type="text" placeholder="入力...">
+          <div id="i_text-input" onclick="putText()">文字を書く</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
