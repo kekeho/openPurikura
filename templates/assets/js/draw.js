@@ -685,7 +685,7 @@ function savePictures() {
     });
   }
 
-  location.href = '/mail';
+  location.href = '/end';
 }
 
 function PenColor(red, green, blue, id) {
