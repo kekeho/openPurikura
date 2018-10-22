@@ -63,7 +63,7 @@ class TestEffects(unittest.TestCase):
             CURRENT_DIRNAME + '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
 
         green_img = purikura_lib.effects.chromakey_green(green_img)
-
+        cv2.imwrite("test.png", green_img)
         np.testing.assert_array_equal(green_img, transmitted_img)
 
     def test_marge(self):
