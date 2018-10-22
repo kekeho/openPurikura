@@ -119,6 +119,7 @@ function Stamp(_x, _y, _size, _type, _num){
 
   // 配置決定
   this.apply = function() {
+    ctx.globalCompositeOperation = "source-over";
     ctx.drawImage(this.canvas, 0, 0);
     createCache();
     this.cancel();

@@ -71,6 +71,7 @@ function Text(x, y, fontsize, text){
 
   //配置決定
   this.apply = function() {
+    ctx.globalCompositeOperation = "source-over";
     ctx.drawImage(this.canvas, 0, 0);
     createCache();
     this.cancel();
