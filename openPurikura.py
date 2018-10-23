@@ -3,7 +3,9 @@ from PIL import Image
 from io import BytesIO
 import purikura_lib as pl
 from camera.webcamera import VideoCamera
+import pickle
 import time
+import random
 import shutil
 import subprocess
 import base64
@@ -19,18 +21,35 @@ app = Flask(__name__, static_folder=ASSETS_DIR)
 
 # Front page
 id_pack = 0
-id_photos = [0, 1, 2]
+id_photos = ['1', '2', '3']
 taken = 0
 
 # Web camera
 cam = None
+subprocess.call(['bash', CURRENT_DIRNAME + '/camera/v4l2-setting.sh'])
 
-# Camera Setting
-subprocess.call(['bash', 'v4l2-setting.sh'])
+# Cache Number
+cnum_file = CURRENT_DIRNAME + '/cachenum.dat'
+cache_num = 0
 
 
 @app.route('/')
 def index():
+    global taken
+    global cnum_file
+    global cache_num
+
+    taken = 0
+
+    if (os.path.isfile(cnum_file)):
+        with open(cnum_file, 'rb') as fp:
+            cache_num = pickle.load(fp)
+    
+    cache_num += 1
+
+    with open(cnum_file, 'wb') as fp:
+        pickle.dump(cache_num, fp)
+
     return render_template('index.html')
 
 
@@ -51,42 +70,38 @@ def take():
     global id_pack
     global taken
     global cam
+    global cache_num
 
     if request.method == 'GET':
-        if taken >= 5:
+        taken += 1
+
+        if taken > 5:
             taken = 0
             return redirect('/retouching')
 
-        if taken == 0:
-            for i in range(5):
-                shutil.copyfile(ASSETS_DIR + '/src/white.png',
-                                ASSETS_DIR + '/photos/{}_before.png'.format(i))
-            return render_template('take.html')
-
         else:
-            return render_template('take.html')
+            return render_template('take.html', take_num=taken, cache_num=cache_num)
 
     else:
         image = cam.get_img()
-        cv2.imwrite(ASSETS_DIR + '/photos/{}_before.png'.format(taken), image)
-        cv2.imwrite(ASSETS_DIR + '/photos/retouch.png', image)
+        cv2.imwrite(ASSETS_DIR + '/photos/c{}_{}_before.png'.format(cache_num, taken), image)
         time.sleep(0.8)
 
-        taken += 1
-        return render_template('take.html')
+        return render_template('take.html', take_num=taken, cache_num=cache_num)
 
 
 # Retouching
 @app.route('/retouching', methods=['GET', 'POST'])
 def retouching():
     global id_pack
+    global cache_num
 
     if request.method == 'GET':
         return render_template('retouching.html')
 
     else:
         for i in range(5):
-            image = cv2.imread(ASSETS_DIR + '/photos/{}_before.png'.format(i))
+            image = cv2.imread(ASSETS_DIR + '/photos/c{}_{}_before.png'.format(cache_num, i + 1))
             gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             face_landmarks = pl.find.facemark(gray_img)
 
@@ -103,32 +118,33 @@ def retouching():
             #image = pl.effects.skin_beautify(image, rate=2)
             image = pl.effects.color_correction(image)
 
-            cv2.imwrite(ASSETS_DIR + '/photos/{}_after.png'.format(i), image)
+            cv2.imwrite(ASSETS_DIR + '/photos/c{}_{}_after.png'.format(cache_num, i + 1), image)
 
         return render_template('retouching.html')
 
 
-# Select 3 pics
+# Select 3 pictures
 @app.route('/select2', methods=['GET', 'POST'])
 def select2():
     global id_photos
-    if request.method == 'POST':
-        id_photos = request.form.getlist('select')
+    global cache_num
 
-        for i in range(3):
-            shutil.copyfile(ASSETS_DIR + '/photos/{}_after.png'.format(id_photos[i]),
-                            ASSETS_DIR + '/photos/draw_{}.png'.format(i))
+    if request.method == 'GET':
+        return render_template('select2.html', cache_num=cache_num)
 
-        return redirect('/draw')
     else:
-        return render_template('select2.html')
+        id_photos = request.form.getlist('select')
+        return redirect('/draw')
 
 
 # Draw
 @app.route('/draw', methods=['GET', 'POST'])
 def draw():
+    global id_photos
+    global cache_num
+
     if request.method == 'GET':
-        return render_template('draw.html')
+        return render_template('draw.html', id_photos=id_photos, cache_num=cache_num)
 
     else:
         img_cnt  = request.form['cnt']
@@ -136,34 +152,13 @@ def draw():
         dec_data = base64.b64decode(enc_data.split(',')[1])
         dec_img  = Image.open(BytesIO(dec_data))
         dec_img.save(CURRENT_DIRNAME + '/images/{}.png'.format(img_cnt))
-        return render_template('draw.html')
+        return render_template('draw.html', id_photos=id_photos, cache_num=cache_num)
 
 
 # End
 @app.route('/end')
 def theend():
     return render_template('end.html')
-
-
-# Reset variables
-@app.route('/reset')
-def end():
-    global id_pack
-    global id_photos
-    global taken
-    id_pack = 0
-    id_photos = [0, 1, 2]
-    taken = 0
-    return redirect('/')
-
-
-# Debug
-@app.route('/debug')
-def debug():
-    global id_pack
-    global id_photos
-    global taken
-    return render_template('debug.html', id_pack=id_pack, id_photos=id_photos, taken=taken)
 
 
 # Video streaming test page
