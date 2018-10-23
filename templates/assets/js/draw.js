@@ -179,12 +179,10 @@ function canvasInit() {
 
   // 使用する3枚の画像
   pictures = [];
-  pictures[0] = new Image();
-  pictures[0].src = "./assets/photos/draw_0.png";
-  pictures[1] = new Image();
-  pictures[1].src = "./assets/photos/draw_1.png";
-  pictures[2] = new Image();
-  pictures[2].src = "./assets/photos/draw_2.png";
+  for (let i = 0; i < 3; i++) {
+    pictures[i] = new Image();
+    pictures[i].src = "./assets/photos/c" + cache_num + "_" + id_photos[i] + "_after.png";
+  }
 
   img = pictures[pic_num];
   img.onload = function() {
@@ -337,7 +335,7 @@ function switchPic(num) {
   canvasLog[pic_num].top--;
   canvasLog[pic_num].current--;
 
-  pic_num = num - 1;
+  pic_num = num;
 
   img = pictures[pic_num];
   ictx.clearRect(0, 0, canvas.width, canvas.height);
@@ -685,7 +683,7 @@ function savePictures() {
     });
   }
 
-  location.href = '/mail';
+  location.href = '/end';
 }
 
 function PenColor(red, green, blue, id) {
