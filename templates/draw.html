@@ -3,11 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, maximum-scale=1" />
+    <title></title>
     <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
     <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/cd300.js"></script>
 
+    <script type="text/javascript">
+      id_photos = ["{{ id_photos[0] }}", "{{ id_photos[1] }}", "{{ id_photos[2] }}"];
+      cache_num = {{ cache_num }};
+    </script>
     <script type="text/javascript" src="./assets/js/draw.js"></script>
     <script type="text/javascript" src="./assets/js/ptext.js"></script>
     <script type="text/javascript" src="./assets/js/stamp.js"></script>
@@ -103,18 +108,12 @@
           </div>
         </div>
         <div id="picture">
-          <input id="picture-1" type="radio" name="picture" checked="checked">
-          <label for="picture-1">
-            <img onclick="switchPic(1)" src="./assets/photos/draw_0.png">
-          </label>
-          <input id="picture-2" type="radio" name="picture">
-          <label for="picture-2">
-            <img onclick="switchPic(2)" src="./assets/photos/draw_1.png">
-          </label>
-          <input id="picture-3" type="radio" name="picture">
-          <label for="picture-3">
-            <img onclick="switchPic(3)" src="./assets/photos/draw_2.png">
-          </label>
+          {% for i in range(3) %}
+            <input id="picture-{{ i }}" type="radio" name="picture">
+            <label for="picture-{{ i }}">
+              <img onclick="switchPic({{ i }})" src="./assets/photos/c{{ cache_num }}_{{ id_photos[i] }}_after.png">
+            </label>
+          {% endfor %}
         </div>
       </div>
       <div id="bottom">
