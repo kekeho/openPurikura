@@ -4,7 +4,7 @@ import glob
 import os
 
 
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Output camera calibration file
 def calibration():
@@ -15,7 +15,7 @@ def calibration():
     objpoints = []
     imgpoints = []
 
-    images = glob.glob(CURRENT_DIRNAME + "/calib_img/*.png")
+    images = glob.glob(CURRENT_DIR + "/calib_img/*.png")
 
     for fname in images:
         img = cv2.imread(fname)
@@ -31,12 +31,12 @@ def calibration():
             print("filed: " + fname)
 
     ret, mtx, dst, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
-    np.savez(CURRENT_DIRNAME + "/calib_img/camera.npz", mtx, dst)
+    np.savez(CURRENT_DIR + "/calib_img/camera.npz", mtx, dst)
 
 
 # Camera distortion
 def distortion(img):
-    camera_param = np.load(CURRENT_DIRNAME + "/calib_img/camera.npz")
+    camera_param = np.load(CURRENT_DIR + "/calib_img/camera.npz")
     mtx = camera_param["arr_0"]
     dst = camera_param["arr_1"]
     height, width = img.shape[:2]

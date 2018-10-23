@@ -111,7 +111,7 @@
           {% for i in range(3) %}
             <input id="picture-{{ i }}" type="radio" name="picture">
             <label for="picture-{{ i }}">
-              <img onclick="switchPic({{ i }})" src="./assets/photos/c{{ cache_num }}_{{ id_photos[i] }}_after.png">
+              <img onclick="switchPic({{ i }})" src="./assets/photos/c{{ cache_num }}_after-{{ id_photos[i] }}.png">
             </label>
           {% endfor %}
         </div>

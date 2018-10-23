@@ -14,8 +14,8 @@ import os
 import sys
 
 
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = CURRENT_DIRNAME + '/templates/assets'
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = CURRENT_DIR + '/templates/assets'
 
 app = Flask(__name__, static_folder=ASSETS_DIR)
 
@@ -26,10 +26,10 @@ taken = 0
 
 # Web camera
 cam = None
-subprocess.call(['bash', CURRENT_DIRNAME + '/camera/v4l2-setting.sh'])
+subprocess.call(['bash', CURRENT_DIR + '/camera/v4l2-setting.sh'])
 
 # Cache Number
-cnum_file = CURRENT_DIRNAME + '/cachenum.dat'
+cnum_file = CURRENT_DIR + '/cachenum.dat'
 cache_num = 0
 
 
@@ -84,7 +84,7 @@ def take():
 
     else:
         image = cam.get_img()
-        cv2.imwrite(ASSETS_DIR + '/photos/c{}_{}_before.png'.format(cache_num, taken), image)
+        cv2.imwrite(ASSETS_DIR + '/photos/c{}_before-{}.png'.format(cache_num, taken), image)
         time.sleep(0.8)
 
         return render_template('take.html', take_num=taken, cache_num=cache_num)
@@ -101,7 +101,7 @@ def retouching():
 
     else:
         for i in range(5):
-            image = cv2.imread(ASSETS_DIR + '/photos/c{}_{}_before.png'.format(cache_num, i + 1))
+            image = cv2.imread(ASSETS_DIR + '/photos/c{}_before-{}.png'.format(cache_num, i + 1))
             gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             face_landmarks = pl.find.facemark(gray_img)
 
@@ -118,7 +118,7 @@ def retouching():
             #image = pl.effects.skin_beautify(image, rate=2)
             image = pl.effects.color_correction(image)
 
-            cv2.imwrite(ASSETS_DIR + '/photos/c{}_{}_after.png'.format(cache_num, i + 1), image)
+            cv2.imwrite(ASSETS_DIR + '/photos/c{}_after-{}.png'.format(cache_num, i + 1), image)
 
         return render_template('retouching.html')
 
@@ -151,7 +151,7 @@ def draw():
         enc_data = request.form['img']
         dec_data = base64.b64decode(enc_data.split(',')[1])
         dec_img  = Image.open(BytesIO(dec_data))
-        dec_img.save(CURRENT_DIRNAME + '/images/{}.png'.format(img_cnt))
+        dec_img.save(ASSETS_DIR + '/photos/c{}_finish-{}.png'.format(cache_num, img_cnt))
         return render_template('draw.html', id_photos=id_photos, cache_num=cache_num)
 
 

@@ -82,9 +82,9 @@ def hsv_color_range(image, points, padding=0):
 def main():
     import os
     import find
-    CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+    CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/katy.jpg')
+    image = cv2.imread(CURRENT_DIR + '/../Tests/sources/katy.jpg')
     gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     face_landmarks = find.facemark(gray_img)
     for facemark in face_landmarks:

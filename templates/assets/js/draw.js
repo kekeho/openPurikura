@@ -181,7 +181,7 @@ function canvasInit() {
   pictures = [];
   for (let i = 0; i < 3; i++) {
     pictures[i] = new Image();
-    pictures[i].src = "./assets/photos/c" + cache_num + "_" + id_photos[i] + "_after.png";
+    pictures[i].src = "./assets/photos/c" + cache_num + "_after-" + id_photos[i] + ".png";
   }
 
   img = pictures[pic_num];

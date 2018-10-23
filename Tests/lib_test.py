@@ -1,15 +1,15 @@
 import sys
 import os
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 # set include path to openPurikura directory
-sys.path.append(CURRENT_DIRNAME + '/../')
+sys.path.append(CURRENT_DIR + '/../')
 
 import unittest
 import purikura_lib
 import cv2
 import numpy as np
 
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestFaceRecognition(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestFaceRecognition(unittest.TestCase):
         expected_points_len = 194
 
         # test with mona-lisa face :D
-        mona_lisa = cv2.imread(CURRENT_DIRNAME + '/sources/Mona_Lisa.jpg')
+        mona_lisa = cv2.imread(CURRENT_DIR + '/sources/Mona_Lisa.jpg')
         gray_mona_lisa = cv2.cvtColor(mona_lisa, cv2.COLOR_BGR2GRAY)
 
         landmarks = purikura_lib.find.facemark(gray_mona_lisa)
@@ -39,7 +39,7 @@ class TestFaceRecognition(unittest.TestCase):
         expected_points_len = 194
 
         # test with mona-lisa face :D
-        three_man_img = cv2.imread(CURRENT_DIRNAME + '/sources/three-man.jpg')
+        three_man_img = cv2.imread(CURRENT_DIR + '/sources/three-man.jpg')
         gray_three_man_img = cv2.cvtColor(three_man_img, cv2.COLOR_BGR2GRAY)
 
         landmarks = purikura_lib.find.facemark(gray_three_man_img)
@@ -58,9 +58,9 @@ class TestEffects(unittest.TestCase):
     def test_chromakey(self):
         """Transpare green pixel test (for chroma key)
         """
-        green_img = cv2.imread(CURRENT_DIRNAME + '/sources/greenback.jpg')
+        green_img = cv2.imread(CURRENT_DIR + '/sources/greenback.jpg')
         transmitted_img = cv2.imread(
-            CURRENT_DIRNAME + '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
+            CURRENT_DIR + '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
 
         green_img = purikura_lib.effects.chromakey_green(green_img)
         np.testing.assert_array_equal(green_img, transmitted_img)
@@ -68,16 +68,16 @@ class TestEffects(unittest.TestCase):
     def test_marge(self):
         """Marge images test
         """
-        paris = cv2.imread(CURRENT_DIRNAME + '/sources/paris.jpg')
-        girl = cv2.imread(CURRENT_DIRNAME +
+        paris = cv2.imread(CURRENT_DIR + '/sources/paris.jpg')
+        girl = cv2.imread(CURRENT_DIR +
                           '/sources/transparent-img.png', cv2.IMREAD_UNCHANGED)
         marged_img = purikura_lib.effects.merge(paris, girl)
-        cv2.imwrite(CURRENT_DIRNAME + '/sources/test-marged.png', marged_img)
+        cv2.imwrite(CURRENT_DIR + '/sources/test-marged.png', marged_img)
 
         expected_img = cv2.imread(
-            CURRENT_DIRNAME + '/sources/girl_in_paris.jpg', cv2.IMREAD_UNCHANGED)
+            CURRENT_DIR + '/sources/girl_in_paris.jpg', cv2.IMREAD_UNCHANGED)
         expected_img = cv2.imread(
-            CURRENT_DIRNAME + '/sources/test-marged.png', cv2.IMREAD_UNCHANGED)
+            CURRENT_DIR + '/sources/test-marged.png', cv2.IMREAD_UNCHANGED)
 
         np.testing.assert_array_equal(expected_img, marged_img)
 
@@ -87,7 +87,7 @@ class TestUtils(unittest.TestCase):
     """
 
     def test_add_alpha_channel(self):
-        non_alpha_img = cv2.imread(CURRENT_DIRNAME + '/sources/paris.jpg')
+        non_alpha_img = cv2.imread(CURRENT_DIR + '/sources/paris.jpg')
         added_alpha_img = purikura_lib.utils.add_alpha_channel(non_alpha_img)
 
         self.assertEqual(

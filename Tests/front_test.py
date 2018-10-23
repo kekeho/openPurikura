@@ -1,8 +1,8 @@
 import sys
 import os
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 # set include path to openPurikura directory
-sys.path.append(CURRENT_DIRNAME + '/../')
+sys.path.append(CURRENT_DIR + '/../')
 
 from selenium import webdriver
 import openPurikura
@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.init_db import Base, User
 
-database_file = CURRENT_DIRNAME + '/../database/openPurikura.db'
+database_file = CURRENT_DIR + '/../database/openPurikura.db'
 db_engine = create_engine('sqlite:///' + database_file,
                           convert_unicode=True, echo=True)
 Base.metadata.bind = db_engine
