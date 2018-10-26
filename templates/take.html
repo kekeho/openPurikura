@@ -3,11 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, maximum-scale=1" />
+    <title></title>
     <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
     <link rel="stylesheet" type="text/css" href="./assets/css/take.css">
+
+    <script type="text/javascript">
+      take_num = {{ take_num }};
+      cache_num = {{ cache_num }};
+    </script>
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/cd5.js"></script>
-    <title></title>
   </head>
   <body>
     <a id="redirect" href="/whiteout"></a>
@@ -24,9 +29,6 @@
           <img id="pause" src="./assets/src/pause.png">
           <div id="video-box">
             <img id="video" src="{{ url_for('video_feed') }}">
-            {% if pack %}
-              <img id="teacher" src="./assets/background/pack-{{ pack }}/teacher.png">
-            {% endif %}
           </div>
         </div>
         <div class="timer-box">
@@ -35,11 +37,12 @@
       </div>
       <div id="bottom">
         <div>
-          <img id="pic-1" class="border-right" src="./assets/photos/0_before.png">
-          <img id="pic-2" class="border-right" src="./assets/photos/1_before.png">
-          <img id="pic-3" class="border-right" src="./assets/photos/2_before.png">
-          <img id="pic-4" class="border-right" src="./assets/photos/3_before.png">
-          <img id="pic-5" src="./assets/photos/4_before.png">
+          {% for i in range(1, take_num) %}
+            <img id="pic-{{ i }}" class="border-right" src="./assets/photos/c{{ cache_num }}_before-{{ i }}.png">
+          {% endfor %}
+          {% for i in range(take_num, 6) %}
+            <img id="pic-{{ i }}" class="border-right" src="./assets/src/white.png">
+          {% endfor %}
         </div>
       </div>
     </div>
