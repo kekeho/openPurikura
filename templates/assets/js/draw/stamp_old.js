@@ -1,3 +1,52 @@
+// idをカラーネームに変更
+function colorName(_id){
+  switch (_id) {
+    case penColor.deepred:
+      return "DeepRed";
+    case penColor.red:
+      return "Red";
+    case penColor.salmonpink:
+      return "SalmonPink";
+    case penColor.hotpink:
+        return "HotPink";
+    case penColor.pink:
+      return "Pink";
+    
+    case penColor.purple:
+      return "Purple";
+    case penColor.blue:
+      return "Blue";
+    case penColor.deepblue:
+      return "DeepBlue";
+    case penColor.lightblue:
+      return "LightBlue";
+    case penColor.vividblue:
+      return "VividBlue";
+    
+    case penColor.green:
+      return "Green";
+    case penColor.yellow:
+      return "Yellow";
+    case penColor.vividorange:
+      return "VividOrange";
+    case penColor.orange:
+      return "Orange";
+    case penColor.beige:
+      return "Beige";
+    
+    case penColor.vividgreen:
+      return "VividGreen";
+    case penColor.darkgreen:
+      return "DarkGreen";
+    case penColor.gray:
+      return "Gray";
+    case penColor.black:
+      return "Black";
+    case penColor.white:
+      return "White";
+  }
+}
+
 // imageを読み込む
 function loadImage(_type, _num, _id){
   _img = new Image();

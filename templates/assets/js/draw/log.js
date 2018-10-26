@@ -2,11 +2,11 @@ class Log {
   constructor(canvas){
     this.target = canvas;
     this.current = 0;
-    this.log     = [];
+    this.log = [];
   }
 
   // add log
-  add(){
+  add() {
     // create a <canvas> for log
     let canvas_log = document.createElement("canvas");
     canvas_log.width  = this.target.width;
@@ -37,7 +37,7 @@ class Log {
   */
 
   // redo
-  redo(){
+  redo() {
     if (this.current < this.log.length - 1) {
       this.current++;
 
@@ -52,7 +52,7 @@ class Log {
   }
 
   // undo
-  undo(){
+  undo() {
     if (this.current > 0) {
       this.current--;
 
@@ -67,7 +67,7 @@ class Log {
   }
 
   // return current image
-  image(){
+  image() {
     return this.log[this.current];
   }
 }

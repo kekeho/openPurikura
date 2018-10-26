@@ -36,22 +36,18 @@ const ID_COLOR = {
 
 // constant ========================================================== //
 // back
-const PICTURE = [new Image(), new Image(), new Image()];
-PICTURE[0].src = "./assets/photos/draw_0.png";
-PICTURE[1].src = "./assets/photos/draw_1.png";
-PICTURE[2].src = "./assets/photos/draw_2.png";
-
+const PICTURES = [new Image(), new Image(), new Image()];
+for (let i = 0; i < 3; i++)
+  PICTURES[i].src = "./assets/photos/c" + cache_num + "_after-" + id_photos[i] + ".png";
 
 // canvas
 const CANVAS_BACK = document.getElementByID("canvas-back");
 const CANVAS_MAIN = document.getElementByID("canvas-main");
-const CANVAS_EDIT = document.getElementByID("canvas-edit");
 const CANVAS_EVNT = document.getElementByID("canvas-evnt");
 
 // context 
 const CTX_BACK = CANVAS_BACK.getContext("2d");
 const CTX_MAIN = CANVAS_MAIN.getContext("2d");
-const CTX_EDIT = CANVAS_EDIT.getContext("2d");
 
 // log
 const LOG = [new Log(CANVAS_MAIN), new Log(CANVAS_MAIN), new log(CANVAS_MAIN)];
@@ -86,15 +82,15 @@ let text  = null;
 CTX_BACK.drawImage(PICTURE[0], 0, 0, CANVAS_BACK.wdth, CANVAS_BACK.height);
 
 // add eventlistenr for iPad to CANVAS_EVNT
-let onClick = function(e){
+let onClick = function(e) {
 
 }
 
-let onMove = function(e){
+let onMove = function(e) {
 
 }
 
-let onRelease = function(e){
+let onRelease = function(e) {
 
 }
 
@@ -104,7 +100,7 @@ CANVAS_EVNT.addEventListener("touchend"    , onRelease,  false);
 CANVAS_EVNT.addEventListener("touchchancel", onRelease,  false);
 
 // function ========================================================== //
-let switchPic = function(idx){
+let switchPic = function(idx) {
   LOG[picture].add();
   picture = idx;
   
@@ -114,11 +110,11 @@ let switchPic = function(idx){
   CTX_MAIN.drawImage(LOG[picture].image(), 0, 0);
 }
 
-let redo = function(){
+let redo = function() {
   LOG[picture].redo();
 }
 
-let undo = function(){
+let undo = function() {
   if (stamp != null) {
     stamp.apply();
     stamp = null;
