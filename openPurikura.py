@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 from PIL import Image
 from io import BytesIO
+from camera import VideoCamera
 import purikura_lib as pl
-from camera.webcamera import VideoCamera
 import pickle
 import time
 import random
