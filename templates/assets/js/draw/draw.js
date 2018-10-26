@@ -87,6 +87,16 @@ let onClick = function(e) {
 }
 
 let onMove = function(e) {
+  let x;
+  let y;
+
+  e.preventDefault();
+  const rect = e.target.getBoundingClientRect();
+
+  if (e.touches) {
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top;
+  }
 
 }
 
