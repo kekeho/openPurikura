@@ -92,8 +92,12 @@ let onClick = function(e) {
     y = e.touches[0].clientY - rect.top;
   }
 
-  pen = new Pen(EDITOR);
-  pen.line(x, y);
+  switch (tool)  {
+    case ID_TOOL.pen:
+      pen = new Pen(EDITOR, LOG[picture]);
+      pen.line(x, y);
+      break;
+  }
 }
 
 let onMove = function(e) {
@@ -108,7 +112,11 @@ let onMove = function(e) {
     y = e.touches[0].clientY - rect.top;
   }
 
-  pen.line(x, y);
+  switch (tool)  {
+    case ID_TOOL.pen:
+      pen.line(x, y);
+      break;
+  }
 }
 
 let onRelease = function(e) {
@@ -132,20 +140,25 @@ let switchPic = function(idx) {
 }
 
 let redo = function() {
+  if (DrawObject.isEditing()) {
+    switch (tool) {
+      case ID_TOOL.pen:
+        pen.apply();
+        break;
+    }
+  }
+
   LOG[picture].redo();
 }
 
 let undo = function() {
-  if (stamp != null) {
-    stamp.apply();
-    stamp = null;
-    LOG[picture].add();
-  } else if (text != null) {
-    text.apply();
-    text = null;
-    LOG[picture].add();
+  if (DrawObject.isEditing()) {
+    switch (tool) {
+      case ID_TOOL.pen:
+        pen.apply();
+        break;
+    }
   }
 
   LOG[picture].undo();
 }
-

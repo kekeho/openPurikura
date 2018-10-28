@@ -3,25 +3,29 @@ class Log {
     this.target = canvas;
     this.current = 0;
     this.log = [];
+    this.createLog();
+  }
+
+  // currectにログ作成
+  createLog() {
+    // create a <canvas> for log
+    this.log[this.current] = document.createElement("canvas");
+    this.log[this.current].width  = this.target.width;
+    this.log[this.current].height = this.target.height;
+
+    // copy to canvas_log
+    let ctx_log = this.log[this.current].getContext("2d");
+    ctx_log.drawImage(this.target, 0, 0);
   }
 
   // add log
   add() {
-    // create a <canvas> for log
-    let canvas_log = document.createElement("canvas");
-    canvas_log.width  = this.target.width;
-    canvas_log.height = this.target.height;
-    let ctx_log = canvas_log.getContext("2d");
-
-    // copy to canvas_log
-    ctx_log.drawImage(this.target, 0, 0);
     this.current++;
-    this.log[this.current];
+    this.createLog();
 
     // clear log
-    if (current != this.log.length - 1) {
+    if (this.current > this.log.length - 1)
       this.log.length = this.current + 1;
-    }
   }
 
   /*
@@ -53,6 +57,14 @@ class Log {
 
   // undo
   undo() {
+    if (DrawObject.isEditing()) {
+      switch (tool) {
+        case ID_TOOL.pen:
+          pen.apply();
+          break;
+      }
+    }
+
     if (this.current > 0) {
       this.current--;
 

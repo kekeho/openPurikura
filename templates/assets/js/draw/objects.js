@@ -1,34 +1,40 @@
-class DrawObject {
-  constructor(editor) {
-    if (super.editing)
-      editor.commit();
+// 静的変数
+let editing = false;
 
+class DrawObject {
+  constructor(editor, log) {
     this.editor = editor;
-    super.editing = true;
+    this.log = log;
+
+    if (editing) {
+      this.editor.commit(this.log);
+    }
+
+    editing = true;
   }
 
   // 編集中かどうか
   static isEditing() {
-    return super.editing;
+    return editing;
   }
 
   // キャンセル
   cancel() {
     this.editor.clear();
-    super.editing = false;
+    editing = false;
   }
 
   // 配置決定
   apply() {
-    this.editor.commit();
-    super.editing = false;
+    this.editor.commit(this.log);
+    editing = false;
   }
 }
 
 // ノーマルなペン
 class Pen extends DrawObject {
-  constructor(editor) {
-    super(editor);
+  constructor(editor, log) {
+    super(editor, log);
 
     this.px = null;
     this.py = null;
