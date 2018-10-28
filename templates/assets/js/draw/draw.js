@@ -1,13 +1,6 @@
 "use strict";
 
 // enum ============================================================== //
-const ID_TOOL = {
-  pen    : 0,
-  eraser : 1,
-  stamp  : 2,
-  text   : 3
-};
-
 const ID_COLOR = {
   deepred    : 0,
   red        : 1,
@@ -63,7 +56,7 @@ let x = CANVAS_MAIN.width / 2;
 let y = CANVAS_MAIN.height / 2;
 
 // selected tool
-let tool = ID_TOOL.pen;
+let tool = ID_TOOL.effpen;
 
 // selected color
 let color = ID_COLOR.black;
@@ -71,14 +64,15 @@ let color = ID_COLOR.black;
 // is drawing ? 
 let drawing = false;
 
-// instance
-let pen = null;
-let stamp = null;
-let text  = null;
+// draw object
+let obj = null;
 
 // initialize ======================================================== //
 // draw PICTURES on CANVAS_BACK
-CTX_BACK.drawImage(PICTURES[0], 0, 0, CANVAS_BACK.wdth, CANVAS_BACK.height);
+PICTURES[picture].onload = function(e) {
+  CTX_BACK.drawImage(PICTURES[picture], 0, 0, CANVAS_BACK.width, CANVAS_BACK.height);
+  document.getElementById("picture-" + picture).click();
+};
 
 // add eventlistenr for iPad to CANVAS_EVNT
 let onClick = function(e) {
@@ -94,14 +88,19 @@ let onClick = function(e) {
 
   switch (tool)  {
     case ID_TOOL.pen:
-      pen = new Pen(EDITOR, LOG[picture]);
-      pen.line(x, y);
+      obj = new Pen(EDITOR, LOG[picture]);
+      obj.line(x, y);
+      break;
+
+    case ID_TOOL.effpen:
+      obj = new EffectPen(EDITOR, LOG[picture]);
+      obj.point(x, y);
       break;
   }
 }
 
 let onMove = function(e) {
-  if (!drawing)
+  if (!drawing || !DrawObject.isEditing())
     return;
 
   e.preventDefault();
@@ -112,9 +111,13 @@ let onMove = function(e) {
     y = e.touches[0].clientY - rect.top;
   }
 
-  switch (tool)  {
+  switch (DrawObject.getTool())  {
     case ID_TOOL.pen:
-      pen.line(x, y);
+      obj.line(x, y);
+      break;
+
+    case ID_TOOL.effpen:
+      obj.point(x, y);
       break;
   }
 }
@@ -130,35 +133,27 @@ CANVAS_EVNT.addEventListener("touchchancel", onRelease,  false);
 
 // function ========================================================== //
 let switchPic = function(idx) {
-  LOG[picture].add();
+  if (DrawObject.isEditing())
+    obj.apply();
+
   picture = idx;
   
-  CTX_BACK.drawImage(PICTURE[picture], 0, 0, CANVAS_BACK.width, CANVAS_BACK.heihgt);
+  CTX_BACK.drawImage(PICTURES[picture], 0, 0, CANVAS_BACK.width, CANVAS_BACK.heihgt);
   
   CTX_MAIN.clearRect(0, 0, CANVAS_MAIN.width, CANVAS_MAIN.height);
   CTX_MAIN.drawImage(LOG[picture].image(), 0, 0);
 }
 
 let redo = function() {
-  if (DrawObject.isEditing()) {
-    switch (tool) {
-      case ID_TOOL.pen:
-        pen.apply();
-        break;
-    }
-  }
+  if (DrawObject.isEditing())
+    obj.apply();
 
   LOG[picture].redo();
 }
 
 let undo = function() {
-  if (DrawObject.isEditing()) {
-    switch (tool) {
-      case ID_TOOL.pen:
-        pen.apply();
-        break;
-    }
-  }
+  if (DrawObject.isEditing())
+    obj.apply();
 
   LOG[picture].undo();
 }

@@ -2,11 +2,12 @@ class Log {
   constructor(canvas){
     this.target = canvas;
     this.current = 0;
+    this.length = 0;
     this.log = [];
     this.createLog();
   }
 
-  // currectにログ作成
+  // currentにログ作成
   createLog() {
     // create a <canvas> for log
     this.log[this.current] = document.createElement("canvas");
@@ -21,28 +22,25 @@ class Log {
   // add log
   add() {
     this.current++;
+    this.length = this.current;
     this.createLog();
-
-    // clear log
-    if (this.current > this.log.length - 1)
-      this.log.length = this.current + 1;
   }
 
   /*
   // check that taeget can redo
-  can_redo(){
-    (this.current < this.log.length - 1) ? true : false;
+  can_redo() {
+    return (this.current < this.length);
   }
 
   // check that taeget can undo
-  can_undo(){
-    (this.current > 0) ? true : false;
+  can_undo() {
+    return (this.current > 0);
   }
   */
 
   // redo
   redo() {
-    if (this.current < this.log.length - 1) {
+    if (this.current < this.length) {
       this.current++;
 
       let ctx_target = this.target.getContext("2d");
@@ -57,14 +55,6 @@ class Log {
 
   // undo
   undo() {
-    if (DrawObject.isEditing()) {
-      switch (tool) {
-        case ID_TOOL.pen:
-          pen.apply();
-          break;
-      }
-    }
-
     if (this.current > 0) {
       this.current--;
 
