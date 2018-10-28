@@ -22,15 +22,15 @@
           <table id="tool-top">
             <tr>
               <td><img src="./assets/src/eraser.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 5,  1);"><img src="./assets/src/pen-small.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 20, 1);"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
               <td><img src="./assets/src/pen.png"></td>
               <td onclick="selectTool(ID_TOOL.pen, 20, 1);"><img src="./assets/src/pen-big.png"></td>
               <td onclick="selectTool(ID_TOOL.pen, 15, 0.5);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.effpen, 10, 1);"><img src="./assets/src/pen-small.png"></td>
+              <td onclick="selectTool(ID_TOOL.effpen, 15, 0.5);"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
               <td><img onclick="undo()" src="./assets/src/undo.png" ></td>
@@ -41,34 +41,34 @@
           </table>
           <table id="pallet">
             <tr>
-              <td><div id="color-DeepRed"     onclick="changeColor(1)"></div></td>
-              <td><div id="color-Purple"      onclick="changeColor(6)"></div></td>
-              <td><div id="color-Green"       onclick="changeColor(11)"></div></td>
-              <td><div id="color-VividGreen"  onclick="changeColor(16)"></div></td>
+              <td><div id="color-DeepRed"     onclick="changeColor(ID_COLOR.deepred)"></div></td>
+              <td><div id="color-Purple"      onclick="changeColor(ID_COLOR.purple)"></div></td>
+              <td><div id="color-Green"       onclick="changeColor(ID_COLOR.green)"></div></td>
+              <td><div id="color-VividGreen"  onclick="changeColor(ID_COLOR.vividgreen)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-Red"         onclick="changeColor(2)"></div></td>
-              <td><div id="color-Blue"        onclick="changeColor(7)"></div></td>
-              <td><div id="color-Yellow"      onclick="changeColor(12)"></div></td>
-              <td><div id="color-DarkGreen"   onclick="changeColor(17)"></div></td>
+              <td><div id="color-Red"         onclick="changeColor(ID_COLOR.red)"></div></td>
+              <td><div id="color-Blue"        onclick="changeColor(ID_COLOR.blue)"></div></td>
+              <td><div id="color-Yellow"      onclick="changeColor(ID_COLOR.yellow)"></div></td>
+              <td><div id="color-DarkGreen"   onclick="changeColor(ID_COLOR.darkgreen)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-SalmonPink"  onclick="changeColor(3)"></div></td>
-              <td><div id="color-DeepBlue"    onclick="changeColor(8)"></div></td>
-              <td><div id="color-VividOrange" onclick="changeColor(13)"></div></td>
-              <td><div id="color-Gray"        onclick="changeColor(18)"></div></td>
+              <td><div id="color-SalmonPink"  onclick="changeColor(ID_COLOR.salmonpink)"></div></td>
+              <td><div id="color-DeepBlue"    onclick="changeColor(ID_COLOR.deepblue)"></div></td>
+              <td><div id="color-VividOrange" onclick="changeColor(ID_COLOR.vividorange)"></div></td>
+              <td><div id="color-Gray"        onclick="changeColor(ID_COLOR.gray)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-HotPink"     onclick="changeColor(4)"></div></td>
-              <td><div id="color-LightBlue"   onclick="changeColor(9)"></div></td>
-              <td><div id="color-Orange"      onclick="changeColor(14)"></div></td>
-              <td><div id="color-Black"       onclick="changeColor(19)"></div></td>
+              <td><div id="color-HotPink"     onclick="changeColor(ID_COLOR.hotpink)"></div></td>
+              <td><div id="color-LightBlue"   onclick="changeColor(ID_COLOR.lightblue)"></div></td>
+              <td><div id="color-Orange"      onclick="changeColor(ID_COLOR.orange)"></div></td>
+              <td><div id="color-Black"       onclick="changeColor(ID_COLOR.black)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-Pink"        onclick="changeColor(5)"></div></td>
-              <td><div id="color-VividBlue"   onclick="changeColor(10)"></div></td>
-              <td><div id="color-Beige"       onclick="changeColor(15)"></div></td>
-              <td><div id="color-White"       onclick="changeColor(20)"></div></td>
+              <td><div id="color-Pink"        onclick="changeColor(ID_COLOR.pink)"></div></td>
+              <td><div id="color-VividBlue"   onclick="changeColor(ID_COLOR.vividblue)"></div></td>
+              <td><div id="color-Beige"       onclick="changeColor(ID_COLOR.beige)"></div></td>
+              <td><div id="color-White"       onclick="changeColor(ID_COLOR.white)"></div></td>
             </tr>
           </table>
         </div>
@@ -182,6 +182,7 @@
       cache_num = {{ cache_num }};
     </script>
     <script type="text/javascript" src="./assets/js/draw/log.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/color.js"></script>
     <script type="text/javascript" src="./assets/js/draw/editor.js"></script>
     <script type="text/javascript" src="./assets/js/draw/objects.js"></script>
     <script type="text/javascript" src="./assets/js/draw/pen.js"></script>

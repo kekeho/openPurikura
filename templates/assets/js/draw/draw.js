@@ -1,32 +1,5 @@
 "use strict";
 
-// enum ============================================================== //
-const ID_COLOR = {
-  deepred    : 0,
-  red        : 1,
-  salmonpink : 2,
-  hotpink    : 3,
-  pink       : 4,
-
-  purple     : 5,
-  blue       : 6,
-  deepblue   : 7,
-  lightblue  : 8,
-  vividblue  : 9,
-
-  green      : 10,
-  yellow     : 11,
-  vividorange: 12,
-  orange     : 13,
-  beige      : 14,
-
-  vividgreen : 15,
-  darkgreen  : 16,
-  gray       : 17,
-  black      : 18,
-  white      : 19
-};
-
 // constant ========================================================== //
 // back
 let picture = 0;
@@ -57,11 +30,9 @@ let y = CANVAS_MAIN.height / 2;
 
 // selected tool
 let tool = ID_TOOL.pen;
+let color = new Color(ID_COLOR.black);
 let width = 15;
 let alpha = 1;
-
-// selected color
-let color = ID_COLOR.black;
 
 // is drawing ? 
 let drawing = false;
@@ -90,12 +61,12 @@ let onClick = function(e) {
 
   switch (tool)  {
     case ID_TOOL.pen:
-      obj = new Pen(EDITOR, LOG[picture], width, alpha);
+      obj = new Pen(EDITOR, LOG[picture], color, width, alpha);
       obj.line(x, y);
       break;
 
     case ID_TOOL.effpen:
-      obj = new EffectPen(EDITOR, LOG[picture], width, alpha);
+      obj = new EffectPen(EDITOR, LOG[picture], color, width, alpha);
       obj.line(x, y);
       break;
 
@@ -153,6 +124,10 @@ let selectTool = function(id_tool, _width, _alpha) {
   tool = id_tool;
   width = _width;
   alpha = _alpha;
+}
+
+let changeColor = function(_color) {
+  color.id = _color;
 }
 
 let redo = function() {

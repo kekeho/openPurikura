@@ -1,14 +1,17 @@
 // ノーマルなペン
 class Pen extends DrawObject {
-  constructor(editor, log, width, alpha) {
+  constructor(editor, log, color, width, alpha) {
     super(editor, log);
 
+    this.color = color;
     this.width = width;
     this.alpha = alpha;
+
     this.px = null;
     this.py = null;
 
     this.editor.ctx_edit.lineCap = "round";
+    this.editor.ctx_edit.strokeStyle = this.color.str_color;
     this.editor.ctx_edit.lineWidth = this.width;
     this.editor.canv_edit.style.opacity = this.alpha;
 
@@ -31,8 +34,8 @@ class Pen extends DrawObject {
 
 // エフェクト付きのペン
 class EffectPen extends Pen {
-  constructor(editor, log, width, alpha) {
-    super(editor, log, width, alpha);
+  constructor(editor, log, color, width, alpha) {
+    super(editor, log, color, width, alpha);
 
     this.img = new Image();
     this.img.src = "./assets/pen/brush.png";
@@ -77,6 +80,9 @@ class Eraser extends DrawObject {
     this.px = null;
     this.py = null;
 
+    this.editor.ctx_main.lineCap = "round";
+    this.editor.ctx_main.lineWidth = this.width;
+
     cur_tool = ID_TOOL.eraser;
   }
 
@@ -86,8 +92,8 @@ class Eraser extends DrawObject {
       this.editor.ctx_main.beginPath();
       this.editor.ctx_main.moveTo(this.px, this.py);
       this.editor.ctx_main.lineTo(x, y);
-      this.editor.ctx_main.closePath();
       this.editor.ctx_main.stroke();
+      this.editor.ctx_main.closePath();
       this.editor.ctx_main.globalCompositeOperation = "source-over";
     }
 
