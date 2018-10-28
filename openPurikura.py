@@ -44,7 +44,7 @@ def index():
     if (os.path.isfile(cnum_file)):
         with open(cnum_file, 'rb') as fp:
             cache_num = pickle.load(fp)
-    
+
     cache_num += 1
 
     with open(cnum_file, 'wb') as fp:

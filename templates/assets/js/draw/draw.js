@@ -36,30 +36,31 @@ const ID_COLOR = {
 
 // constant ========================================================== //
 // back
+let picture = 0;
 const PICTURES = [new Image(), new Image(), new Image()];
 for (let i = 0; i < 3; i++)
   PICTURES[i].src = "./assets/photos/c" + cache_num + "_after-" + id_photos[i] + ".png";
 
 // canvas
-const CANVAS_BACK = document.getElementByID("canvas-back");
-const CANVAS_MAIN = document.getElementByID("canvas-main");
-const CANVAS_EVNT = document.getElementByID("canvas-evnt");
+const CANVAS_BACK = document.getElementById("canvas-back");
+const CANVAS_MAIN = document.getElementById("canvas-main");
+const CANVAS_EDIT = document.getElementById("canvas-edit");
+const CANVAS_EVNT = document.getElementById("canvas-evnt");
 
 // context 
 const CTX_BACK = CANVAS_BACK.getContext("2d");
 const CTX_MAIN = CANVAS_MAIN.getContext("2d");
 
 // log
-const LOG = [new Log(CANVAS_MAIN), new Log(CANVAS_MAIN), new log(CANVAS_MAIN)];
+const LOG = [new Log(CANVAS_MAIN), new Log(CANVAS_MAIN), new Log(CANVAS_MAIN)];
+
+// editor
+const EDITOR = new Editor(CANVAS_MAIN, CANVAS_EDIT);
 
 // global variable =================================================== //
 // current point
-let x_c = CANVAS_MAIN.width / 2;
-let y_c = CANVAS_MAIN.height / 2;
-
-// previous point
-let x_p = CANVAS_MAIN.width/2;
-let y_p = CANVAS_MAIN.height/2;
+let x = CANVAS_MAIN.width / 2;
+let y = CANVAS_MAIN.height / 2;
 
 // selected tool
 let tool = ID_TOOL.pen;
@@ -67,41 +68,51 @@ let tool = ID_TOOL.pen;
 // selected color
 let color = ID_COLOR.black;
 
-// selected picture index
-let picture = 0;
-
 // is drawing ? 
 let drawing = false;
 
 // instance
+let pen = null;
 let stamp = null;
 let text  = null;
 
 // initialize ======================================================== //
-// draw PICTURE on CANVAS_BACK
-CTX_BACK.drawImage(PICTURE[0], 0, 0, CANVAS_BACK.wdth, CANVAS_BACK.height);
+// draw PICTURES on CANVAS_BACK
+CTX_BACK.drawImage(PICTURES[0], 0, 0, CANVAS_BACK.wdth, CANVAS_BACK.height);
 
 // add eventlistenr for iPad to CANVAS_EVNT
 let onClick = function(e) {
-
-}
-
-let onMove = function(e) {
-  let x;
-  let y;
+  drawing = true;
 
   e.preventDefault();
-  const rect = e.target.getBoundingClientRect();
+  let rect = e.target.getBoundingClientRect();
 
   if (e.touches) {
     x = e.touches[0].clientX - rect.left;
     y = e.touches[0].clientY - rect.top;
   }
 
+  pen = new Pen(EDITOR);
+  pen.line(x, y);
+}
+
+let onMove = function(e) {
+  if (!drawing)
+    return;
+
+  e.preventDefault();
+  let rect = e.target.getBoundingClientRect();
+
+  if (e.touches) {
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top;
+  }
+
+  pen.line(x, y);
 }
 
 let onRelease = function(e) {
-
+  drawing = false;
 }
 
 CANVAS_EVNT.addEventListener("touchstart"  , onClick  ,  false);

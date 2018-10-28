@@ -8,17 +8,6 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/cd300.js"></script>
-
-    <script type="text/javascript">
-      id_photos = ["{{ id_photos[0] }}", "{{ id_photos[1] }}", "{{ id_photos[2] }}"];
-      cache_num = {{ cache_num }};
-    </script>
-    <script type="text/javascript" src="./assets/js/draw/draw.js"></script>
-    <script type="text/javascript" src="./assets/js/draw/log.js"></script>
-    <script type="text/javascript" src="./assets/js/draw/object.js"></script>
-    <script type="text/javascript" src="./assets/js/draw/pen.js"></script>
-    <script type="text/javascript" src="./assets/js/draw/stamp.js"></script>
-    <script type="text/javascript" src="./assets/js/draw/text.js"></script>
   </head>
   <body oncontextmenu="return false;">
     <!-- header -->
@@ -86,9 +75,10 @@
           </table>
         </div>
         <div id="canvas-box">
-          <canvas id="imageCanvas" width=466 height=466></canvas>
-          <canvas id="canvas" width=466 height=466></canvas>
-          <canvas id="eventCanvas" width=466 height=466></canvas>
+          <canvas id="canvas-back" width=466 height=466></canvas>
+          <canvas id="canvas-main" width=466 height=466></canvas>
+          <canvas id="canvas-edit" width=466 height=466></canvas>
+          <canvas id="canvas-evnt" width=466 height=466></canvas>
         </div>
         <div id="zoom">
           <div id="zoom-in" onclick="resizeObj(1.1)">
@@ -186,5 +176,14 @@
         </div>
       </div>
     </div>
+
+    <script type="text/javascript">
+      id_photos = ["{{ id_photos[0] }}", "{{ id_photos[1] }}", "{{ id_photos[2] }}"];
+      cache_num = {{ cache_num }};
+    </script>
+    <script type="text/javascript" src="./assets/js/draw/log.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/editor.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/objects.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/draw.js"></script>
   </body>
 </html>
