@@ -1,5 +1,5 @@
-// ノーマルなペン
-class Pen extends DrawObject {
+// スタンプ
+class Stamp extends DrawObject {
   constructor(log, color, width, alpha) {
     super(log);
 

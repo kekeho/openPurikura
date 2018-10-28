@@ -20,9 +20,6 @@ const CTX_MAIN = CANVAS_MAIN.getContext("2d");
 // log
 const LOG = [new Log(CANVAS_MAIN), new Log(CANVAS_MAIN), new Log(CANVAS_MAIN)];
 
-// editor
-const EDITOR = new Editor(CANVAS_MAIN, CANVAS_EDIT);
-
 // global variable =================================================== //
 // current point
 let x = CANVAS_MAIN.width / 2;
@@ -34,11 +31,15 @@ let color = new Color(ID_COLOR.black);
 let width = 15;
 let alpha = 1;
 
+// stamp image
+let img_stamp = new Image();
+
 // is drawing ? 
 let drawing = false;
 
 // draw object
 let obj = null;
+DrawObject.setCanvas(CANVAS_MAIN, CANVAS_EDIT);
 
 // initialize ======================================================== //
 // draw PICTURES on CANVAS_BACK
@@ -59,19 +60,20 @@ let onClick = function(e) {
     y = e.touches[0].clientY - rect.top;
   }
 
+  // 描画オブジェクトの生成
   switch (tool)  {
     case ID_TOOL.pen:
-      obj = new Pen(EDITOR, LOG[picture], color, width, alpha);
+      obj = new Pen(LOG[picture], color, width, alpha);
       obj.line(x, y);
       break;
 
     case ID_TOOL.effpen:
-      obj = new EffectPen(EDITOR, LOG[picture], color, width, alpha);
+      obj = new EffectPen(LOG[picture], color, width, alpha);
       obj.line(x, y);
       break;
 
     case ID_TOOL.eraser:
-      obj = new Eraser(EDITOR, LOG[picture], width);
+      obj = new Eraser(LOG[picture], width);
       obj.line(x, y);
       break;
   }
@@ -89,6 +91,7 @@ let onMove = function(e) {
     y = e.touches[0].clientY - rect.top;
   }
 
+  // 描画オブジェクトの更新
   switch (DrawObject.getTool())  {
     case ID_TOOL.pen:
     case ID_TOOL.effpen:
@@ -102,12 +105,14 @@ let onRelease = function(e) {
   drawing = false;
 }
 
+// event listener ========================================================= //
 CANVAS_EVNT.addEventListener("touchstart"  , onClick  ,  false);
 CANVAS_EVNT.addEventListener("touchmove"   , onMove   ,  false);
 CANVAS_EVNT.addEventListener("touchend"    , onRelease,  false);
 CANVAS_EVNT.addEventListener("touchchancel", onRelease,  false);
 
 // function ========================================================== //
+// 背景画像切り替え
 let switchPic = function(idx) {
   if (DrawObject.isEditing())
     obj.apply();
@@ -120,16 +125,25 @@ let switchPic = function(idx) {
   CTX_MAIN.drawImage(LOG[picture].image(), 0, 0);
 }
 
+// ツールの選択
 let selectTool = function(id_tool, _width, _alpha) {
   tool = id_tool;
   width = _width;
   alpha = _alpha;
 }
 
+// 色変更
 let changeColor = function(_color) {
   color.id = _color;
 }
 
+// スタンプ配置
+let putStamp = function(_type, _num) {
+  stamp.src = "./assets/stamp/" + type + "1"
+  obj = new Stamp(stamp);
+}
+
+// やり直し
 let redo = function() {
   if (DrawObject.isEditing())
     obj.apply();
@@ -137,6 +151,7 @@ let redo = function() {
   LOG[picture].redo();
 }
 
+// 元に戻す
 let undo = function() {
   if (DrawObject.isEditing())
     obj.apply();
