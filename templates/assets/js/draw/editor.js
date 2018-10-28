@@ -15,7 +15,10 @@ class Editor {
 
   // 現在の画像をメインキャンバスに統合
   commit(log) {
+    this.ctx_main.globalAlpha = this.canv_edit.style.opacity;
     this.ctx_main.drawImage(this.canv_edit, 0, 0);
+    this.ctx_main.globalAlpha = 1;
+
     log.add();
     this.clear();
     super.editing = false;

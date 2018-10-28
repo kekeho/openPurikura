@@ -10,7 +10,7 @@ class Pen extends DrawObject {
 
     this.editor.ctx_edit.lineCap = "round";
     this.editor.ctx_edit.lineWidth = this.width;
-    this.editor.ctx_edit.globalAlpha = this.alpha;
+    this.editor.canv_edit.style.opacity = this.alpha;
 
     cur_tool = ID_TOOL.pen;
   }
