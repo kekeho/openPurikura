@@ -215,3 +215,33 @@ let undo = function() {
 
   LOG[picture].undo();
 }
+
+// 全てのキャンバスを合成して保存
+function saveImages() {
+  if (DrawObject.isEditing())
+    obj.apply();
+
+  for (let i = 0; i < 3; i++) {
+    let canv_comp = document.createElement('canvas')
+    canv_comp.width = PICTURES[i].width;
+    canv_comp.height = PICTURES[i].height;
+
+    let ctx_comp = canv_comp.getContext("2d");
+    ctx_comp.drawImage(PICTURES[i], 0, 0, canv_comp.width, canv_comp.height);
+    ctx_comp.drawImage(LOG[i].image(), 0, 0, canv_comp.width, canv_comp.height);
+
+    let base64 = canv_comp.toDataURL('image/png');
+
+    $.ajax({
+      type: 'post',
+      url: '/draw',
+      data: {
+        cnt: i + 1,
+        img: base64
+      },
+      async: false
+    });
+
+    location.href = '/end';
+  }
+}
