@@ -150,7 +150,8 @@ let changeColor = function(_color) {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
     case ID_TOOL.text:
-      obj.color = color;
+      if (DrawObject.isEditing())
+        obj.color = color;
       break;
   }
 }
@@ -173,8 +174,10 @@ let zoomIn = function() {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
     case ID_TOOL.text:
-      if (obj.size < 500)
-        obj.size += 30;
+      if (DrawObject.isEditing()) {
+        if (obj.size < 500)
+          obj.size += 30;
+      }
       break;
   }
 }
@@ -184,8 +187,10 @@ let zoomOut = function() {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
     case ID_TOOL.text:
-      if (obj.size > 50)
-        obj.size -= 30;
+      if (DrawObject.isEditing()) {
+        if (obj.size > 50)
+          obj.size -= 30;
+      }
       break;
   }
 }
@@ -195,6 +200,7 @@ let rotate = function(_angle) {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
     case ID_TOOL.text:
+      if (DrawObject.isEditing())
         obj.angle += 10 * _angle;
       break;
   }
@@ -214,6 +220,15 @@ let undo = function() {
     obj.apply();
 
   LOG[picture].undo();
+}
+
+// クリア
+let clear = function() {
+  if (DrawObject.isEditing())
+    obj.apply();
+
+  CTX_MAIN.clearRect(0, 0, CANVAS_MAIN.width, CANVAS_MAIN.height);
+  LOG(picture).add();
 }
 
 // 全てのキャンバスを合成して保存

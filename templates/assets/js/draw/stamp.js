@@ -1,3 +1,5 @@
+"use strict";
+
 // スタンプとテキストの親クラス
 class PutObject extends DrawObject {
   constructor(log, color, size) {
@@ -59,7 +61,6 @@ class Stamp extends PutObject {
     super(log, color, size);
     let _this = this;
     
-    console.log("(" + this.x + ", " + this.y + ")");
     this.type = type;
     this.num = num;
 

@@ -1,3 +1,5 @@
+"use strict";
+
 const ID_TOOL = {
   pen    : 0,
   effpen : 1,

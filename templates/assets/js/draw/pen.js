@@ -1,3 +1,5 @@
+"use strict";
+
 // ノーマルなペン
 class Pen extends DrawObject {
   constructor(log, color, width, alpha) {
@@ -35,13 +37,24 @@ class Pen extends DrawObject {
 }
 
 // エフェクト付きのペン
-class EffectPen extends Pen {
+class EffectPen extends DrawObject {
   constructor(log, color, width, alpha) {
-    super(log, color, width, alpha);
+    super(log);
 
+    this.color = color;
+    this.width = width;
+    this.alpha = alpha;
+
+    this.px = null;
+    this.py = null;
+
+    // 透明度の設定
+    canv_edit.style.opacity = this.alpha;
+
+    // テクスチャを読み込み
     this.img = new Image();
     this.img.src = "./assets/pen/brush.png";
-    this.interval = 3; // テクスチャの間隔
+    this.interval = 3;
 
     cur_tool = ID_TOOL.effpen;
   }

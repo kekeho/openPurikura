@@ -1,3 +1,5 @@
+"use strict";
+
 class Log {
   constructor(canvas){
     this.target = canvas;
@@ -25,18 +27,6 @@ class Log {
     this.length = this.current;
     this.createLog();
   }
-
-  /*
-  // check that taeget can redo
-  can_redo() {
-    return (this.current < this.length);
-  }
-
-  // check that taeget can undo
-  can_undo() {
-    return (this.current > 0);
-  }
-  */
 
   // redo
   redo() {

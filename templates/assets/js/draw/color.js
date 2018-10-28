@@ -1,3 +1,5 @@
+"use strict";
+
 const ID_COLOR = {
   deepred    : 0,
   red        : 1,
@@ -44,11 +46,13 @@ const RGB_COLOR = [
   [255, 255, 255]  // white
 ];
 
+// 色を表すクラス
 class Color {
   constructor(id_color) {
     this.id = id_color;
   }
 
+  // カラーIDの設定
   set id(id_color) {
     this._id = id_color;
     this.r = RGB_COLOR[this.id][0];
@@ -60,6 +64,7 @@ class Color {
     return this._id;
   }
 
+  // CSS形式の色を表す文字列
   get str_color() {
     return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
   }
