@@ -61,10 +61,11 @@ class Stamp extends DrawObject {
 
     this.clear();
 
-    ctx_edit.drawImage(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
     ctx_edit.save();
     ctx_edit.translate(this.x, this.y);
     ctx_edit.rotate(this.angle * (Math.PI / 180));
+    ctx_edit.translate(-this.x, -this.y);
+    ctx_edit.drawImage(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
     ctx_edit.restore();
   }
 

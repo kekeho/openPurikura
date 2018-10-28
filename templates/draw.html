@@ -35,8 +35,8 @@
             <tr>
               <td><img onclick="undo()" src="./assets/src/undo.png" ></td>
               <td><img onclick="redo()" src="./assets/src/redo.png" ></td>
-              <td><img onclick="spinObj(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
-              <td><img onclick="spinObj(1)" src="./assets/src/rotate-clock.png" ></td>
+              <td><img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
+              <td><img onclick="rotate(1)" src="./assets/src/rotate-clock.png" ></td>
             </tr>
           </table>
           <table id="pallet">
@@ -79,7 +79,7 @@
           <canvas id="canvas-evnt" width=466 height=466></canvas>
         </div>
         <div id="zoom">
-          <div id="zoom-in" onclick="resizeObj(1.1)">
+          <div id="zoom-in" onclick="zoomIn()">
             <div class="row">
               <div class="col"></div>
               <div class="col"></div>
@@ -89,7 +89,7 @@
               <div class="col"></div>
             </div>
           </div>
-          <div id="zoom-out" onclick="resizeObj(0.9)">
+          <div id="zoom-out" onclick="zoomOut()">
             <div class="row">
               <div class="col"></div>
             </div>

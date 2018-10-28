@@ -160,6 +160,38 @@ let putStamp = function(_type, _num) {
   obj = new Stamp(LOG[picture], _type, _num, color, 200);
 }
 
+// 拡大
+let zoomIn = function() {
+  switch (DrawObject.getTool())  {
+    case ID_TOOL.stamp:
+    case ID_TOOL.text:
+      if (obj.size < 500)
+        obj.size += 30;
+      break;
+  }
+}
+
+// 縮小
+let zoomOut = function() {
+  switch (DrawObject.getTool())  {
+    case ID_TOOL.stamp:
+    case ID_TOOL.text:
+      if (obj.size > 50)
+        obj.size -= 30;
+      break;
+  }
+}
+
+// 回転
+let rotate = function(_angle) {
+  switch (DrawObject.getTool())  {
+    case ID_TOOL.stamp:
+    case ID_TOOL.text:
+        obj.angle += 10 * _angle;
+      break;
+  }
+}
+
 // やり直し
 let redo = function() {
   if (DrawObject.isEditing())
