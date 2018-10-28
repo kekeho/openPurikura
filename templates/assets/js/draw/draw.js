@@ -79,7 +79,8 @@ let onClick = function(e) {
 
     case ID_TOOL.stamp:
     case ID_TOOL.text:
-      obj.move(x, y);
+      if (DrawObject.isEditing())
+        obj.move(x, y);
       break;
   }
 }
@@ -156,8 +157,15 @@ let changeColor = function(_color) {
 
 // スタンプ配置
 let putStamp = function(_type, _num) {
+  obj = new Stamp(LOG[picture], color, 200, _type, _num);
   tool = ID_TOOL.stamp;
-  obj = new Stamp(LOG[picture], _type, _num, color, 200);
+}
+
+// テキスト配置
+let putText = function() {
+  let text = document.getElementById("i_text").value;
+  obj = new Text(LOG[picture], color, 80, text);
+  tool = ID_TOOL.text;
 }
 
 // 拡大

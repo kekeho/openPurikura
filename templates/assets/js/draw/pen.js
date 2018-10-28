@@ -77,8 +77,8 @@ class EffectPen extends Pen {
 
 // 消しゴム
 class Eraser extends DrawObject {
-  constructor(editor, log, width) {
-    super(editor, log);
+  constructor(log, width) {
+    super(log);
 
     this.width = width;
     this.px = null;
