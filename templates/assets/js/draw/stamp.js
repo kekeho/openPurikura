@@ -1,108 +1,75 @@
 // スタンプ
 class Stamp extends DrawObject {
-  constructor(log, color, width, alpha) {
+  constructor(log, type, num, color, size) {
     super(log);
+    
+    this.type = type;
+    this.num = num;
+    this._color = color;
+    this._size = size;
+    this._angle = 0;
 
-    this.color = color;
-    this.width = width;
-    this.alpha = alpha;
+    this.x = canv_main.width / 2;
+    this.y = canv_main.height / 2;
 
-    this.px = null;
-    this.py = null;
-
-    // 線の設定
-    ctx_edit.lineCap = "round";
-    ctx_edit.strokeStyle = this.color.str_color;
-    ctx_edit.lineWidth = this.width;
-    canv_edit.style.opacity = this.alpha;
-
-    cur_tool = ID_TOOL.pen;
-  }
-
-  // 線を引く
-  line(x, y) {
-    if (this.px && this.py) {
-      ctx_edit.beginPath();
-      ctx_edit.moveTo(this.px, this.py);
-      ctx_edit.lineTo(x, y);
-      ctx_edit.stroke();
-      ctx_edit.closePath();
-    }
-
-    this.px = x;
-    this.py = y;
-  }
-}
-
-// エフェクト付きのペン
-class EffectPen extends Pen {
-  constructor(log, color, width, alpha) {
-    super(log, color, width, alpha);
-
+    // 画像を読み込み
     this.img = new Image();
-    this.img.src = "./assets/pen/brush.png";
-    this.interval = 3; // テクスチャの間隔
+    this.img.src = "./assets/stamp/" + this.type + "/" + this.num + "/" + this.color.id + ".png";
 
-    cur_tool = ID_TOOL.effpen;
+    cur_tool = ID_TOOL.stamp;
   }
 
-  // 線を引く
-  line(x, y) {
-    ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
+  // 色を設定
+  set color(stamp_color) {
+    let _this = this;
 
-    if (this.px && this.py) {
-      // 線の方向
-      let dir_x = (x - this.px);
-      let dir_y = (y - this.py);
-
-      // 間隔
-      let dist = Math.sqrt(Math.pow(dir_x, 2) + Math.pow(dir_y, 2));
-
-      let cx = this.px;
-      let cy = this.py;
-
-      // 始点と終点の位置関係によって終了条件を変える
-      while ((cx - x) * dir_x < 0 || (cy - y) * dir_y < 0) {
-        ctx_edit.drawImage(this.img, cx - this.width / 2, cy - this.width / 2, this.width, this.width);
-
-        cx += (x - this.px) / dist * this.interval;
-        cy += (y - this.py) / dist * this.interval;
-      }
+    this._color = stamp_color;
+    this.img.src = "./assets/stamp/" + this.type + "/" + this.num + "/" + this.color.id + ".png";
+    this.img.onload = function(e) {
+      _this.redraw();
     }
-
-    this.px = x;
-    this.py = y;
-  }
-}
-
-// 消しゴム
-class Eraser extends DrawObject {
-  constructor(editor, log, width) {
-    super(editor, log);
-
-    this.width = width;
-    this.px = null;
-    this.py = null;
-
-    ctx_main.lineCap = "round";
-    ctx_main.lineWidth = this.width;
-
-    cur_tool = ID_TOOL.eraser;
   }
 
-  // 線を引く
-  line(x, y) {
-    if (this.px && this.py) {
-      ctx_main.globalCompositeOperation = "destination-out";
-      ctx_main.beginPath();
-      ctx_main.moveTo(this.px, this.py);
-      ctx_main.lineTo(x, y);
-      ctx_main.stroke();
-      ctx_main.closePath();
-      ctx_main.globalCompositeOperation = "source-over";
-    }
+  get color() {
+    return this._color;
+  }
 
-    this.px = x;
-    this.py = y;
+  // サイズを設定
+  set size(stamp_size) {
+    this._size = stamp_size;
+    this.redraw();
+  }
+
+  get size() {
+    return this._size;
+  }
+
+  // 角度を設定
+  set angle(stamp_angle) {
+    this._angle = stamp_angle;
+    this.redraw();
+  }
+
+  get angle() {
+    return this._angle;
+  }
+
+  // 移動
+  move(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+
+    this.clear();
+
+    ctx_edit.drawImage(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+    ctx_edit.save();
+    ctx_edit.translate(this.x, this.y);
+    ctx_edit.rotate(this.angle * (Math.PI / 180));
+    ctx_edit.restore();
+  }
+
+  // 再描画
+  redraw() {
+    this.move(this.x, this.y);
   }
 }

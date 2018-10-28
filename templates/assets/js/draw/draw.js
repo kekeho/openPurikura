@@ -76,6 +76,11 @@ let onClick = function(e) {
       obj = new Eraser(LOG[picture], width);
       obj.line(x, y);
       break;
+
+    case ID_TOOL.stamp:
+    case ID_TOOL.text:
+      obj.move(x, y);
+      break;
   }
 }
 
@@ -97,6 +102,11 @@ let onMove = function(e) {
     case ID_TOOL.effpen:
     case ID_TOOL.eraser:
       obj.line(x, y);
+      break;
+
+    case ID_TOOL.stamp:
+    case ID_TOOL.text:
+      obj.move(x, y);
       break;
   }
 }
@@ -126,8 +136,8 @@ let switchPic = function(idx) {
 }
 
 // ツールの選択
-let selectTool = function(id_tool, _width, _alpha) {
-  tool = id_tool;
+let selectTool = function(_tool, _width, _alpha) {
+  tool = _tool;
   width = _width;
   alpha = _alpha;
 }
@@ -135,12 +145,19 @@ let selectTool = function(id_tool, _width, _alpha) {
 // 色変更
 let changeColor = function(_color) {
   color.id = _color;
+
+  switch (DrawObject.getTool())  {
+    case ID_TOOL.stamp:
+    case ID_TOOL.text:
+      obj.color = color;
+      break;
+  }
 }
 
 // スタンプ配置
 let putStamp = function(_type, _num) {
-  stamp.src = "./assets/stamp/" + type + "1"
-  obj = new Stamp(stamp);
+  tool = ID_TOOL.stamp;
+  obj = new Stamp(LOG[picture], _type, _num, color, 200);
 }
 
 // やり直し

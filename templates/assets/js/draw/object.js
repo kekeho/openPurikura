@@ -20,7 +20,7 @@ class DrawObject {
     this.log = log;
 
     if (editing)
-      DrawObject.commit(this.log);
+      this.apply();
 
     canv_edit.style.opacity = 1;
     editing = true;
@@ -44,20 +44,22 @@ class DrawObject {
     return cur_tool;
   }
 
-  // メインキャンバスに統合
-  static commit(log) {
-    // 透明度を設定
-    ctx_main.globalAlpha = canv_edit.style.opacity;
-    ctx_main.drawImage(canv_edit, 0, 0);
-    ctx_main.globalAlpha = 1;
-
-    log.add();
+  // キャンバスをクリア
+  clear() {
     ctx_edit.clearRect(0, 0, canv_edit.width, canv_edit.height);
   }
 
   // 配置決定
   apply() {
-    DrawObject.commit(this.log);
+    // 透明度を設定
+    ctx_main.globalAlpha = canv_edit.style.opacity;
+    ctx_main.drawImage(canv_edit, 0, 0);
+    ctx_main.globalAlpha = 1;
+
+    // ログを追加
+    this.log.add();
+    this.clear();
+
     editing = false;
   }
 }
