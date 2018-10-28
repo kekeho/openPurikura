@@ -9,7 +9,6 @@ $(function() {
     } else if (time == 0) {
         time--;
         saveImages();
-        location.href = '/end';
     }
   }, 1000);
 });
