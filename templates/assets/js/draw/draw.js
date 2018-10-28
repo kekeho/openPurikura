@@ -56,7 +56,9 @@ let x = CANVAS_MAIN.width / 2;
 let y = CANVAS_MAIN.height / 2;
 
 // selected tool
-let tool = ID_TOOL.effpen;
+let tool = ID_TOOL.pen;
+let width = 15;
+let alpha = 1;
 
 // selected color
 let color = ID_COLOR.black;
@@ -88,13 +90,18 @@ let onClick = function(e) {
 
   switch (tool)  {
     case ID_TOOL.pen:
-      obj = new Pen(EDITOR, LOG[picture]);
+      obj = new Pen(EDITOR, LOG[picture], width, alpha);
       obj.line(x, y);
       break;
 
     case ID_TOOL.effpen:
-      obj = new EffectPen(EDITOR, LOG[picture]);
-      obj.point(x, y);
+      obj = new EffectPen(EDITOR, LOG[picture], width, alpha);
+      obj.line(x, y);
+      break;
+
+    case ID_TOOL.eraser:
+      obj = new Eraser(EDITOR, LOG[picture], width);
+      obj.line(x, y);
       break;
   }
 }
@@ -113,11 +120,9 @@ let onMove = function(e) {
 
   switch (DrawObject.getTool())  {
     case ID_TOOL.pen:
-      obj.line(x, y);
-      break;
-
     case ID_TOOL.effpen:
-      obj.point(x, y);
+    case ID_TOOL.eraser:
+      obj.line(x, y);
       break;
   }
 }
@@ -138,10 +143,16 @@ let switchPic = function(idx) {
 
   picture = idx;
   
-  CTX_BACK.drawImage(PICTURES[picture], 0, 0, CANVAS_BACK.width, CANVAS_BACK.heihgt);
+  CTX_BACK.drawImage(PICTURES[picture], 0, 0, CANVAS_BACK.width, CANVAS_BACK.height);
   
   CTX_MAIN.clearRect(0, 0, CANVAS_MAIN.width, CANVAS_MAIN.height);
   CTX_MAIN.drawImage(LOG[picture].image(), 0, 0);
+}
+
+let selectTool = function(id_tool, _width, _alpha) {
+  tool = id_tool;
+  width = _width;
+  alpha = _alpha;
 }
 
 let redo = function() {

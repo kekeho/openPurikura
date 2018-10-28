@@ -17,6 +17,7 @@ class DrawObject {
     if (editing)
       this.editor.commit(this.log);
 
+    editor.ctx_edit.globalAlpha = 1;
     editing = true;
   }
 

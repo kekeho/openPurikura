@@ -22,15 +22,15 @@
           <table id="tool-top">
             <tr>
               <td><img src="./assets/src/eraser.png"></td>
-              <td onclick="tool(1); changeLineWidth(20)"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="tool(1); changeLineWidth(15)"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="tool(1); changeLineWidth(10)"><img src="./assets/src/pen-small.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 5,  1);"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
               <td><img src="./assets/src/pen.png"></td>
-              <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
+              <td onclick="selectTool(ID_TOOL.pen, 20, 1);"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="selectTool(ID_TOOL.pen, 15, 0.5);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="selectTool(ID_TOOL.effpen, 10, 1);"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
               <td><img onclick="undo()" src="./assets/src/undo.png" ></td>
