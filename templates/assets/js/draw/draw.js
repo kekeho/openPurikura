@@ -68,7 +68,7 @@ let onClick = function(e) {
       break;
 
     case ID_TOOL.brush:
-      obj = new Brush(LOG[picture], color, width, alpha, 5);
+      obj = new Brush(LOG[picture], color, width, 1, 3);
       obj.line(x, y);
       break;
 

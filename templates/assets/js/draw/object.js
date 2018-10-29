@@ -24,8 +24,10 @@ class DrawObject {
     if (editing)
       this.apply();
 
+    // 透明度のリセット
     canv_edit.style.opacity = 1;
     ctx_edit.globalAlpha = 1;
+
     editing = true;
   }
 
