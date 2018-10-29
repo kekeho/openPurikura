@@ -1,11 +1,11 @@
 "use strict";
 
 const ID_TOOL = {
-  pen    : 0,
-  effpen : 1,
-  eraser : 2,
-  stamp  : 3,
-  text   : 4
+  pen   : 0,
+  brush : 1,
+  eraser: 2,
+  stamp : 3,
+  text  : 4
 };
 
 // 静的変数
@@ -25,6 +25,7 @@ class DrawObject {
       this.apply();
 
     canv_edit.style.opacity = 1;
+    ctx_edit.globalAlpha = 1;
     editing = true;
   }
 

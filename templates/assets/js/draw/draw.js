@@ -67,8 +67,8 @@ let onClick = function(e) {
       obj.line(x, y);
       break;
 
-    case ID_TOOL.effpen:
-      obj = new EffectPen(LOG[picture], color, width, alpha);
+    case ID_TOOL.brush:
+      obj = new Brush(LOG[picture], color, width, alpha, 20);
       obj.line(x, y);
       break;
 
@@ -100,7 +100,7 @@ let onMove = function(e) {
   // 描画オブジェクトの更新
   switch (DrawObject.getTool())  {
     case ID_TOOL.pen:
-    case ID_TOOL.effpen:
+    case ID_TOOL.brush:
     case ID_TOOL.eraser:
       obj.line(x, y);
       break;

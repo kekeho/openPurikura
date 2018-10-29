@@ -36,52 +36,64 @@ class Pen extends DrawObject {
   }
 }
 
-// エフェクト付きのペン
-class EffectPen extends DrawObject {
-  constructor(log, color, width, alpha) {
+// ブラシ
+class Brush extends DrawObject {
+  constructor(log, color, width, alpha, interval) {
     super(log);
 
     this.color = color;
     this.width = width;
     this.alpha = alpha;
+    this.interval = interval;
 
     this.px = null;
     this.py = null;
+    this.cur_dist = interval;
 
     // 透明度の設定
-    canv_edit.style.opacity = this.alpha;
+    ctx_edit.globalAlpha = this.alpha;
 
     // テクスチャを読み込み
     this.img = new Image();
-    this.img.src = "./assets/pen/brush.png";
-    this.interval = 3;
+    this.img.src = "./assets/brush/brush.png";
 
-    cur_tool = ID_TOOL.effpen;
+    cur_tool = ID_TOOL.brush;
   }
 
   // 線を引く
   line(x, y) {
-    ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
-
-    if (this.px && this.py) {
-      // 線の方向
-      let dir_x = (x - this.px);
-      let dir_y = (y - this.py);
-
-      // 間隔
-      let dist = Math.sqrt(Math.pow(dir_x, 2) + Math.pow(dir_y, 2));
-
-      let cx = this.px;
-      let cy = this.py;
-
-      // 始点と終点の位置関係によって終了条件を変える
-      while ((cx - x) * dir_x < 0 || (cy - y) * dir_y < 0) {
-        ctx_edit.drawImage(this.img, cx - this.width / 2, cy - this.width / 2, this.width, this.width);
-
-        cx += (x - this.px) / dist * this.interval;
-        cy += (y - this.py) / dist * this.interval;
-      }
+    if (!this.px || !this.py) {
+      this.px = x;
+      this.py = y;
     }
+
+    // 線の方向
+    let dir_x = (x - this.px);
+    let dir_y = (y - this.py);
+
+    // 間隔
+    let dist = Math.sqrt(Math.pow(dir_x, 2) + Math.pow(dir_y, 2));
+    let x_unit = (x - this.px) / dist;
+    let y_unit = (y - this.py) / dist;
+
+    let cx = this.px + this.interval;
+    let cy = this.py + this.interval;
+
+    // 始点と終点の位置関係によって終了条件を変える
+    while ((cx - x) * dir_x < 0 || (cy - y) * dir_y < 0) {
+      // ランダムに回転しながら描画
+      ctx_edit.save();
+      ctx_edit.translate(cx, cy);
+      ctx_edit.rotate(Math.random() * 2 * Math.PI);
+      ctx_edit.translate(-cx, -cy);
+      ctx_edit.drawImage(this.img, cx - this.width / 2, cy - this.width / 2, this.width, this.width);
+      ctx_edit.restore();
+
+      cx += x_unit * this.interval;
+      cy += y_unit * this.interval;
+    }
+
+    this.cur_dist = (this.cur_dist + dist) % this.interval;
 
     this.px = x;
     this.py = y;
