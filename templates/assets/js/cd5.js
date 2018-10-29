@@ -17,7 +17,7 @@ $(function(){
           type: 'POST',
           url: '/take',
           success: function() {
-            $('#video').attr('src', './assets/photos/c' + cache_num + '_' + take_num + '_before.png');
+            $('#video').attr('src', './assets/photos/c' + cache_num + '_before-' + take_num + '.png');
             setTimeout(function() {
               location.reload();
             }, 3000);

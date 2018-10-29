@@ -8,8 +8,8 @@ from PIL import Image, ImageEnhance
 from skimage import transform
 from PIL.PngImagePlugin import PngImageFile
 
-CURRENT_DIRNAME = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(CURRENT_DIRNAME + '/')
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(CURRENT_DIR + '/')
 import utils
 import find
 
@@ -261,7 +261,7 @@ def eyes_add_highlight(image: np.ndarray, face_landmarks: list):
     This function can uses for many people
     """
     highlight = cv2.imread(
-        CURRENT_DIRNAME + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
+        CURRENT_DIR + '/eyes_highlight.png', cv2.IMREAD_UNCHANGED)
 
     line1 = Segment(Point(landmark[134]), Point(landmark[145]))
     line2 = Segment(Point(landmark[139]), Point(landmark[150]))
@@ -411,11 +411,11 @@ def animal_ears(image: np.ndarray, ear_image: PngImageFile, face_landmarks: list
 
 
 def main():
-    nekomimi = Image.open(CURRENT_DIRNAME + '/../Tests/sources/nekomimi.png')
+    nekomimi = Image.open(CURRENT_DIR + '/../Tests/sources/nekomimi.png')
 
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
-        image = cv2.imread(CURRENT_DIRNAME + '/../Tests/sources/japanese_girl.jpg')
+        image = cv2.imread(CURRENT_DIR + '/../Tests/sources/japanese_girl.jpg')
         # ret, image = cap.read()
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_landmarks = find.facemark(gray_img)

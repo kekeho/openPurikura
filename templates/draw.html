@@ -6,21 +6,11 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="./assets/css/common.css">
     <link rel="stylesheet" type="text/css" href="./assets/css/draw.css">
-    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="./assets/js/cd300.js"></script>
-
-    <script type="text/javascript">
-      id_photos = ["{{ id_photos[0] }}", "{{ id_photos[1] }}", "{{ id_photos[2] }}"];
-      cache_num = {{ cache_num }};
-    </script>
-    <script type="text/javascript" src="./assets/js/draw.js"></script>
-    <script type="text/javascript" src="./assets/js/ptext.js"></script>
-    <script type="text/javascript" src="./assets/js/_stamp.js"></script>
   </head>
-  <body onload="init()" oncontextmenu="return false;">
+  <body oncontextmenu="return false;">
     <!-- header -->
     <div id="header">
-      <div id="end" onclick="savePictures()">END</div>
+      <div id="end" onclick="saveImages()">END</div>
       <div id="timer"></div>
       <img id="logo" src="./assets/src/logo.png">
     </div>
@@ -32,63 +22,64 @@
           <table id="tool-top">
             <tr>
               <td><img src="./assets/src/eraser.png"></td>
-              <td onclick="tool(1); changeLineWidth(20)"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="tool(1); changeLineWidth(15)"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="tool(1); changeLineWidth(10)"><img src="./assets/src/pen-small.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 20, 1);"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
               <td><img src="./assets/src/pen.png"></td>
-              <td onclick="tool(0); changeLineWidth(15)"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="tool(0); changeLineWidth(10)"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="tool(0); changeLineWidth(5)"><img src="./assets/src/pen-small.png"></td>
+              <td onclick="selectTool(ID_TOOL.pen, 100, 1);"><img src="./assets/src/pen-big.png"></td>
+              <td onclick="selectTool(ID_TOOL.pen, 20, 0.8);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="selectTool(ID_TOOL.brush, 35, 1);"><img src="./assets/src/pen-small.png"></td>
             </tr>
             <tr>
-              <td><img onclick="back()" src="./assets/src/undo.png" ></td>
-              <td><img onclick="next()" src="./assets/src/redo.png" ></td>
-              <td><img onclick="spinObj(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
-              <td><img onclick="spinObj(1)" src="./assets/src/rotate-clock.png" ></td>
+              <td><img onclick="undo()" src="./assets/src/undo.png" ></td>
+              <td><img onclick="redo()" src="./assets/src/redo.png" ></td>
+              <td><img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
+              <td><img onclick="rotate(1)" src="./assets/src/rotate-clock.png" ></td>
             </tr>
           </table>
           <table id="pallet">
             <tr>
-              <td><div id="color-DeepRed"     onclick="changeColor(1)"></div></td>
-              <td><div id="color-Purple"      onclick="changeColor(6)"></div></td>
-              <td><div id="color-Green"       onclick="changeColor(11)"></div></td>
-              <td><div id="color-VividGreen"  onclick="changeColor(16)"></div></td>
+              <td><div id="color-DeepRed"     onclick="changeColor(ID_COLOR.deepred)"></div></td>
+              <td><div id="color-Purple"      onclick="changeColor(ID_COLOR.purple)"></div></td>
+              <td><div id="color-Green"       onclick="changeColor(ID_COLOR.green)"></div></td>
+              <td><div id="color-VividGreen"  onclick="changeColor(ID_COLOR.vividgreen)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-Red"         onclick="changeColor(2)"></div></td>
-              <td><div id="color-Blue"        onclick="changeColor(7)"></div></td>
-              <td><div id="color-Yellow"      onclick="changeColor(12)"></div></td>
-              <td><div id="color-DarkGreen"   onclick="changeColor(17)"></div></td>
+              <td><div id="color-Red"         onclick="changeColor(ID_COLOR.red)"></div></td>
+              <td><div id="color-Blue"        onclick="changeColor(ID_COLOR.blue)"></div></td>
+              <td><div id="color-Yellow"      onclick="changeColor(ID_COLOR.yellow)"></div></td>
+              <td><div id="color-DarkGreen"   onclick="changeColor(ID_COLOR.darkgreen)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-SalmonPink"  onclick="changeColor(3)"></div></td>
-              <td><div id="color-DeepBlue"    onclick="changeColor(8)"></div></td>
-              <td><div id="color-VividOrange" onclick="changeColor(13)"></div></td>
-              <td><div id="color-Gray"        onclick="changeColor(18)"></div></td>
+              <td><div id="color-SalmonPink"  onclick="changeColor(ID_COLOR.salmonpink)"></div></td>
+              <td><div id="color-DeepBlue"    onclick="changeColor(ID_COLOR.deepblue)"></div></td>
+              <td><div id="color-VividOrange" onclick="changeColor(ID_COLOR.vividorange)"></div></td>
+              <td><div id="color-Gray"        onclick="changeColor(ID_COLOR.gray)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-HotPink"     onclick="changeColor(4)"></div></td>
-              <td><div id="color-LightBlue"   onclick="changeColor(9)"></div></td>
-              <td><div id="color-Orange"      onclick="changeColor(14)"></div></td>
-              <td><div id="color-Black"       onclick="changeColor(19)"></div></td>
+              <td><div id="color-HotPink"     onclick="changeColor(ID_COLOR.hotpink)"></div></td>
+              <td><div id="color-LightBlue"   onclick="changeColor(ID_COLOR.lightblue)"></div></td>
+              <td><div id="color-Orange"      onclick="changeColor(ID_COLOR.orange)"></div></td>
+              <td><div id="color-Black"       onclick="changeColor(ID_COLOR.black)"></div></td>
             </tr>
             <tr>
-              <td><div id="color-Pink"        onclick="changeColor(5)"></div></td>
-              <td><div id="color-VividBlue"   onclick="changeColor(10)"></div></td>
-              <td><div id="color-Beige"       onclick="changeColor(15)"></div></td>
-              <td><div id="color-White"       onclick="changeColor(20)"></div></td>
+              <td><div id="color-Pink"        onclick="changeColor(ID_COLOR.pink)"></div></td>
+              <td><div id="color-VividBlue"   onclick="changeColor(ID_COLOR.vividblue)"></div></td>
+              <td><div id="color-Beige"       onclick="changeColor(ID_COLOR.beige)"></div></td>
+              <td><div id="color-White"       onclick="changeColor(ID_COLOR.white)"></div></td>
             </tr>
           </table>
         </div>
         <div id="canvas-box">
-          <canvas id="imageCanvas" width=466 height=466></canvas>
-          <canvas id="canvas" width=466 height=466></canvas>
-          <canvas id="eventCanvas" width=466 height=466></canvas>
+          <canvas id="canvas-back" width=466 height=466></canvas>
+          <canvas id="canvas-main" width=466 height=466></canvas>
+          <canvas id="canvas-edit" width=466 height=466></canvas>
+          <canvas id="canvas-evnt" width=466 height=466></canvas>
         </div>
         <div id="zoom">
-          <div id="zoom-in" onclick="resizeObj(1.1)">
+          <div id="zoom-in" onclick="zoomIn()">
             <div class="row">
               <div class="col"></div>
               <div class="col"></div>
@@ -98,7 +89,7 @@
               <div class="col"></div>
             </div>
           </div>
-          <div id="zoom-out" onclick="resizeObj(0.9)">
+          <div id="zoom-out" onclick="zoomOut()">
             <div class="row">
               <div class="col"></div>
             </div>
@@ -111,7 +102,7 @@
           {% for i in range(3) %}
             <input id="picture-{{ i }}" type="radio" name="picture">
             <label for="picture-{{ i }}">
-              <img onclick="switchPic({{ i }})" src="./assets/photos/c{{ cache_num }}_{{ id_photos[i] }}_after.png">
+              <img onclick="switchPic({{ i }})" src="./assets/photos/c{{ cache_num }}_after-{{ id_photos[i] }}.png">
             </label>
           {% endfor %}
         </div>
@@ -183,5 +174,18 @@
         </div>
       </div>
     </div>
+
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="./assets/js/cd300.js"></script>
+    <script type="text/javascript">
+      id_photos = ["{{ id_photos[0] }}", "{{ id_photos[1] }}", "{{ id_photos[2] }}"];
+      cache_num = {{ cache_num }};
+    </script>
+    <script type="text/javascript" src="./assets/js/draw/color.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/log.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/object.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/pen.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/stamp.js"></script>
+    <script type="text/javascript" src="./assets/js/draw/draw.js"></script>
   </body>
 </html>
