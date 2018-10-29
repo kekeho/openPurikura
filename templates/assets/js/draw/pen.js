@@ -73,24 +73,24 @@ class Brush extends DrawObject {
 
     // 間隔
     let dist = Math.sqrt(Math.pow(dir_x, 2) + Math.pow(dir_y, 2));
-    let x_unit = (x - this.px) / dist;
-    let y_unit = (y - this.py) / dist;
 
-    let cx = this.px + this.interval;
-    let cy = this.py + this.interval;
+    if (this.cur_dist + dist >= this.interval) {
+      let cx = this.px + dir_x / dist * (this.interval - this.cur_dist);
+      let cy = this.py + dir_y / dist * (this.interval - this.cur_dist);
 
-    // 始点と終点の位置関係によって終了条件を変える
-    while ((cx - x) * dir_x < 0 || (cy - y) * dir_y < 0) {
-      // ランダムに回転しながら描画
-      ctx_edit.save();
-      ctx_edit.translate(cx, cy);
-      ctx_edit.rotate(Math.random() * 2 * Math.PI);
-      ctx_edit.translate(-cx, -cy);
-      ctx_edit.drawImage(this.img, cx - this.width / 2, cy - this.width / 2, this.width, this.width);
-      ctx_edit.restore();
+      // 始点と終点の位置関係によって終了条件を変える
+      while ((cx - x) * dir_x <= 0 && (cy - y) * dir_y <= 0) {
+        // ランダムに回転しながら描画
+        ctx_edit.save();
+        ctx_edit.translate(cx, cy);
+        ctx_edit.rotate(Math.random() * 2 * Math.PI);
+        ctx_edit.translate(-cx, -cy);
+        ctx_edit.drawImage(this.img, cx - this.width / 2, cy - this.width / 2, this.width, this.width);
+        ctx_edit.restore();
 
-      cx += x_unit * this.interval;
-      cy += y_unit * this.interval;
+        cx += dir_x / dist * this.interval;
+        cy += dir_y / dist * this.interval;
+      }
     }
 
     this.cur_dist = (this.cur_dist + dist) % this.interval;
