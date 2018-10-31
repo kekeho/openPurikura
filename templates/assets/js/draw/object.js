@@ -1,11 +1,12 @@
 "use strict";
 
 const ID_TOOL = {
-  pen   : 0,
-  brush : 1,
-  eraser: 2,
-  stamp : 3,
-  text  : 4
+  pen    : 0,
+  edgepen: 1,
+  brush  : 2,
+  eraser : 3,
+  stamp  : 4,
+  text   : 5
 };
 
 // 静的変数

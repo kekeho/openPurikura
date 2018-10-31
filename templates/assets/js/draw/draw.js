@@ -67,6 +67,11 @@ let onClick = function(e) {
       obj.line(x, y);
       break;
 
+    case ID_TOOL.edgepen:
+      obj = new EdgePen(LOG[picture], color, new Color(ID_COLOR.white), width, alpha);
+      obj.line(x, y);
+      break;
+
     case ID_TOOL.brush:
       obj = new Brush(LOG[picture], color, width, 1, 3);
       obj.line(x, y);
@@ -100,6 +105,7 @@ let onMove = function(e) {
   // 描画オブジェクトの更新
   switch (DrawObject.getTool())  {
     case ID_TOOL.pen:
+    case ID_TOOL.edgepen:
     case ID_TOOL.brush:
     case ID_TOOL.eraser:
       obj.line(x, y);
