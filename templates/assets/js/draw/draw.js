@@ -71,7 +71,14 @@ let onClick = function(e) {
       break;
 
     case ID_TOOL.edgepen:
-      obj = new EdgePen(LOG[picture], color, new Color(ID_COLOR.white), width, alpha);
+      let color_front;
+
+      if (color.id == ID_COLOR.white)
+        color_front = new Color(ID_COLOR.black);
+      else
+        color_front = new Color(ID_COLOR.white);
+
+      obj = new EdgePen(LOG[picture], color, color_front, width, alpha);
       obj.line(x, y);
       break;
 
