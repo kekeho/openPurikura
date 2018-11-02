@@ -192,6 +192,8 @@
           </label>
           <input id="pen-3" type="radio" name="tool">
           <label for="pen-3" onclick="selectBrush(1, 1)">
+              <img src="./assets/src/p-e/pen-3.png">
+          </label>
           <input id="pen-4" type="radio" name="tool">
           <label for="pen-4" onclick="selectBrush(2, 3)">
               <img src="./assets/src/p-e/pen-4.png">
@@ -378,7 +380,10 @@
         <label for="tab-4">文字</label>
         <div>
           <input id="i_text" type="text" placeholder="入力...">
-          <div id="i_text-input" onclick="putText()">文字を書く</div>
+          <input id="tool-t" type="radio" name="tool">
+          <label id="i_text-input"  for="tool-t" onclick="putText()">
+            文字を書く
+          </label>
         </div>
       </div>
     </div>
