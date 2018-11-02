@@ -77,7 +77,7 @@ class EdgePen extends DrawObject {
     ctx_edit.stroke();
 
     ctx_edit.strokeStyle = this.color_front.str_color;
-    ctx_edit.lineWidth = this.width / 2;
+    ctx_edit.lineWidth = this.width / 3;
     ctx_edit.globalCompositeOperation = "source-over";
 
     ctx_edit.moveTo(this.px, this.py);

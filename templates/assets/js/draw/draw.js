@@ -171,7 +171,18 @@ let putStamp = function(_type, _num) {
 // テキスト配置
 let putText = function() {
   let text = document.getElementById("i_text").value;
-  obj = new Text(LOG[picture], color, 80, text);
+  let font;
+
+  switch (color.id)  {
+    case 0:
+      font = "Latin Modern Roman Caps"
+      break;
+    case 1:
+      font = "Latin Modern Roman"
+      break;
+  }
+
+  obj = new Text(LOG[picture], color, 80, text, font);
   tool = ID_TOOL.text;
 }
 
