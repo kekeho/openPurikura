@@ -9,11 +9,24 @@ body > div {
 span:first-child {
   font: 15vh 'Arial Black';
 }
-  
+
 #message {
   text-align: center;
 
   margin-top: 10vh;
   
   font-size: 3vh;
+}
+
+#pics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#pics > img {
+  display: block;
+
+  width: 30vh;
+  height: 30vh;
 }
