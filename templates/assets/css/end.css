@@ -3,7 +3,7 @@ body > div {
 }
   
 .textcontainer {
-  margin: 20vh auto 0 auto;
+  margin: 0 auto;
 }
 
 span:first-child {
@@ -12,21 +12,21 @@ span:first-child {
 
 #message {
   text-align: center;
-
-  margin-top: 10vh;
   
   font-size: 3vh;
 }
 
 #pics {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 #pics > img {
   display: block;
 
-  width: 30vh;
-  height: 30vh;
+  margin: 5vh 0;
+
+  width: 35vh;
+  height: 35vh;
 }
