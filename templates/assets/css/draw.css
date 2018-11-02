@@ -16,20 +16,26 @@
   background-color: #666666;
 }
 
-input[name="tool"] {
+input[name="tool"],
+input[name="penw"]
+{
   display: none;
 }
 
-input[name="tool"] + label {
+input[name="tool"] + label,
+input[name="penw"] + label
+{
   display: block;
-  box-sizing: border-box;
-
-  height: auto;
 }
 
 input[name="tool"]:checked + label {
   margin: -3px;
   border: 3px solid red;
+}
+
+input[name="penw"]:checked + label {
+  margin: -3px;
+  border: 3px solid blue;
 }
 
 #top {
@@ -241,29 +247,6 @@ input[name="tool"]:checked + label {
   width: 4.5vw;
 }
 
-.row {
-  display: table-row;
-}
-
-.col {
-  display: table-cell;
-  box-sizing: border-box;
-
-  height: 3vh;
-  
-  border: 1px solid white;
-  
-  background-color: #666666;
-}
-
-#zoom-in .col {
-  width: 3vh;
-}
-
-#zoom-out .col {
-  width: 6vh;
-}
-
 #picture {
   display: flex;
   flex-direction: column;
@@ -344,10 +327,6 @@ input[name="tool"]:checked + label {
   font-family: 'TsukuARdGothic-Regular';
 }
 
-#bottom * {
-  box-sizing: border-box;
-}
-
 #bottom input[type="radio"] {
   display: none;
 }
@@ -387,7 +366,7 @@ input[name="tool"]:checked + label {
   background: linear-gradient(white, #ed217b);
 }
 
-#bottom > input:not(:checked) + label + div {
+#bottom > input + label + div {
   display: none;
 }
 
@@ -415,20 +394,16 @@ input[name="tool"]:checked + label {
 }
 
 #bottom > label[for="tab-1"] + div > label {
-  height: 70%;
+  width: 10vh;
+  height: 10vh;
 
-  border: 2px solid black;
   border-radius: 10px;
-
-  background-color: white;
-}
-
-#bottom > label[for="tab-1"] + div > input:checked + label {
-  border: 2px solid blue;
 }
 
 #bottom > label[for="tab-1"] + div > label > img {
-  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10vh;
 }
 
 #bottom > label[for="tab-1"] + div > table {
@@ -464,7 +439,10 @@ input[name="tool"]:checked + label {
   line-height: 8.5vh;
 }
 
-#bottom > div > label {
+#bottom > label[for="tab-2"] + div > label,
+#bottom > label[for="tab-3"] + div > label,
+#bottom > label[for="tab-4"] + div > label
+{
   text-align: center;
 
   width: calc(100% / 6);
@@ -493,7 +471,7 @@ input[name="tool"]:checked + label {
   border: 3px solid #00ff00;
 }
 
-#bottom > input:checked + label + div > input:not(:checked) + label + div {
+#bottom > input:checked + label + div > input + label + div {
   display: none;
 }
 
