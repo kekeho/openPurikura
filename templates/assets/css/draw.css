@@ -9,8 +9,8 @@
 }
 
 @font-face {
-  font-family: 'Sushiki';
-  src: url("../fonts/Sushiki.ttf") format("truetype");
+  font-family: 'CPRevenge';
+  src: url("../fonts/CPRevenge.ttf") format("truetype");
 }
 
 #header > #end {
@@ -567,7 +567,7 @@ input[name="penw"]:checked + label {
   box-shadow: 0 0 3px 1px black;
   padding: 0 1vh;
 
-  font-size: 3vh;
+  font-size: 2.5vh;
   line-height: 8.5vh;
 }
 
@@ -595,5 +595,5 @@ label[for="font-2"] {
 }
 
 label[for="font-3"] {
-  font: 10vh /10vh 'Sushiki';
+  font: 10vh /10vh 'CPRevenge';
 }

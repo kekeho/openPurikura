@@ -110,7 +110,7 @@ class Text extends PutObject {
     this.font = font;
     this.redraw();
 
-    cur_tool = ID_TOOL.stamp;
+    cur_tool = ID_TOOL.text;
   }
 
   // 移動

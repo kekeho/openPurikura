@@ -30,7 +30,7 @@ let tool = ID_TOOL.pen;
 let color = new Color(ID_COLOR.black);
 let width = 20;
 let alpha = 1;
-let font = "ヒラギノ角ゴシック";
+let font = "HGMaru";
 let brush_num = 1;
 let interval = 1;
 
@@ -196,7 +196,7 @@ let putStamp = function(_type, _num) {
 let putText = function() {
   let text = document.getElementById("i_text").value;
 
-  obj = new Text(LOG[picture], color, 80, text, font);
+  obj = new Text(LOG[picture], color, 60, text, font);
   tool = ID_TOOL.text;
 }
 
@@ -204,10 +204,15 @@ let putText = function() {
 let zoomIn = function() {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
-    case ID_TOOL.text:
       if (DrawObject.isEditing()) {
         if (obj.size < 500)
           obj.size += 30;
+      }
+
+    case ID_TOOL.text:
+      if (DrawObject.isEditing()) {
+        if (obj.size < 200)
+          obj.size += 10;
       }
       break;
   }
@@ -217,10 +222,16 @@ let zoomIn = function() {
 let zoomOut = function() {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
-    case ID_TOOL.text:
       if (DrawObject.isEditing()) {
         if (obj.size > 50)
           obj.size -= 30;
+      }
+      break;
+
+    case ID_TOOL.text:
+      if (DrawObject.isEditing()) {
+        if (obj.size > 20)
+          obj.size -= 10;
       }
       break;
   }
