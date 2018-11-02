@@ -18,51 +18,134 @@
     <!-- content -->
     <div id="content-nofooter">
       <div id="top">
-        <div id="tool">
-          <table id="tool-top">
+        <div id="toolbox">
+          <table id="toolbox-top">
             <tr>
-              <td><img src="./assets/src/eraser.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 20, 1);"><img src="./assets/src/pen-big.png"   ></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-small.png" ></td>
+              <td><img src="./assets/src/p-e/eraser.png"></td>
+              <td>
+                <input id="tool-e-l" type="radio" name="tool">
+                <label for="tool-e-l" onclick="selectTool(ID_TOOL.eraser, 20, 1);">
+                  <img src="./assets/src/p-e/pen-large.png">
+                </label>
+              </td>
+              <td>
+                <input id="tool-e-m" type="radio" name="tool">
+                <label for="tool-e-m" onclick="selectTool(ID_TOOL.eraser, 15, 1);">
+                  <img src="./assets/src/p-e/pen-medium.png">
+                </label>
+              </td>
+              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);">
+                <input id="tool-e-s" type="radio" name="tool">
+                <label for="tool-e-s">
+                  <img src="./assets/src/p-e/pen-small.png" >
+                </label>
+              </td>
             </tr>
             <tr>
-              <td><img onclick="undo()" src="./assets/src/undo.png"></td>
-              <td><img onclick="redo()" src="./assets/src/redo.png"></td>
-              <td><img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png"></td>
-              <td><img onclick="rotate(1 )" src="./assets/src/rotate-clock.png"></td>
+              <td>
+                <img onclick="undo()" src="./assets/src/undo.png">
+              </td>
+              <td>
+                <img onclick="redo()" src="./assets/src/redo.png">
+              </td>
+              <td>
+                <img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png">
+              </td>
+              <td>
+                <img onclick="rotate(1 )" src="./assets/src/rotate-clock.png">
+              </td>
             </tr>
           </table>
-          <table id="pallet">
+          <table id="toolbox-pallet">
             <tr>
-              <td><div id="color-DeepRed"     onclick="changeColor(ID_COLOR.deepred    )"></div></td>
-              <td><div id="color-Purple"      onclick="changeColor(ID_COLOR.purple     )"></div></td>
-              <td><div id="color-Green"       onclick="changeColor(ID_COLOR.green      )"></div></td>
-              <td><div id="color-VividGreen"  onclick="changeColor(ID_COLOR.vividgreen )"></div></td>
+              <td>
+                <input id="color-DeepRed"      type="radio" name="color">
+                <label for="color-DeepRed"     onclick="changeColor(ID_COLOR.deepred    )"></label>
+              </td>
+              <td>
+                <input id="color-Purple"       type="radio" name="color">
+                <label for="color-Purple"      onclick="changeColor(ID_COLOR.purple     )"></label>
+              </td>
+              <td>
+                <input id="color-Green"        type="radio" name="color">
+                <label for="color-Green"       onclick="changeColor(ID_COLOR.green      )"></label>
+              </td>
+              <td>
+                <input id="color-VividGreen"   type="radio" name="color">
+                <label for="color-VividGreen"  onclick="changeColor(ID_COLOR.vividgreen )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-Red"         onclick="changeColor(ID_COLOR.red        )"></div></td>
-              <td><div id="color-Blue"        onclick="changeColor(ID_COLOR.blue       )"></div></td>
-              <td><div id="color-Yellow"      onclick="changeColor(ID_COLOR.yellow     )"></div></td>
-              <td><div id="color-DarkGreen"   onclick="changeColor(ID_COLOR.darkgreen  )"></div></td>
+              <td>
+                <input id="color-Red"          type="radio" name="color">
+                <label for="color-Red"         onclick="changeColor(ID_COLOR.red        )"></label>
+              </td>
+              <td>
+                <input id="color-Blue"         type="radio" name="color">
+                <label for="color-Blue"        onclick="changeColor(ID_COLOR.blue       )"></label>
+              </td>
+              <td>
+                <input id="color-Yellow"       type="radio" name="color">
+                <label for="color-Yellow"      onclick="changeColor(ID_COLOR.yellow     )"></label>
+              </td>
+              <td>
+                <input id="color-DarkGreen"    type="radio" name="color">
+                <label for="color-DarkGreen"   onclick="changeColor(ID_COLOR.darkgreen  )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-SalmonPink"  onclick="changeColor(ID_COLOR.salmonpink )"></div></td>
-              <td><div id="color-DeepBlue"    onclick="changeColor(ID_COLOR.deepblue   )"></div></td>
-              <td><div id="color-VividOrange" onclick="changeColor(ID_COLOR.vividorange)"></div></td>
-              <td><div id="color-Gray"        onclick="changeColor(ID_COLOR.gray       )"></div></td>
+              <td>
+                <input id="color-SalmonPink"   type="radio" name="color">
+                <label for="color-SalmonPink"  onclick="changeColor(ID_COLOR.salmonpink )"></label>
+              </td>
+              <td>
+                  <input id="color-DeepBlue"   type="radio" name="color">
+                <label for="color-DeepBlue"    onclick="changeColor(ID_COLOR.deepblue   )"></label>
+              </td>
+              <td>
+                <input id="color-VividOrange"  type="radio" name="color">
+                <label for="color-VividOrange" onclick="changeColor(ID_COLOR.vividorange)"></label>
+              </td>
+              <td>
+                <input id="color-Gray"         type="radio" name="color">
+                <label for="color-Gray"        onclick="changeColor(ID_COLOR.gray       )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-HotPink"     onclick="changeColor(ID_COLOR.hotpink    )"></div></td>
-              <td><div id="color-LightBlue"   onclick="changeColor(ID_COLOR.lightblue  )"></div></td>
-              <td><div id="color-Orange"      onclick="changeColor(ID_COLOR.orange     )"></div></td>
-              <td><div id="color-Black"       onclick="changeColor(ID_COLOR.black      )"></div></td>
+              <td>
+                <input id="color-HotPink"      type="radio" name="color">
+                <label for="color-HotPink"     onclick="changeColor(ID_COLOR.hotpink    )"></label>
+              </td>
+              <td>
+                <input id="color-LightBlue"    type="radio" name="color">
+                <label for="color-LightBlue"   onclick="changeColor(ID_COLOR.lightblue  )"></label>
+              </td>
+              <td>
+                <input id="color-Orange"       type="radio" name="color">
+                <label for="color-Orange"      onclick="changeColor(ID_COLOR.orange     )"></label>
+              </td>
+              <td>
+                <input id="color-Black"        type="radio" name="color" checked="checked">
+                <label for="color-Black"       onclick="changeColor(ID_COLOR.black      )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-Pink"        onclick="changeColor(ID_COLOR.pink       )"></div></td>
-              <td><div id="color-VividBlue"   onclick="changeColor(ID_COLOR.vividblue  )"></div></td>
-              <td><div id="color-Beige"       onclick="changeColor(ID_COLOR.beige      )"></div></td>
-              <td><div id="color-White"       onclick="changeColor(ID_COLOR.white      )"></div></td>
+              <td>
+                <input id="color-Pink"         type="radio" name="color">
+                <label for="color-Pink"        onclick="changeColor(ID_COLOR.pink       )"></label>
+              </td>
+              <td>
+                <input id="color-VividBlue"    type="radio" name="color">
+                <label for="color-VividBlue"   onclick="changeColor(ID_COLOR.vividblue  )"></label>
+              </td>
+              <td>
+                <input id="color-Beige"        type="radio" name="color">
+                <label for="color-Beige"       onclick="changeColor(ID_COLOR.beige      )"></label>
+              </td>
+              <td>
+                <input id="color-White"        type="radio" name="color">
+                <label for="color-White"       onclick="changeColor(ID_COLOR.white      )"></label>
+              </td>
             </tr>
           </table>
         </div>

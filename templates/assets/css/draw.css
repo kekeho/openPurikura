@@ -16,27 +16,39 @@
   background-color: #666666;
 }
 
+input[name="tool"] {
+  display: none;
+}
+
+input[name="tool"] + label {
+  display: block;
+}
+
+input[name="tool"]:checked + label {
+  border: 1px solid black;
+}
+
 #top {
   display: flex;
   align-items: center;
 }
 
-#tool {
+#toolbox {
   width: 25vw;
 }
 
-#tool-top {
+#toolbox-top {
   margin: 0 auto;
 }
 
-#tool-top img,
+#toolbox-top img,
 #pen img
 {
   width: 7vh;
   height: 7vh;
 }
 
-#pallet {
+#toolbox-pallet {
   margin: 3vh auto;
   border: 2px solid #666666;
   border-radius: 10px 10px 10px 10px;
@@ -44,100 +56,122 @@
   box-shadow: 0 0 3px #cacaca;
 }
 
-#pallet td {
+#toolbox-pallet td {
   width: 7vh;
   height: 5vh;
   
   background-color: #f2f2f2;
 }
 
-#pallet div {
+#toolbox-pallet input {
+  display: none;
+}
+
+#toolbox-pallet label {
+  display: block;
+
   width: 3.5vh;
   height: 3.5vh;
   
   margin: 0 auto;
+  border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 50%;
   
   box-shadow: -1px 1px 0px black;
 }
 
-#color-DeepRed {
+#toolbox-pallet input:checked + label {
+  border: 2px solid black;
+}
+
+#toolbox-pallet input:checked + label::before {
+  content: '';
+  display: block;
+  position: absolute;
+
+  width: 7vh;
+  height: 5vh;
+
+  
+}
+
+#color-DeepRed + label {
   background-color: #c1272d;
 }
 
-#color-Purple {
+#color-Purple + label {
   background-color: #a000a0;
 }
 
-#color-Green {
+#color-Green + label {
   background-color: #00ff00;
 }
 
-#color-VividGreen {
+#color-VividGreen + label {
   background-color: #7fe021;
 }
 
-#color-Red {
+#color-Red + label {
   background-color: #ff0000;
 }
 
-#color-Blue {
+#color-Blue + label {
   background-color: #0000ff;
 }
 
-#color-Yellow {
+#color-Yellow + label {
   background-color: #ffff00;
 }
 
-#color-DarkGreen {
+#color-DarkGreen + label {
   background-color: #556b2f;
 }
 
-#color-SalmonPink {
+#color-SalmonPink + label {
   background-color: #ed1e79;
 }
 
-#color-DeepBlue {
+#color-DeepBlue + label {
   background-color: #0071b0;
 }
 
-#color-VividOrange {
+#color-VividOrange + label {
   background-color: #fbb03b;
 }
 
-#color-Gray {
+#color-Gray + label {
   background-color: #808080;
 }
 
-#color-HotPink {
+#color-HotPink + label {
   background-color: #ff69b4;
 }
 
-#color-LightBlue {
+#color-LightBlue + label {
   background-color: #32c8ff;
 }
 
-#color-Orange {
+#color-Orange + label {
   background-color: #f7931e;
 }
 
-#color-Black {
+#color-Black + label {
   background-color: #141414;
 }
 
-#color-Pink {
+#color-Pink + label {
   background-color: #ffc0cb;
 }
 
-#color-VividBlue {
+#color-VividBlue + label {
   background-color: #32c8ff;
 }
 
-#color-Beige {
+#color-Beige + label {
   background-color: #c69c6d;
 }
 
-#color-White {
+#color-White + label {
   background-color: #ffffff;
 }
 
@@ -173,26 +207,6 @@
 
 #editCanvas {
   z-index: 3;
-}
-
-#editCanvas200 {
-  z-index: 3;
-  font-weight: 200;
-}
-
-#editCanvas400 {
-  z-index: 3;
-  font-weight: 400;
-}
-
-#editCanvas600 {
-  z-index: 3;
-  font-weight: 600;
-}
-
-#editCanvas800 {
-  z-index: 3;
-  font-weight: 800;
 }
 
 #zoom {
