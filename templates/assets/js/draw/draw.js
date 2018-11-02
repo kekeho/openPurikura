@@ -25,12 +25,14 @@ const LOG = [new Log(CANVAS_MAIN), new Log(CANVAS_MAIN), new Log(CANVAS_MAIN)];
 let x = CANVAS_MAIN.width / 2;
 let y = CANVAS_MAIN.height / 2;
 
-// selected tool
+// selected tool's infomation
 let tool = ID_TOOL.pen;
 let color = new Color(ID_COLOR.black);
-let width = 15;
+let width = 20;
 let alpha = 1;
-let font;
+let font = "ヒラギノ角ゴシック";
+let brush_num = 1;
+let interval = 1;
 
 // stamp image
 let img_stamp = new Image();
@@ -74,7 +76,7 @@ let onClick = function(e) {
       break;
 
     case ID_TOOL.brush:
-      obj = new Brush(LOG[picture], color, width, 1, 3);
+      obj = new Brush(LOG[picture], color, width, brush_num, interval, false);
       obj.line(x, y);
       break;
 
@@ -144,10 +146,26 @@ let switchPic = function(idx) {
 }
 
 // ツールの選択
-let selectTool = function(_tool, _width, _alpha) {
+let selectTool = function(_tool) {
   tool = _tool;
+}
+
+// 消しゴムの選択
+let selectEraser = function(_width) {
+  tool = ID_TOOL.eraser;
   width = _width;
-  alpha = _alpha;
+}
+
+// ブラシの選択
+let selectBrush = function(_brush_num, _interval) {
+  tool = ID_TOOL.brush;
+  brush_num = _brush_num;
+  interval = _interval;
+}
+
+// 太さ変更
+let changeWidth = function(_width) {
+  width = _width;
 }
 
 // 色変更
@@ -163,7 +181,7 @@ let changeColor = function(_color) {
   }
 }
 
-// ツールの選択
+// フォントの選択
 let selectFont = function(_font) {
   font = _font;
 }
@@ -245,7 +263,7 @@ let clear = function() {
 }
 
 // 全てのキャンバスを合成して保存
-function saveImages() {
+let saveImages = function() {
   if (DrawObject.isEditing())
     obj.apply();
 

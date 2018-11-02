@@ -93,7 +93,7 @@ class EdgePen extends DrawObject {
 
 // ブラシ
 class Brush extends DrawObject {
-  constructor(log, color, width, num, interval) {
+  constructor(log, color, width, num, interval, rotate) {
     super(log);
     let _this = this;
 
@@ -101,6 +101,7 @@ class Brush extends DrawObject {
     this.width = width;
     this.num = num;
     this.interval = interval;
+    this.rotate = rotate;
 
     this.px = null;
     this.py = null;
@@ -115,13 +116,17 @@ class Brush extends DrawObject {
 
   // 点を打つ
   point(x, y) {
-    // ランダムに回転して描画
-    ctx_edit.save();
-    ctx_edit.translate(x, y);
-    ctx_edit.rotate(Math.random() * 2 * Math.PI);
-    ctx_edit.translate(-x, -y);
-    ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
-    ctx_edit.restore();
+    if (this.rotate) {
+      // ランダムに回転して描画
+      ctx_edit.save();
+      ctx_edit.translate(x, y);
+      ctx_edit.rotate(Math.random() * 2 * Math.PI);
+      ctx_edit.translate(-x, -y);
+      ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
+      ctx_edit.restore();
+    } else {
+      ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
+    }
   }
 
   // 線を引く

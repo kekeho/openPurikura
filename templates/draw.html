@@ -22,9 +22,9 @@
           <table id="tool-top">
             <tr>
               <td><img src="./assets/src/eraser.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 20, 1);"><img src="./assets/src/pen-big.png"   ></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-small.png" ></td>
+              <td onclick="selectEraser(30);"><img src="./assets/src/pen-big.png"   ></td>
+              <td onclick="selectEraser(20);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="selectEraser(10);"><img src="./assets/src/pen-small.png" ></td>
             </tr>
             <tr>
               <td><img onclick="undo()" src="./assets/src/undo.png"></td>
@@ -73,24 +73,8 @@
           <canvas id="canvas-evnt" width=466 height=466></canvas>
         </div>
         <div id="zoom">
-          <div id="zoom-in" onclick="zoomIn()">
-            <div class="row">
-              <div class="col"></div>
-              <div class="col"></div>
-            </div>
-            <div class="row">
-              <div class="col"></div>
-              <div class="col"></div>
-            </div>
-          </div>
-          <div id="zoom-out" onclick="zoomOut()">
-            <div class="row">
-              <div class="col"></div>
-            </div>
-            <div class="row">
-              <div class="col"></div>
-            </div>
-          </div>
+          <img id="zoom-in"  onclick="zoomIn()"  src="./assets/src/zoom-in.png">
+          <img id="zoom-out" onclick="zoomOut()" src="./assets/src/zoom-out.png">
         </div>
         <div id="picture">
           {% for i in range(3) %}
@@ -105,17 +89,17 @@
         <input id="tab-1" type="radio" name="tab" checked="checked">
         <label for="tab-1">ペン</label>
         <div>
-          <img src="./assets/src/eraser.png">
-          <img src="./assets/src/eraser.png">
-          <img src="./assets/src/eraser.png">
-          <img src="./assets/src/eraser.png">
-          <img src="./assets/src/eraser.png">
+          <img onclick="selectTool(ID_TOOL.pen)"     src="./assets/src/pen-1.png">
+          <img onclick="selectTool(ID_TOOL.edgepen)" src="./assets/src/pen-2.png">
+          <img onclick="selectBrush(1, 1)"  src="./assets/src/pen-3.png">
+          <img onclick="selectBrush(2, 6)"  src="./assets/src/pen-4.png">
+          <img onclick="selectBrush(3, 10)" src="./assets/src/pen-5.png">
           <table id="pen">
             <tr>
               <td><img src="./assets/src/pen.png"></td>
-              <td onclick="selectTool(ID_TOOL.pen    , 100, 1);"><img src="./assets/src/pen-big.png"   ></td>
-              <td onclick="selectTool(ID_TOOL.edgepen, 20 , 1);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.brush  , 30 , 1);"><img src="./assets/src/pen-small.png" ></td>
+              <td onclick="changeWidth(30);"><img src="./assets/src/pen-big.png"   ></td>
+              <td onclick="changeWidth(20);"><img src="./assets/src/pen-medium.png"></td>
+              <td onclick="changeWidth(10);"><img src="./assets/src/pen-small.png" ></td>
             </tr>
           </table>
         </div>
