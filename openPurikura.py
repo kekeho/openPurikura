@@ -158,7 +158,8 @@ def draw():
 # End
 @app.route('/end')
 def theend():
-    return render_template('end.html')
+    global cache_num
+    return render_template('end.html', cache_num=cache_num)
 
 
 # Video streaming test page
