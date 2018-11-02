@@ -378,7 +378,7 @@ input[name="penw"]:checked + label {
 }
 
 #bottom > input:checked + label[for="tab-4"] {
-  background: linear-gradient(white, #ed217b);
+  background: linear-gradient(white, green);
 }
 
 #bottom > input + label + div {
@@ -429,12 +429,6 @@ input[name="penw"]:checked + label {
 
 #bottom > label[for="tab-1"] + div > table {
   margin-left: 5vw;
-}
-
-#bottom > label[for="tab-4"] + div > input:checked + #i_text-input {
-  border: 2
-  
-  px solid red;
 }
 
 #bottom > label[for="tab-2"] + div > label,
@@ -578,12 +572,12 @@ input[name="penw"]:checked + label {
   width: 10vh;
   height: 10vh;
 
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 10%;
 }
 
 #bottom > label[for="tab-4"] + div > #font input:checked + label {
-  border: 2px solid red;
+  border: 3px solid green;
 }
 
 label[for="font-1"] {
