@@ -42,18 +42,14 @@
               </td>
             </tr>
             <tr>
+              <td></td>
               <td>
                 <img onclick="undo()" src="./assets/src/undo.png">
               </td>
               <td>
                 <img onclick="redo()" src="./assets/src/redo.png">
               </td>
-              <td>
-                <img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png">
-              </td>
-              <td>
-                <img onclick="rotate(1 )" src="./assets/src/rotate-clock.png">
-              </td>
+              <td></td>
             </tr>
           </table>
           <table id="toolbox-pallet">
@@ -155,10 +151,24 @@
           <canvas id="canvas-edit" width=466 height=466></canvas>
           <canvas id="canvas-evnt" width=466 height=466></canvas>
         </div>
-        <div id="zoom">
-          <img id="zoom-in"  onclick="zoomIn()"  src="./assets/src/zoom-in.png">
-          <img id="zoom-out" onclick="zoomOut()" src="./assets/src/zoom-out.png">
-        </div>
+        <table id="zoom">
+          <tr>
+            <td>
+              <img onclick="zoomIn()"  src="./assets/src/zoom-in.png">
+            </td>
+            <td>
+              <img onclick="zoomOut()" src="./assets/src/zoom-out.png">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png">
+            </td>
+            <td>
+              <img onclick="rotate(1 )" src="./assets/src/rotate-clock.png">
+            </td>
+          </tr>
+        </table>
         <div id="picture">
           {% for i in range(3) %}
             <input id="picture-{{ i }}" type="radio" name="picture">
@@ -172,17 +182,48 @@
         <input id="tab-1" type="radio" name="tab" checked="checked">
         <label for="tab-1">ペン</label>
         <div>
-          <img onclick="selectTool(ID_TOOL.pen)"     src="./assets/src/pen-1.png">
-          <img onclick="selectTool(ID_TOOL.edgepen)" src="./assets/src/pen-2.png">
-          <img onclick="selectBrush(1, 1)"  src="./assets/src/pen-3.png">
-          <img onclick="selectBrush(2, 6)"  src="./assets/src/pen-4.png">
-          <img onclick="selectBrush(3, 10)" src="./assets/src/pen-5.png">
+          <input id="pen-1" type="radio" name="pen" checked="checked">
+          <label for="pen-1" onclick="selectTool(ID_TOOL.pen)">
+              <img src="./assets/src/p-e/pen-1.png">
+          </label>
+          <input id="pen-2" type="radio" name="pen">
+          <label for="pen-2" onclick="selectTool(ID_TOOL.edgepen)">
+              <img src="./assets/src/p-e/pen-2.png">
+          </label>
+          <input id="pen-3" type="radio" name="pen">
+          <label for="pen-3" onclick="selectBrush(1, 1)">
+              <img src="./assets/src/p-e/pen-3.png">
+          </label>
+          <input id="pen-4" type="radio" name="pen">
+          <label for="pen-4" onclick="selectBrush(2, 6)">
+              <img src="./assets/src/p-e/pen-4.png">
+          </label>
+          <input id="pen-5" type="radio" name="pen">
+          <label for="pen-5" onclick="selectBrush(3, 10)">
+              <img src="./assets/src/p-e/pen-5.png">
+          </label>
           <table id="pen">
             <tr>
-              <td><img src="./assets/src/pen.png"></td>
-              <td onclick="changeWidth(30);"><img src="./assets/src/pen-big.png"   ></td>
-              <td onclick="changeWidth(20);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="changeWidth(10);"><img src="./assets/src/pen-small.png" ></td>
+              <td>
+                <img src="./assets/src/p-e/pen.png">
+              </td>
+              <td>
+                <input id="tool-p-l" type="radio" name="tool">
+                <label for="tool-p-l" onclick="changeWidth(30);">
+                  <img src="./assets/src/p-e/pen-large.png">
+                </label>
+              </td>
+              <td>
+                <input id="tool-p-m" type="radio" name="tool" checked="checked">
+                <label for="tool-p-m" onclick="changeWidth(30);">
+                  <img src="./assets/src/p-e/pen-medium.png">
+                </label>
+              </td>
+              <td>
+                <input id="tool-p-s" type="radio" name="tool">
+                <label for="tool-p-s" onclick="changeWidth(10);">
+                  <img src="./assets/src/p-e/pen-small.png">
+                </label></td>
             </tr>
           </table>
         </div>

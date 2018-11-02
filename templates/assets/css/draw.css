@@ -22,10 +22,14 @@ input[name="tool"] {
 
 input[name="tool"] + label {
   display: block;
+  box-sizing: border-box;
+
+  height: auto;
 }
 
 input[name="tool"]:checked + label {
-  border: 1px solid black;
+  margin: -3px;
+  border: 3px solid red;
 }
 
 #top {
@@ -41,11 +45,19 @@ input[name="tool"]:checked + label {
   margin: 0 auto;
 }
 
+#toolbox-top td {
+  height: 7vh;
+}
+
 #toolbox-top img,
 #pen img
 {
+  display: block;
+
   width: 7vh;
   height: 7vh;
+
+  margin: auto;
 }
 
 #toolbox-pallet {
@@ -57,6 +69,9 @@ input[name="tool"]:checked + label {
 }
 
 #toolbox-pallet td {
+  position: relative;
+  z-index: 0;
+
   width: 7vh;
   height: 5vh;
   
@@ -69,30 +84,39 @@ input[name="tool"]:checked + label {
 
 #toolbox-pallet label {
   display: block;
+  position: relative;
 
   width: 3.5vh;
   height: 3.5vh;
   
   margin: 0 auto;
-  border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 50%;
   
   box-shadow: -1px 1px 0px black;
-}
-
-#toolbox-pallet input:checked + label {
-  border: 2px solid black;
 }
 
 #toolbox-pallet input:checked + label::before {
   content: '';
   display: block;
   position: absolute;
+  z-index: -1;
+
+  top: calc((5 - 3.5) / 2 * -1vh);
+  left: calc((7 - 3.5) / 2 * -1vh);
 
   width: 7vh;
   height: 5vh;
 
-  
+  animation: flash 1s linear 0s infinite alternate;
+}
+
+@keyframes flash {
+  0% {
+    background-color: aqua;
+  }
+  100% {
+    background-color: lightblue;
+  }
 }
 
 #color-DeepRed + label {
@@ -164,7 +188,7 @@ input[name="tool"]:checked + label {
 }
 
 #color-VividBlue + label {
-  background-color: #32c8ff;
+  background-color: #00ffff;
 }
 
 #color-Beige + label {
@@ -213,10 +237,8 @@ input[name="tool"]:checked + label {
   width: 10vw;
 }
 
-#zoom-in, #zoom-out {
-  display: table;
-  
-  margin: 3vh auto;
+#zoom img {
+  width: 4.5vw;
 }
 
 .row {
@@ -392,12 +414,25 @@ input[name="tool"]:checked + label {
   align-items: center;
 }
 
-#bottom > label[for="tab-1"] + div > img {
-  height: 90%;
+#bottom > label[for="tab-1"] + div > label {
+  height: 70%;
 
+  border: 2px solid black;
   border-radius: 10px;
 
   background-color: white;
+}
+
+#bottom > label[for="tab-1"] + div > input:checked + label {
+  border: 2px solid blue;
+}
+
+#bottom > label[for="tab-1"] + div > label > img {
+  border-radius: 10px;
+}
+
+#bottom > label[for="tab-1"] + div > table {
+  margin-left: 5vw;
 }
 
 #bottom > label[for="tab-4"] + div > input {
