@@ -93,12 +93,13 @@ class EdgePen extends DrawObject {
 
 // ブラシ
 class Brush extends DrawObject {
-  constructor(log, color, width, num, interval, rotate) {
+  constructor(log, color, width, alpha, num, interval, rotate) {
     super(log);
     let _this = this;
 
     this.color = color;
     this.width = width;
+    this.alpha = alpha;
     this.num = num;
     this.interval = interval;
     this.rotate = rotate;
@@ -110,6 +111,9 @@ class Brush extends DrawObject {
     // テクスチャを読み込み
     this.img = new Image();
     this.img.src = "./assets/brush/" + this.num + "/" + this.color.id + ".png";
+
+    // 透明度の設定
+    canv_edit.style.opacity = this.alpha;
 
     cur_tool = ID_TOOL.brush;
   }

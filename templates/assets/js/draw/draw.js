@@ -83,7 +83,25 @@ let onClick = function(e) {
       break;
 
     case ID_TOOL.brush:
-      obj = new Brush(LOG[picture], color, width, brush_num, interval, false);
+      if (brush_num == 2 && width == 30) {
+        if (width == 10)
+          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 1, false);
+        if (width == 20)
+          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 3, false);
+        if (width == 30)
+          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 5, false);
+
+      } else if (brush_num == 3) {
+        if (width == 10)
+          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 15, false);
+        if (width == 20)
+          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 30, false);
+        if (width == 30)
+          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 45, false);
+      } else {
+        obj = new Brush(LOG[picture], color, width, aplha, brush_num, interval, false);
+      }
+
       obj.line(x, y);
       break;
 
@@ -173,6 +191,11 @@ let selectBrush = function(_brush_num, _interval) {
 // 太さ変更
 let changeWidth = function(_width) {
   width = _width;
+}
+
+// 透明度変更
+let changeAlpha = function(_alpha) {
+  alpha = _alpha;
 }
 
 // 色変更
