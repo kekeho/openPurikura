@@ -1,3 +1,18 @@
+@font-face {
+  font-family: HGMaru;
+  src: url("./assets/fonts/HGMaru.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: HGPop;
+  src: url("./assets/fonts/HGPop.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Eva;
+  src: url("./assets/fonts/Eva.ttf") format("truetype");
+}
+
 #header > #end {
   position: absolute;
   
@@ -446,7 +461,9 @@ input[name="penw"]:checked + label {
 }
 
 #bottom > label[for="tab-4"] + div > input:checked + #i_text-input {
-  border: 2px solid red;
+  border: 2
+  
+  px solid red;
 }
 
 #bottom > label[for="tab-2"] + div > label,
@@ -554,3 +571,6 @@ input[name="penw"]:checked + label {
   margin-right: 1vw;
 }
 
+.test {
+  font-family: HGMaru HGPop;
+}

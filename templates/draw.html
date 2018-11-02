@@ -10,7 +10,7 @@
   <body oncontextmenu="return false;">
     <!-- header -->
     <div id="header">
-      <div id="end" onclick="saveImages()">END</div>
+      <div id="end" class="test" onclick="saveImages()">エンド</div>
       <div id="timer"></div>
       <img id="logo" src="./assets/src/logo.png">
     </div>
@@ -381,9 +381,7 @@
         <div>
           <input id="i_text" type="text" placeholder="入力...">
           <input id="tool-t" type="radio" name="tool">
-          <label id="i_text-input"  for="tool-t" onclick="putText()">
-            文字を書く
-          </label>
+          <label onclick="putText()">文字を書く</label>
         </div>
       </div>
     </div>
