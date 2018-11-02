@@ -222,7 +222,10 @@ input[name="penw"]:checked + label {
 
 #canvas-box {
   position: relative;
-  width: 50vw;
+  
+  width: 466px;
+
+  margin-left: 2.5vw;
 }
 
 #canvas-box  canvas {
@@ -256,6 +259,9 @@ input[name="penw"]:checked + label {
 
 #zoom {
   width: 10vw;
+
+  margin-right: 0.5vw;
+  margin-left: 1vw;
 }
 
 #zoom img {
