@@ -1,5 +1,5 @@
 $(function(){
   setTimeout(function() {
     location.href = '/';
-  }, 10000);
+  }, 20000);
 });
