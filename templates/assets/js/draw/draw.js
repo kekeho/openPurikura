@@ -85,21 +85,17 @@ let onClick = function(e) {
     case ID_TOOL.brush:
       if (brush_num == 2 && width == 30) {
         if (width == 10)
-          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 1, false);
+          obj = new Brush(LOG[picture], color, width, alpha, brush_num, 1, false);
         if (width == 20)
-          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 3, false);
+          obj = new Brush(LOG[picture], color, width, alpha, brush_num, 3, false);
         if (width == 30)
-          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 5, false);
+          obj = new Brush(LOG[picture], color, width, alpha, brush_num, 5, false);
 
       } else if (brush_num == 3) {
-        if (width == 10)
-          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 15, false);
-        if (width == 20)
-          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 30, false);
-        if (width == 30)
-          obj = new Brush(LOG[picture], color, width, aplha, brush_num, 45, false);
+        obj = new Brush(LOG[picture], color, width, alpha, brush_num, width, false);
+
       } else {
-        obj = new Brush(LOG[picture], color, width, aplha, brush_num, interval, false);
+        obj = new Brush(LOG[picture], color, width, alpha, brush_num, interval, false);
       }
 
       obj.line(x, y);
