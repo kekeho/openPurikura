@@ -577,6 +577,13 @@ input[name="penw"]:checked + label {
 
   width: 10vh;
   height: 10vh;
+
+  border: 2px solid black;
+  border-radius: 10%;
+}
+
+#bottom > label[for="tab-4"] + div > #font input:checked + label {
+  border: 2px solid red;
 }
 
 label[for="font-1"] {
