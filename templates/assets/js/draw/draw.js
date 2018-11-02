@@ -30,6 +30,7 @@ let tool = ID_TOOL.pen;
 let color = new Color(ID_COLOR.black);
 let width = 15;
 let alpha = 1;
+let font;
 
 // stamp image
 let img_stamp = new Image();
@@ -162,6 +163,11 @@ let changeColor = function(_color) {
   }
 }
 
+// ツールの選択
+let selectFont = function(_font) {
+  font = _font;
+}
+
 // スタンプ配置
 let putStamp = function(_type, _num) {
   obj = new Stamp(LOG[picture], color, 200, _type, _num);
@@ -171,16 +177,6 @@ let putStamp = function(_type, _num) {
 // テキスト配置
 let putText = function() {
   let text = document.getElementById("i_text").value;
-  let font;
-
-  switch (color.id)  {
-    case 0:
-      font = "Latin Modern Roman Caps"
-      break;
-    case 1:
-      font = "Latin Modern Roman"
-      break;
-  }
 
   obj = new Text(LOG[picture], color, 80, text, font);
   tool = ID_TOOL.text;
