@@ -1,16 +1,16 @@
 @font-face {
-  font-family: HGMaru;
-  src: url("./assets/fonts/HGMaru.ttf") format("truetype");
+  font-family: 'HGMaru';
+  src: url("../fonts/HGMaru.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: HGPop;
-  src: url("./assets/fonts/HGPop.ttf") format("truetype");
+  font-family: 'HGPop';
+  src: url("../fonts/HGPop.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: Eva;
-  src: url("./assets/fonts/Eva.ttf") format("truetype");
+  font-family: 'Sushiki';
+  src: url("../fonts/Sushiki.ttf") format("truetype");
 }
 
 #header > #end {
@@ -431,35 +431,6 @@ input[name="penw"]:checked + label {
   margin-left: 5vw;
 }
 
-#bottom > label[for="tab-4"] + div > input {
-  width: 70%;
-  height: 8vh;
-
-  margin-right: 2vw;
-  border: 2px solid #cacaca;
-  border-radius: 0.5vh;
-  box-shadow: 0 0 3px 1px #cacaca;
-  padding-left: 1vw;
-
-  font-size: 3vh;
-  font-weight: 400;
-}
-
-#bottom > label[for="tab-4"] + div > #i_text-input {
-  text-align: center;
-
-  height: 8vh;
-  
-  margin: 1vh;
-  border: 2px solid black;
-  border-radius: 10%;
-  box-shadow: 0 0 3px 1px black;
-  padding: 0 1vh;
-
-  font-size: 3vh;
-  line-height: 8.5vh;
-}
-
 #bottom > label[for="tab-4"] + div > input:checked + #i_text-input {
   border: 2
   
@@ -571,6 +542,51 @@ input[name="penw"]:checked + label {
   margin-right: 1vw;
 }
 
-.test {
-  font-family: HGMaru HGPop;
+#bottom > label[for="tab-4"] + div > input {
+  width: 70%;
+  height: 8vh;
+
+  margin-right: 2vw;
+  border: 2px solid #cacaca;
+  border-radius: 0.5vh;
+  box-shadow: 0 0 3px 1px #cacaca;
+  padding-left: 1vw;
+
+  font-size: 3vh;
+  font-weight: 400;
+}
+
+#bottom > label[for="tab-4"] + div > #i_text-input {
+  text-align: center;
+
+  height: 8vh;
+  
+  margin: 1vh;
+  border: 2px solid black;
+  border-radius: 10%;
+  box-shadow: 0 0 3px 1px black;
+  padding: 0 1vh;
+
+  font-size: 3vh;
+  line-height: 8.5vh;
+}
+
+#bottom > label[for="tab-4"] + div > #font label {
+  text-align: center;
+  display: block;
+
+  width: 10vh;
+  height: 10vh;
+}
+
+label[for="font-1"] {
+  font: 10vh /10vh 'HGMaru';
+}
+
+label[for="font-2"] {
+  font: 10vh /10vh 'HGPop';
+}
+
+label[for="font-3"] {
+  font: 10vh /10vh 'Sushiki';
 }
