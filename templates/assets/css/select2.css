@@ -18,8 +18,8 @@ input[type="checkbox"] {
   position: absolute;
   display: block;
   
-  width: 32vh;
-  height: 32vh;
+  width: 30vh;
+  height: 30vh;
   
   margin: 5px;
   border: 5px solid #2eade2;
@@ -52,7 +52,7 @@ label[for="select-5"] {
 }
 
 #content input:checked + label {
-  height: calc(32vh + 10px);
+  height: calc(30vh + 10px);
 
   margin: 0;
   border-top: 10px solid #fbad16;
