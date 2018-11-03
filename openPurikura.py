@@ -86,9 +86,9 @@ def take():
         cd_time = request.form['time']
 
         if cd_time == '0':
-            subprocess.call(['vlc', '-I', 'rc', '--play-and-exit', '{}/sounds/shutter.mp3'.format(ASSETS_DIR)])
             image = cam.get_img()
             cv2.imwrite(ASSETS_DIR + '/photos/c{}_before-{}.png'.format(cache_num, taken), image)
+            subprocess.call(['vlc', '-I', 'rc', '--play-and-exit', '{}/sounds/shutter.mp3'.format(ASSETS_DIR)])
 
         else:
             subprocess.call(['vlc', '-I', 'rc', '--play-and-exit', '{}/sounds/countdown.mp3'.format(ASSETS_DIR)])

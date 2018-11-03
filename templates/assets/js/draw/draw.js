@@ -291,12 +291,12 @@ let undo = function() {
 }
 
 // クリア
-let clear = function() {
+let clearAll = function() {
   if (DrawObject.isEditing())
     obj.apply();
 
   CTX_MAIN.clearRect(0, 0, CANVAS_MAIN.width, CANVAS_MAIN.height);
-  LOG(picture).add();
+  LOG[picture].add();
 }
 
 // 全てのキャンバスを合成して保存
