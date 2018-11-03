@@ -32,13 +32,15 @@
 }
 
 input[name="tool"],
-input[name="penw"]
+input[name="penw"],
+input[name="alpha"]
 {
   display: none;
 }
 
 input[name="tool"] + label,
-input[name="penw"] + label
+input[name="penw"] + label,
+input[name="alpha"] + label
 {
   display: block;
 }
@@ -51,6 +53,11 @@ input[name="tool"]:checked + label {
 input[name="penw"]:checked + label {
   margin: -3px;
   border: 3px solid blue;
+}
+
+input[name="alpha"]:checked + label {
+  margin: -3px;
+  border: 3px solid yellow;
 }
 
 #top {
@@ -434,6 +441,8 @@ input[name="penw"]:checked + label {
 }
 
 #bottom > label[for="tab-1"] + div > table {
+  border-spacing: 2px 4px;
+  
   margin-left: 5vw;
 }
 
