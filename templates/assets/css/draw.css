@@ -68,7 +68,7 @@ input[name="alpha"]:checked + label {
 #toolbox {
   width: 25vw;
 
-  margin: auto 4vw;
+  margin: auto calc(((100vw - 466px) / 2 - 25vw) / 2);
 }
 
 #toolbox-top {
@@ -267,7 +267,8 @@ input[name="alpha"]:checked + label {
 #zoom {
   width: 10vw;
 
-  margin: auto 3.8vw;
+  margin: auto calc(((100vw - 466px) / 2 - 25vw) / 2);
+  /*margin: auto 3.8vw;*/
 }
 
 #zoom img {
