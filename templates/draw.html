@@ -10,7 +10,7 @@
   <body oncontextmenu="return false;">
     <!-- header -->
     <div id="header">
-      <div id="end" onclick="saveImages()">END</div>
+      <div id="end" class="test" onclick="saveImages()">END</div>
       <div id="timer"></div>
       <img id="logo" src="./assets/src/logo.png">
     </div>
@@ -18,57 +18,132 @@
     <!-- content -->
     <div id="content-nofooter">
       <div id="top">
-        <div id="tool">
-          <table id="tool-top">
+        <div id="toolbox">
+          <table id="toolbox-top">
             <tr>
-              <td><img src="./assets/src/eraser.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 20, 1);"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 15, 1);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.eraser, 10, 1);"><img src="./assets/src/pen-small.png"></td>
+              <td><img src="./assets/src/p-e/eraser.png"></td>
+              <td>
+                <input id="tool-e-l" type="radio" name="tool">
+                <label for="tool-e-l" onclick="selectEraser(40);">
+                  <img src="./assets/src/p-e/pen-large.png">
+                </label>
+              </td>
+              <td>
+                <input id="tool-e-m" type="radio" name="tool">
+                <label for="tool-e-m" onclick="selectEraser(30);">
+                  <img src="./assets/src/p-e/pen-medium.png">
+                </label>
+              </td>
+              <td onclick="selectEraser(20);">
+                <input id="tool-e-s" type="radio" name="tool">
+                <label for="tool-e-s">
+                  <img src="./assets/src/p-e/pen-small.png" >
+                </label>
+              </td>
             </tr>
             <tr>
-              <td><img src="./assets/src/pen.png"></td>
-              <td onclick="selectTool(ID_TOOL.pen, 100, 1);"><img src="./assets/src/pen-big.png"></td>
-              <td onclick="selectTool(ID_TOOL.pen, 20, 0.8);"><img src="./assets/src/pen-medium.png"></td>
-              <td onclick="selectTool(ID_TOOL.brush, 35, 1);"><img src="./assets/src/pen-small.png"></td>
-            </tr>
-            <tr>
-              <td><img onclick="undo()" src="./assets/src/undo.png" ></td>
-              <td><img onclick="redo()" src="./assets/src/redo.png" ></td>
-              <td><img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png" ></td>
-              <td><img onclick="rotate(1)" src="./assets/src/rotate-clock.png" ></td>
+              <td>
+                <img onclick="clearAll()" src="./assets/src/clear.png">
+              </td>
+              <td>
+                <img onclick="undo()" src="./assets/src/undo.png">
+              </td>
+              <td>
+                <img onclick="redo()" src="./assets/src/redo.png">
+              </td>
+              <td></td>
             </tr>
           </table>
-          <table id="pallet">
+          <table id="toolbox-pallet">
             <tr>
-              <td><div id="color-DeepRed"     onclick="changeColor(ID_COLOR.deepred)"></div></td>
-              <td><div id="color-Purple"      onclick="changeColor(ID_COLOR.purple)"></div></td>
-              <td><div id="color-Green"       onclick="changeColor(ID_COLOR.green)"></div></td>
-              <td><div id="color-VividGreen"  onclick="changeColor(ID_COLOR.vividgreen)"></div></td>
+              <td>
+                <input id="color-DeepRed"      type="radio" name="color">
+                <label for="color-DeepRed"     onclick="changeColor(ID_COLOR.deepred    )"></label>
+              </td>
+              <td>
+                <input id="color-Purple"       type="radio" name="color">
+                <label for="color-Purple"      onclick="changeColor(ID_COLOR.purple     )"></label>
+              </td>
+              <td>
+                <input id="color-Green"        type="radio" name="color">
+                <label for="color-Green"       onclick="changeColor(ID_COLOR.green      )"></label>
+              </td>
+              <td>
+                <input id="color-VividGreen"   type="radio" name="color">
+                <label for="color-VividGreen"  onclick="changeColor(ID_COLOR.vividgreen )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-Red"         onclick="changeColor(ID_COLOR.red)"></div></td>
-              <td><div id="color-Blue"        onclick="changeColor(ID_COLOR.blue)"></div></td>
-              <td><div id="color-Yellow"      onclick="changeColor(ID_COLOR.yellow)"></div></td>
-              <td><div id="color-DarkGreen"   onclick="changeColor(ID_COLOR.darkgreen)"></div></td>
+              <td>
+                <input id="color-Red"          type="radio" name="color">
+                <label for="color-Red"         onclick="changeColor(ID_COLOR.red        )"></label>
+              </td>
+              <td>
+                <input id="color-Blue"         type="radio" name="color">
+                <label for="color-Blue"        onclick="changeColor(ID_COLOR.blue       )"></label>
+              </td>
+              <td>
+                <input id="color-Yellow"       type="radio" name="color">
+                <label for="color-Yellow"      onclick="changeColor(ID_COLOR.yellow     )"></label>
+              </td>
+              <td>
+                <input id="color-DarkGreen"    type="radio" name="color">
+                <label for="color-DarkGreen"   onclick="changeColor(ID_COLOR.darkgreen  )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-SalmonPink"  onclick="changeColor(ID_COLOR.salmonpink)"></div></td>
-              <td><div id="color-DeepBlue"    onclick="changeColor(ID_COLOR.deepblue)"></div></td>
-              <td><div id="color-VividOrange" onclick="changeColor(ID_COLOR.vividorange)"></div></td>
-              <td><div id="color-Gray"        onclick="changeColor(ID_COLOR.gray)"></div></td>
+              <td>
+                <input id="color-SalmonPink"   type="radio" name="color">
+                <label for="color-SalmonPink"  onclick="changeColor(ID_COLOR.salmonpink )"></label>
+              </td>
+              <td>
+                  <input id="color-DeepBlue"   type="radio" name="color">
+                <label for="color-DeepBlue"    onclick="changeColor(ID_COLOR.deepblue   )"></label>
+              </td>
+              <td>
+                <input id="color-VividOrange"  type="radio" name="color">
+                <label for="color-VividOrange" onclick="changeColor(ID_COLOR.vividorange)"></label>
+              </td>
+              <td>
+                <input id="color-Gray"         type="radio" name="color">
+                <label for="color-Gray"        onclick="changeColor(ID_COLOR.gray       )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-HotPink"     onclick="changeColor(ID_COLOR.hotpink)"></div></td>
-              <td><div id="color-LightBlue"   onclick="changeColor(ID_COLOR.lightblue)"></div></td>
-              <td><div id="color-Orange"      onclick="changeColor(ID_COLOR.orange)"></div></td>
-              <td><div id="color-Black"       onclick="changeColor(ID_COLOR.black)"></div></td>
+              <td>
+                <input id="color-HotPink"      type="radio" name="color">
+                <label for="color-HotPink"     onclick="changeColor(ID_COLOR.hotpink    )"></label>
+              </td>
+              <td>
+                <input id="color-LightBlue"    type="radio" name="color">
+                <label for="color-LightBlue"   onclick="changeColor(ID_COLOR.lightblue  )"></label>
+              </td>
+              <td>
+                <input id="color-Orange"       type="radio" name="color">
+                <label for="color-Orange"      onclick="changeColor(ID_COLOR.orange     )"></label>
+              </td>
+              <td>
+                <input id="color-Black"        type="radio" name="color" checked="checked">
+                <label for="color-Black"       onclick="changeColor(ID_COLOR.black      )"></label>
+              </td>
             </tr>
             <tr>
-              <td><div id="color-Pink"        onclick="changeColor(ID_COLOR.pink)"></div></td>
-              <td><div id="color-VividBlue"   onclick="changeColor(ID_COLOR.vividblue)"></div></td>
-              <td><div id="color-Beige"       onclick="changeColor(ID_COLOR.beige)"></div></td>
-              <td><div id="color-White"       onclick="changeColor(ID_COLOR.white)"></div></td>
+              <td>
+                <input id="color-Pink"         type="radio" name="color">
+                <label for="color-Pink"        onclick="changeColor(ID_COLOR.pink       )"></label>
+              </td>
+              <td>
+                <input id="color-VividBlue"    type="radio" name="color">
+                <label for="color-VividBlue"   onclick="changeColor(ID_COLOR.vividblue  )"></label>
+              </td>
+              <td>
+                <input id="color-Beige"        type="radio" name="color">
+                <label for="color-Beige"       onclick="changeColor(ID_COLOR.beige      )"></label>
+              </td>
+              <td>
+                <input id="color-White"        type="radio" name="color">
+                <label for="color-White"       onclick="changeColor(ID_COLOR.white      )"></label>
+              </td>
             </tr>
           </table>
         </div>
@@ -78,26 +153,24 @@
           <canvas id="canvas-edit" width=466 height=466></canvas>
           <canvas id="canvas-evnt" width=466 height=466></canvas>
         </div>
-        <div id="zoom">
-          <div id="zoom-in" onclick="zoomIn()">
-            <div class="row">
-              <div class="col"></div>
-              <div class="col"></div>
-            </div>
-            <div class="row">
-              <div class="col"></div>
-              <div class="col"></div>
-            </div>
-          </div>
-          <div id="zoom-out" onclick="zoomOut()">
-            <div class="row">
-              <div class="col"></div>
-            </div>
-            <div class="row">
-              <div class="col"></div>
-            </div>
-          </div>
-        </div>
+        <table id="zoom">
+          <tr>
+            <td>
+              <img onclick="zoomIn()"  src="./assets/src/zoom-in.png">
+            </td>
+            <td>
+              <img onclick="zoomOut()" src="./assets/src/zoom-out.png">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img onclick="rotate(-1)" src="./assets/src/rotate-reverseclock.png">
+            </td>
+            <td>
+              <img onclick="rotate(1 )" src="./assets/src/rotate-clock.png">
+            </td>
+          </tr>
+        </table>
         <div id="picture">
           {% for i in range(3) %}
             <input id="picture-{{ i }}" type="radio" name="picture">
@@ -109,68 +182,244 @@
       </div>
       <div id="bottom">
         <input id="tab-1" type="radio" name="tab" checked="checked">
-        <label for="tab-1">スタンプ1</label>
+        <label for="tab-1">ペン</label>
         <div>
-          <input id="tab-1-1" type="radio" name="tab-tab-1" checked="checked">
-          <label for="tab-1-1">日本語スタンプ</label>
-          <div>
-            <img onclick="putStamp('JP', 1)" src="./assets/stamp/JP/1/1-Black.png">
-            <img onclick="putStamp('JP', 2)" src="./assets/stamp/JP/2/2-Black.png">
-            <img onclick="putStamp('JP', 3)" src="./assets/stamp/JP/3/3-Black.png">
-            <img onclick="putStamp('JP', 4)" src="./assets/stamp/JP/4/4-Black.png">
-            <img onclick="putStamp('JP', 5)" src="./assets/stamp/JP/5/5-Black.png">
-            <img onclick="putStamp('JP', 6)" src="./assets/stamp/JP/6/6-Black.png">
-            <img onclick="putStamp('JP', 7)" src="./assets/stamp/JP/7/7-Black.png">
-          </div>
-          <input id="tab-1-2" type="radio" name="tab-tab-1">
-          <label for="tab-1-2">英語スタンプ</label>
-          <div>
-            <img onclick="putStamp('EN', 1)" src="./assets/stamp/EN/1/1-Black.png">
-            <img onclick="putStamp('EN', 2)" src="./assets/stamp/EN/2/2-Black.png">
-            <img onclick="putStamp('EN', 3)" src="./assets/stamp/EN/3/3-Black.png">
-            <img onclick="putStamp('EN', 4)" src="./assets/stamp/EN/4/4-Black.png">
-            <img onclick="putStamp('EN', 5)" src="./assets/stamp/EN/5/5-Black.png">
-            <img onclick="putStamp('EN', 6)" src="./assets/stamp/EN/6/6-Black.png">
-            <img onclick="putStamp('EN', 7)" src="./assets/stamp/EN/7/7-Black.png">
-          </div>
-          <input id="tab-1-3" type="radio" name="tab-tab-1">
-          <label for="tab-1-3">韓国語スタンプ</label>
-          <div>
-            <img onclick="putStamp('KR', 1)" src="./assets/stamp/KR/1/1-Black.png">
-            <img onclick="putStamp('KR', 2)" src="./assets/stamp/KR/2/2-Black.png">
-            <img onclick="putStamp('KR', 3)" src="./assets/stamp/KR/3/3-Black.png">
-            <img onclick="putStamp('KR', 4)" src="./assets/stamp/KR/4/4-Black.png">
-            <img onclick="putStamp('KR', 5)" src="./assets/stamp/KR/5/5-Black.png">
-            <img onclick="putStamp('KR', 6)" src="./assets/stamp/KR/6/6-Black.png">
-            <img onclick="putStamp('KR', 7)" src="./assets/stamp/KR/7/7-Black.png">
-          </div>
+          <input id="pen-1" type="radio" name="tool" checked="checked">
+          <label for="pen-1" onclick="selectTool(ID_TOOL.pen)">
+              <img src="./assets/src/p-e/pen-1.png">
+          </label>
+          <input id="pen-2" type="radio" name="tool">
+          <label for="pen-2" onclick="selectTool(ID_TOOL.edgepen)">
+              <img src="./assets/src/p-e/pen-2.png">
+          </label>
+          <input id="pen-3" type="radio" name="tool">
+          <label for="pen-3" onclick="selectBrush(1, 1)">
+              <img src="./assets/src/p-e/pen-3.png">
+          </label>
+          <input id="pen-4" type="radio" name="tool">
+          <label for="pen-4" onclick="selectBrush(2, 3)">
+              <img src="./assets/src/p-e/pen-4.png">
+          </label>
+          <input id="pen-5" type="radio" name="tool">
+          <label for="pen-5" onclick="selectBrush(3, 10)">
+              <img src="./assets/src/p-e/pen-5.png">
+          </label>
+
+          <table id="pen">
+            <tr>
+              <td>
+                <img src="./assets/src/p-e/pen.png">
+              </td>
+              <td>
+                <input id="tool-p-l" type="radio" name="penw">
+                <label for="tool-p-l" onclick="changeWidth(30);">
+                  <img src="./assets/src/p-e/pen-large.png">
+                </label>
+              </td>
+              <td>
+                <input id="tool-p-m" type="radio" name="penw" checked="checked">
+                <label for="tool-p-m" onclick="changeWidth(20);">
+                  <img src="./assets/src/p-e/pen-medium.png">
+                </label>
+              </td>
+              <td>
+                <input id="tool-p-s" type="radio" name="penw">
+                <label for="tool-p-s" onclick="changeWidth(10);">
+                  <img src="./assets/src/p-e/pen-small.png">
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                  <img src="./assets/src/p-e/alpha.png">
+              </td>
+              <td>
+                  <input id="tool-a-l" type="radio" name="alpha" checked="checked">
+                  <label for="tool-a-l" onclick="changeAlpha(1);">
+                    <img src="./assets/src/p-e/pen-large.png">
+                  </label>
+                </td>
+                <td>
+                  <input id="tool-a-m" type="radio" name="alpha">
+                  <label for="tool-a-m" onclick="changeAlpha(0.666);">
+                    <img src="./assets/src/p-e/pen-large-0.66.png">
+                  </label>
+                </td>
+                <td>
+                  <input id="tool-a-s" type="radio" name="alpha">
+                  <label for="tool-a-s" onclick="changeAlpha(0.333);">
+                    <img src="./assets/src/p-e/pen-large-0.33.png">
+                  </label>
+                </td>
+            </tr>
+          </table>
         </div>
         <input id="tab-2" type="radio" name="tab">
-        <label for="tab-2">スタンプ2</label>
+        <label for="tab-2">スタンプ1</label>
         <div>
           <input id="tab-2-1" type="radio" name="tab-tab-2" checked="checked">
-          <label for="tab-2-1">絵文字</label>
+          <label for="tab-2-1">日本語スタンプ</label>
           <div>
-            <img onclick="putStamp('EM', 1)" src="./assets/stamp/EM/1/1-Black.png">
-            <img onclick="putStamp('EM', 2)" src="./assets/stamp/EM/2/2-Black.png">
-            <img onclick="putStamp('EM', 3)" src="./assets/stamp/EM/3/3-Black.png">
-            <img onclick="putStamp('EM', 4)" src="./assets/stamp/EM/4/4-Black.png">
-            <img onclick="putStamp('EM', 5)" src="./assets/stamp/EM/5/5-Black.png">
+            <input id="tool-s-JP-1" type="radio" name="tool">
+            <label for="tool-s-JP-1" onclick="putStamp('JP', 1)">
+                <img src="./assets/stamp/JP/1/18.png">
+            </label>
+            <input id="tool-s-JP-2" type="radio" name="tool">
+            <label for="tool-s-JP-2" onclick="putStamp('JP', 2)">
+                <img src="./assets/stamp/JP/2/18.png">
+            </label>
+            <input id="tool-s-JP-3" type="radio" name="tool">
+            <label for="tool-s-JP-3" onclick="putStamp('JP', 3)">
+                <img src="./assets/stamp/JP/3/18.png">
+            </label>
+            <input id="tool-s-JP-4" type="radio" name="tool">
+            <label for="tool-s-JP-4" onclick="putStamp('JP', 4)">
+                <img src="./assets/stamp/JP/4/18.png">
+            </label>
+            <input id="tool-s-JP-5" type="radio" name="tool">
+            <label for="tool-s-JP-5" onclick="putStamp('JP', 5)">
+                <img src="./assets/stamp/JP/5/18.png">
+            </label>
+            <input id="tool-s-JP-6" type="radio" name="tool">
+            <label for="tool-s-JP-6" onclick="putStamp('JP', 6)">
+                <img src="./assets/stamp/JP/6/18.png">
+            </label>
+            <input id="tool-s-JP-7" type="radio" name="tool">
+            <label for="tool-s-JP-7" onclick="putStamp('JP', 7)">
+                <img src="./assets/stamp/JP/7/18.png">
+            </label>
           </div>
           <input id="tab-2-2" type="radio" name="tab-tab-2">
-          <label for="tab-2-2">動物スタンプ</label>
+          <label for="tab-2-2">英語スタンプ</label>
           <div>
-            <img onclick="putStamp('AN', 1)" src="./assets/stamp/AN/1/1-Black.png">
-            <img onclick="putStamp('AN', 2)" src="./assets/stamp/AN/2/2-Black.png">
-            <img onclick="putStamp('AN', 3)" src="./assets/stamp/AN/3/3-Black.png">
-            <img onclick="putStamp('AN', 4)" src="./assets/stamp/AN/4/4-Black.png">
+              <input id="tool-s-EN-1" type="radio" name="tool">
+              <label for="tool-s-EN-1" onclick="putStamp('EN', 1)">
+                  <img src="./assets/stamp/EN/1/18.png">
+              </label>
+              <input id="tool-s-EN-2" type="radio" name="tool">
+              <label for="tool-s-EN-2" onclick="putStamp('EN', 2)">
+                  <img src="./assets/stamp/EN/2/18.png">
+              </label>
+              <input id="tool-s-EN-3" type="radio" name="tool">
+              <label for="tool-s-EN-3" onclick="putStamp('EN', 3)">
+                  <img src="./assets/stamp/EN/3/18.png">
+              </label>
+              <input id="tool-s-EN-4" type="radio" name="tool">
+              <label for="tool-s-EN-4" onclick="putStamp('EN', 4)">
+                  <img src="./assets/stamp/EN/4/18.png">
+              </label>
+              <input id="tool-s-EN-5" type="radio" name="tool">
+              <label for="tool-s-EN-5" onclick="putStamp('EN', 5)">
+                  <img src="./assets/stamp/EN/5/18.png">
+              </label>
+              <input id="tool-s-EN-6" type="radio" name="tool">
+              <label for="tool-s-EN-6" onclick="putStamp('EN', 6)">
+                  <img src="./assets/stamp/EN/6/18.png">
+              </label>
+              <input id="tool-s-EN-7" type="radio" name="tool">
+              <label for="tool-s-EN-7" onclick="putStamp('EN', 7)">
+                  <img src="./assets/stamp/EN/7/18.png">
+              </label>
+          </div>
+          <input id="tab-2-3" type="radio" name="tab-tab-2">
+          <label for="tab-2-3">韓国語スタンプ</label>
+          <div>
+              <input id="tool-s-KR-1" type="radio" name="tool">
+              <label for="tool-s-KR-1" onclick="putStamp('KR', 1)">
+                  <img src="./assets/stamp/KR/1/18.png">
+              </label>
+              <input id="tool-s-KR-2" type="radio" name="tool">
+              <label for="tool-s-KR-2" onclick="putStamp('KR', 2)">
+                  <img src="./assets/stamp/KR/2/18.png">
+              </label>
+              <input id="tool-s-KR-3" type="radio" name="tool">
+              <label for="tool-s-KR-3" onclick="putStamp('KR', 3)">
+                  <img src="./assets/stamp/KR/3/18.png">
+              </label>
+              <input id="tool-s-KR-5" type="radio" name="tool">
+              <label for="tool-s-KR-5" onclick="putStamp('KR', 5)">
+                  <img src="./assets/stamp/KR/5/18.png">
+              </label>
+              <input id="tool-s-KR-6" type="radio" name="tool">
+              <label for="tool-s-KR-6" onclick="putStamp('KR', 6)">
+                  <img src="./assets/stamp/KR/6/18.png">
+              </label>
+              <input id="tool-s-KR-7" type="radio" name="tool">
+              <label for="tool-s-KR-7" onclick="putStamp('KR', 7)">
+                  <img src="./assets/stamp/KR/7/18.png">
+              </label>
           </div>
         </div>
         <input id="tab-3" type="radio" name="tab">
-        <label for="tab-3">文字入力</label>
+        <label for="tab-3">スタンプ2</label>
+        <div>
+          <input id="tab-3-1" type="radio" name="tab-tab-3" checked="checked">
+          <label for="tab-3-1">絵文字</label>
+          <div>
+              <input id="tool-s-EM-1" type="radio" name="tool">
+              <label for="tool-s-EM-1" onclick="putStamp('EM', 1)">
+                  <img src="./assets/stamp/EM/1/18.png">
+              </label>
+              <input id="tool-s-EM-2" type="radio" name="tool">
+              <label for="tool-s-EM-2" onclick="putStamp('EM', 2)">
+                  <img src="./assets/stamp/EM/2/18.png">
+              </label>
+              <input id="tool-s-EM-3" type="radio" name="tool">
+              <label for="tool-s-EM-3" onclick="putStamp('EM', 3)">
+                  <img src="./assets/stamp/EM/3/18.png">
+              </label>
+              <input id="tool-s-EM-4" type="radio" name="tool">
+              <label for="tool-s-EM-4" onclick="putStamp('EM', 4)">
+                  <img src="./assets/stamp/EM/4/18.png">
+              </label>
+              <input id="tool-s-EM-5" type="radio" name="tool">
+              <label for="tool-s-EM-5" onclick="putStamp('EM', 5)">
+                  <img src="./assets/stamp/EM/5/18.png">
+              </label>
+          </div>
+          <input id="tab-3-2" type="radio" name="tab-tab-3">
+          <label for="tab-3-2">動物スタンプ</label>
+          <div>
+              <input id="tool-s-AN-1" type="radio" name="tool">
+              <label for="tool-s-AN-1" onclick="putStamp('AN', 1)">
+                  <img src="./assets/stamp/AN/1/18.png">
+              </label>
+              <input id="tool-s-AN-2" type="radio" name="tool">
+              <label for="tool-s-AN-2" onclick="putStamp('AN', 2)">
+                  <img src="./assets/stamp/AN/2/18.png">
+              </label>
+              <input id="tool-s-AN-3" type="radio" name="tool">
+              <label for="tool-s-AN-3" onclick="putStamp('AN', 3)">
+                  <img src="./assets/stamp/AN/3/18.png">
+              </label>
+              <input id="tool-s-AN-4" type="radio" name="tool">
+              <label for="tool-s-AN-4" onclick="putStamp('AN', 4)">
+                  <img src="./assets/stamp/AN/4/18.png">
+              </label>
+          </div>
+        </div>
+        <input id="tab-4" type="radio" name="tab">
+        <label for="tab-4">文字</label>
         <div>
           <input id="i_text" type="text" placeholder="入力...">
-          <div id="i_text-input" onclick="putText()">文字を書く</div>
+          <input id="tool-t" type="radio" name="tool">
+          <label id="i_text-input" onclick="putText()">文字を書く</label>
+          <table id="font">
+              <tr>
+                <td>
+                  <input id="font-1" type="radio" name="font" onclick="selectFont('HGMaru')" checked="checked">
+                  <label for="font-1">あ</label>
+                </td>
+                <td>
+                  <input id="font-2" type="radio" name="font" onclick="selectFont('HGPop')">
+                  <label for="font-2">あ</label>
+                </td>
+                <td>
+                  <input id="font-3" type="radio" name="font" onclick="selectFont('CPRevenge')">
+                  <label for="font-3">あ</label>
+                </td>
+              </tr>
+            </table>
         </div>
       </div>
     </div>

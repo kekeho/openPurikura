@@ -25,11 +25,14 @@ const LOG = [new Log(CANVAS_MAIN), new Log(CANVAS_MAIN), new Log(CANVAS_MAIN)];
 let x = CANVAS_MAIN.width / 2;
 let y = CANVAS_MAIN.height / 2;
 
-// selected tool
+// selected tool's infomation
 let tool = ID_TOOL.pen;
 let color = new Color(ID_COLOR.black);
-let width = 15;
+let width = 20;
 let alpha = 1;
+let font = "HGMaru";
+let brush_num = 1;
+let interval = 1;
 
 // stamp image
 let img_stamp = new Image();
@@ -67,8 +70,34 @@ let onClick = function(e) {
       obj.line(x, y);
       break;
 
+    case ID_TOOL.edgepen:
+      let color_front;
+
+      if (color.id == ID_COLOR.white)
+        color_front = new Color(ID_COLOR.black);
+      else
+        color_front = new Color(ID_COLOR.white);
+
+      obj = new EdgePen(LOG[picture], color, color_front, width, alpha);
+      obj.line(x, y);
+      break;
+
     case ID_TOOL.brush:
-      obj = new Brush(LOG[picture], color, width, 1, 3);
+      if (brush_num == 2 && width == 30) {
+        if (width == 10)
+          obj = new Brush(LOG[picture], color, width, alpha, brush_num, 1, false);
+        if (width == 20)
+          obj = new Brush(LOG[picture], color, width, alpha, brush_num, 3, false);
+        if (width == 30)
+          obj = new Brush(LOG[picture], color, width, alpha, brush_num, 5, false);
+
+      } else if (brush_num == 3) {
+        obj = new Brush(LOG[picture], color, width, alpha, brush_num, width, false);
+
+      } else {
+        obj = new Brush(LOG[picture], color, width, alpha, brush_num, interval, false);
+      }
+
       obj.line(x, y);
       break;
 
@@ -100,6 +129,7 @@ let onMove = function(e) {
   // 描画オブジェクトの更新
   switch (DrawObject.getTool())  {
     case ID_TOOL.pen:
+    case ID_TOOL.edgepen:
     case ID_TOOL.brush:
     case ID_TOOL.eraser:
       obj.line(x, y);
@@ -137,9 +167,30 @@ let switchPic = function(idx) {
 }
 
 // ツールの選択
-let selectTool = function(_tool, _width, _alpha) {
+let selectTool = function(_tool) {
   tool = _tool;
+}
+
+// 消しゴムの選択
+let selectEraser = function(_width) {
+  tool = ID_TOOL.eraser;
   width = _width;
+}
+
+// ブラシの選択
+let selectBrush = function(_brush_num, _interval) {
+  tool = ID_TOOL.brush;
+  brush_num = _brush_num;
+  interval = _interval;
+}
+
+// 太さ変更
+let changeWidth = function(_width) {
+  width = _width;
+}
+
+// 透明度変更
+let changeAlpha = function(_alpha) {
   alpha = _alpha;
 }
 
@@ -156,6 +207,11 @@ let changeColor = function(_color) {
   }
 }
 
+// フォントの選択
+let selectFont = function(_font) {
+  font = _font;
+}
+
 // スタンプ配置
 let putStamp = function(_type, _num) {
   obj = new Stamp(LOG[picture], color, 200, _type, _num);
@@ -165,7 +221,8 @@ let putStamp = function(_type, _num) {
 // テキスト配置
 let putText = function() {
   let text = document.getElementById("i_text").value;
-  obj = new Text(LOG[picture], color, 80, text);
+
+  obj = new Text(LOG[picture], color, 60, text, font);
   tool = ID_TOOL.text;
 }
 
@@ -173,10 +230,15 @@ let putText = function() {
 let zoomIn = function() {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
-    case ID_TOOL.text:
       if (DrawObject.isEditing()) {
         if (obj.size < 500)
           obj.size += 30;
+      }
+
+    case ID_TOOL.text:
+      if (DrawObject.isEditing()) {
+        if (obj.size < 200)
+          obj.size += 10;
       }
       break;
   }
@@ -186,10 +248,16 @@ let zoomIn = function() {
 let zoomOut = function() {
   switch (DrawObject.getTool())  {
     case ID_TOOL.stamp:
-    case ID_TOOL.text:
       if (DrawObject.isEditing()) {
         if (obj.size > 50)
           obj.size -= 30;
+      }
+      break;
+
+    case ID_TOOL.text:
+      if (DrawObject.isEditing()) {
+        if (obj.size > 20)
+          obj.size -= 10;
       }
       break;
   }
@@ -223,16 +291,16 @@ let undo = function() {
 }
 
 // クリア
-let clear = function() {
+let clearAll = function() {
   if (DrawObject.isEditing())
     obj.apply();
 
   CTX_MAIN.clearRect(0, 0, CANVAS_MAIN.width, CANVAS_MAIN.height);
-  LOG(picture).add();
+  LOG[picture].add();
 }
 
 // 全てのキャンバスを合成して保存
-function saveImages() {
+let saveImages = function() {
   if (DrawObject.isEditing())
     obj.apply();
 

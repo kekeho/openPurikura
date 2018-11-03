@@ -3,17 +3,30 @@ body > div {
 }
   
 .textcontainer {
-  margin: 20vh auto 0 auto;
+  margin: 0 auto;
 }
 
 span:first-child {
   font: 15vh 'Arial Black';
 }
-  
+
 #message {
   text-align: center;
-
-  margin-top: 10vh;
   
   font-size: 3vh;
+}
+
+#pics {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#pics > img {
+  display: block;
+
+  margin: 5vh 0;
+
+  width: 35vh;
+  height: 35vh;
 }

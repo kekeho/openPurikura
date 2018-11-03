@@ -1,29 +1,41 @@
-var shutter = new Audio('./assets/sounds/shutter.mp3');
-
 $(function(){
-  let time = 6;
+  let time = 5;
 
-  setInterval(function() {
+  let interval = setInterval(function() {
+    $(".timer").text(time);
+
     if (time > 0) {
-      time--;
-      $('.timer').text(time);
+      $.ajax({
+        type: "POST",
+        url: "/take",
+        data: {
+          "time": time
+        }
+      });
 
-      if (time == 0) {
-        shutter.play()
-        $('#video').attr('src', './assets/src/white.png');
-        $('#teacher').hide();
+    } else if (time == 0) {
+      $.ajax({
+        type: "POST",
+        url: "/take",
+        data: {
+          "time": time
+        },
+        success: function() {
+          // プレビューを表示後リロード
+          $("#video").attr("src", "./assets/photos/c" + cache_num + "_before-" + take_num + ".png");
+          setTimeout(function() {
+            location.reload();
+          }, 3000);
+        }
+      });
 
-        $.ajax({
-          type: 'POST',
-          url: '/take',
-          success: function() {
-            $('#video').attr('src', './assets/photos/c' + cache_num + '_before-' + take_num + '.png');
-            setTimeout(function() {
-              location.reload();
-            }, 3000);
-          }
-        });
-      }
+      // フラッシュ
+      $("#video").attr("src", "./assets/src/white.png");
+
+      // タイマーストップ
+      clearInterval(interval);
     }
+
+    time--;
   }, 1300);
 });

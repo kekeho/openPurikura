@@ -39,16 +39,70 @@ class Pen extends DrawObject {
   }
 }
 
+// 縁付きペン
+class EdgePen extends DrawObject {
+  constructor(log, color_back, color_front, width, alpha) {
+    super(log);
+
+    this.color_back = color_back;
+    this.color_front = color_front;
+    this.width = width;
+    this.alpha = alpha;
+
+    this.px = null;
+    this.py = null;
+
+    // 線の設定
+    ctx_edit.lineCap = "round";
+    canv_edit.style.opacity = this.alpha;
+
+    cur_tool = ID_TOOL.edgepen;
+  }
+
+  // 線を引く
+  line(x, y) {
+    if (!this.px || !this.py) {
+      this.px = x;
+      this.py = y;
+    }
+
+    ctx_edit.beginPath();
+
+    ctx_edit.strokeStyle = this.color_back.str_color;
+    ctx_edit.lineWidth = this.width;
+    ctx_edit.globalCompositeOperation = "destination-over";
+
+    ctx_edit.moveTo(this.px, this.py);
+    ctx_edit.lineTo(x, y);
+    ctx_edit.stroke();
+
+    ctx_edit.strokeStyle = this.color_front.str_color;
+    ctx_edit.lineWidth = this.width / 3;
+    ctx_edit.globalCompositeOperation = "source-over";
+
+    ctx_edit.moveTo(this.px, this.py);
+    ctx_edit.lineTo(x, y);
+    ctx_edit.stroke();
+
+    ctx_edit.closePath();
+
+    this.px = x;
+    this.py = y;
+  }
+}
+
 // ブラシ
 class Brush extends DrawObject {
-  constructor(log, color, width, num, interval) {
+  constructor(log, color, width, alpha, num, interval, rotate) {
     super(log);
     let _this = this;
 
     this.color = color;
     this.width = width;
+    this.alpha = alpha;
     this.num = num;
     this.interval = interval;
+    this.rotate = rotate;
 
     this.px = null;
     this.py = null;
@@ -58,18 +112,25 @@ class Brush extends DrawObject {
     this.img = new Image();
     this.img.src = "./assets/brush/" + this.num + "/" + this.color.id + ".png";
 
+    // 透明度の設定
+    canv_edit.style.opacity = this.alpha;
+
     cur_tool = ID_TOOL.brush;
   }
 
   // 点を打つ
   point(x, y) {
-    // ランダムに回転して描画
-    ctx_edit.save();
-    ctx_edit.translate(x, y);
-    ctx_edit.rotate(Math.random() * 2 * Math.PI);
-    ctx_edit.translate(-x, -y);
-    ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
-    ctx_edit.restore();
+    if (this.rotate) {
+      // ランダムに回転して描画
+      ctx_edit.save();
+      ctx_edit.translate(x, y);
+      ctx_edit.rotate(Math.random() * 2 * Math.PI);
+      ctx_edit.translate(-x, -y);
+      ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
+      ctx_edit.restore();
+    } else {
+      ctx_edit.drawImage(this.img, x - this.width / 2, y - this.width / 2, this.width, this.width);
+    }
   }
 
   // 線を引く

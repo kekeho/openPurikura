@@ -103,13 +103,14 @@ class Stamp extends PutObject {
 
 // テキスト
 class Text extends PutObject {
-  constructor(log, color, size, text) {
+  constructor(log, color, size, text, font) {
     super(log, color, size);
     
     this.text = text;
+    this.font = font;
     this.redraw();
 
-    cur_tool = ID_TOOL.stamp;
+    cur_tool = ID_TOOL.text;
   }
 
   // 移動
@@ -122,7 +123,7 @@ class Text extends PutObject {
     // フォントの設定
     ctx_edit.fillStyle = this._color.str_color;
     ctx_edit.textAlign = "center";
-    ctx_edit.font = this.size + "px 'ヒラギノ角ゴシック'";
+    ctx_edit.font = this.size + "px '" + this.font + "'";
 
     ctx_edit.save();
     ctx_edit.translate(this.x, this.y);
